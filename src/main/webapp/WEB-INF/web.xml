@@ -8,10 +8,39 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
   <display-name>Archetype Created Web Application</display-name>
   
+  <servlet>
+  	<servlet-name>header</servlet-name>
+  	<jsp-file>/views/module/header.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>header</servlet-name>
+	<url-pattern>/header</url-pattern>  
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>footer</servlet-name>
+  	<jsp-file>/views/module/footer.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>footer</servlet-name>
+	<url-pattern>/footer</url-pattern>  
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>error</servlet-name>
+  	<jsp-file>/views/module/error.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>error</servlet-name>
+	<url-pattern>/error</url-pattern>  
+  </servlet-mapping>
   
   <error-page>
   	<error-code>404</error-code>
-  	<location>/</location>
+  	<location>/error</location>
   </error-page>
   
 </web-app>
