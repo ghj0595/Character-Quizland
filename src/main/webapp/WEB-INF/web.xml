@@ -38,6 +38,26 @@
 	<url-pattern>/error</url-pattern>  
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>rank</servlet-name>
+  	<jsp-file>/views/module/rank.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>rank</servlet-name>
+	<url-pattern>/rank</url-pattern>  
+  </servlet-mapping>
+  
+   <servlet>
+  	<servlet-name>notice</servlet-name>
+  	<jsp-file>/views/module/notice.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>notice</servlet-name>
+	<url-pattern>/notice</url-pattern>  
+  </servlet-mapping>
+  
   <error-page>
   	<error-code>404</error-code>
   	<location>/error</location>

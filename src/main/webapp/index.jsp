@@ -11,15 +11,11 @@
 <body>
 	<c:import url="/header" />
 	<main>
-		<section id="rank">
-		rank
-		</section>
+		<c:import url="/rank" />
 		<section id="content">
 			<h1>Hello world!</h1>
 		</section>
-		<section id="notice">
-		notice
-		</section>
+		<c:import url="/notice" />
 	</main>
 	<c:import url="/footer" />
 </body>

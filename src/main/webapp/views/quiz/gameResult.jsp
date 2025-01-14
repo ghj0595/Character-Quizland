@@ -12,11 +12,8 @@
 <body>
 	<c:import url="/header" />
 	<main>
-		<section id="rank">
-		rank
-		</section>
+		<c:import url="/rank" />
 		<section id="content">
-			<h1>Game Result</h1>
 			<div id="quiz-num">Quiz ${quizNumber} / ${quizSize}</div>
 			<div id="quiz-answer">정답화면 (점수 : ${score}점)</div>
 			<div id="quiz-content">
@@ -30,9 +27,7 @@
 			</div>		
 			<div id="quiz-score">현재 점수 : ${totalScore}점</div>
 		</section>
-		<section id="notice">
-		notice
-		</section>
+		<c:import url="/notice" />
 	</main>
 	<c:import url="/footer" />
 </body>

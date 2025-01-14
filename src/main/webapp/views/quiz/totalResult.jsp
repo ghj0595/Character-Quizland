@@ -12,18 +12,14 @@
 <body>
 	<c:import url="/header" />
 	<main>
-		<section id="rank">
-		rank
-		</section>
+		<c:import url="/rank" />
 		<section id="content">
 			<div id="title">게임결과</div>
 			<div id="total-score">총 점수 : ${score}점</div>
 			<div id="current-rank">현재 점수의 순위 : ${rank}위</div>
 			<div id="current-per">상위 ${per}%입니다.</div>
 		</section>
-		<section id="notice">
-		notice
-		</section>
+		<c:import url="/notice" />
 	</main>
 	<c:import url="/footer" />
 </body>
