@@ -8,11 +8,19 @@
 <link rel="stylesheet" href="/resources/style/globals.css">
 <title>Insert title here</title>
 </head>
-<c:import url="/header" />
 <body>
-<section id="content">
-<h1>Hello world!</h1>
-
+	<c:import url="/header" />
+	<main>
+		<section id="rank">
+		rank
+		</section>
+		<section id="content">
+			<h1>Hello world!</h1>
+		</section>
+		<section id="notice">
+		notice
+		</section>
+	</main>
+	<c:import url="/footer" />
 </body>
-<c:import url="/footer" />
 </html>
