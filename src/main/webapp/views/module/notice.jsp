@@ -6,4 +6,8 @@
     <h1>NOTICE</h1>
 </section>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> origin/feature/quiz

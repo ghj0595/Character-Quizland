@@ -107,9 +107,7 @@
   	<servlet-name>noticeWrite</servlet-name>
 	<url-pattern>/notice</url-pattern>  
   </servlet-mapping>
-  
-  
-
+    
   <error-page>
   	<error-code>404</error-code>
   	<location>/error</location>
