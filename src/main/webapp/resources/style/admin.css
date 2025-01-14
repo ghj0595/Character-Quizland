@@ -41,27 +41,28 @@ body {
     background-color: #0056b3;
 }
 
-#user-management { 
+#user-management, #quiz-management { 
 	padding: 20px; 
 	display: flex; 
 	flex-direction: column; 
 	align-items: center; 
 } 
-#user-management h2 { 
+#user-management h2, #quiz-management h2 { 
 	color: #343a40; 
 } 
-.user-table { 
+.user-table, .quiz-table { 
 	width: 80%; 
 	border-collapse: collapse; 
 	margin-top: 20px; 
 }
-.user-table th, .user-table td { 
+.user-table th, .user-table td, .quiz-table td { 
 	border: 1px solid #ddd; 
 	padding: 8px; 
 	text-align: center; 
 }
-.user-table th { 
-	background-color: #007bff; color: white;
+.user-table th, .quiz-table th { 
+	background-color: #007bff; 
+	color: white;
 } 
 .btn-ban, .btn-delete { 
 	background-color: #ff69b4; 

@@ -4,4 +4,8 @@ window.onload = () => {
 		location.href = '/user';
 	}
 	
+	document.getElementById("btn-quiz").onclick = function(){
+		location.href = '/quizzes';
+	}
+	
 }

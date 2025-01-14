@@ -39,6 +39,16 @@
   </servlet-mapping>
   
   <servlet>
+  	<servlet-name>managementForm</servlet-name>
+  	<jsp-file>/views/admin/managementForm.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>managementForm</servlet-name>
+	<url-pattern>/manager</url-pattern>  
+  </servlet-mapping>
+  
+  <servlet>
   	<servlet-name>userManagement</servlet-name>
   	<jsp-file>/views/admin/userManagement.jsp</jsp-file>
   </servlet>
@@ -46,6 +56,16 @@
   <servlet-mapping>
   	<servlet-name>userManagement</servlet-name>
 	<url-pattern>/user</url-pattern>  
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>quizManagement</servlet-name>
+  	<jsp-file>/views/admin/quizManagement.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>quizManagement</servlet-name>
+	<url-pattern>/quizzes</url-pattern>  
   </servlet-mapping>
   
   <error-page>
