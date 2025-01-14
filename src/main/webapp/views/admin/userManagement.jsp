@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/resources/style/globals.css">
+<link rel="stylesheet" href="/resources/style/admin.css">
 <title>사용자 관리 화면</title>
 </head>
 <body>
@@ -12,9 +12,9 @@
 <div class="current-users">
 	현재 접속자 수:<span id="current-users">0</span>명
 </div>
-<main>
+<main id="user-management">
     <h2>사용자 관리</h2>
-    <table>
+    <table class ="user-table">
         <thead>
             <tr>
                 <th>아이디</th>
@@ -34,10 +34,10 @@
                 <td>88</td>
                 <td>23</td>
                 <td>
-                    <button class="button">정지</button>
+                    <button class="btn-ban">정지</button>
                 </td>
                 <td>
-                    <button class="button">삭제</button>
+                    <button class="btn-delete">삭제</button>
                 </td>
             </tr>
         </tbody>

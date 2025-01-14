@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/resources/style/globals.css">
+<link rel="stylesheet" href="/resources/style/admin.css">
 <title>관리자 화면</title>
 </head>
 <c:import url="/header" />
@@ -15,9 +15,9 @@
 </div>
 </body>
 <section class="button-container">
-	<button class="button" onclick="location.href=userManagement.jsp">사용자 관리</button>
-	<button class="button" onclick="location.href=quizManagement.jsp">퀴즈 관리</button>
-	<button class="button" onclick="location.href=noticeManagement.jsp">공지사항 관리</button>	
+	<button class="button">사용자 관리</button>
+	<button class="button">퀴즈 관리</button>
+	<button class="button">공지사항 관리</button>	
 </section>
 <c:import url="/footer" />
 </html>
