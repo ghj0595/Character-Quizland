@@ -4,3 +4,38 @@
 	padding: 0;
 	margin: 0;
 }
+
+
+header{
+	background:red;
+	height : 20vh;
+}
+
+body{
+	margin:0 auto;
+	width : 70vw;
+}
+
+main{
+	display:flex;
+	min-height : 75vh;
+}
+#rank{
+	background:pink;
+	width : 12vw;
+}
+
+#content{
+	background:gray;
+	width : 46vw;
+}
+
+#notice{
+	background:green;
+	width : 12vw;
+}
+
+footer{
+	background:blue;
+	height : 5vh;
+}
