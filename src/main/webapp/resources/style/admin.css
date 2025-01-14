@@ -45,7 +45,7 @@ body {
 	padding: 20px; 
 }
  
-#user-management h2, #quiz-management h2, #notice-management h2 { 
+#user-management h2, #quiz-management h2, #notice-management h2, #write-notice h2 { 
 	color: #343a40;
 	text-align: center;
 }
@@ -104,3 +104,70 @@ body {
 .btn-write:hover { 
 	background-color: #218838;
 }
+
+#write-notice {
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+form { 
+	display: flex; 
+	flex-direction: column; 
+	align-items: flex-start; 
+	width: 50%; 
+} 
+
+label { 
+	margin-top: 10px; 
+} 
+
+input[type="text"], textarea, input[type="date"], select { 
+	width: 100%; 
+	padding: 8px; 
+	margin-top: 5px; 
+	border: 1px solid #ddd; 
+	border-radius: 5px; 
+}
+
+.btn-container { 
+	display: flex; 
+	justify-content: space-between; 
+	width: 100%; 
+	margin-top: 20px; 
+}
+
+.btn-submit { 
+	background-color: #28a745; 
+	color: white; 
+	border: none; 
+	padding: 10px 20px; 
+	margin-top: 20px; 
+	border-radius: 5px; 
+	cursor: pointer; 
+	font-size: 16px; 
+	transition: background-color 0.3s ease;
+	margin-right: 10px;
+}
+
+.btn-submit:hover { 
+	background-color: #218838; 
+}
+
+.btn-cancel { 
+	background-color: #dc3545; 
+	color: white; 
+	border: none; 
+	padding: 10px 20px; 
+	margin-top: 20px; 
+	border-radius: 5px; 
+	cursor: pointer; 
+	font-size: 16px; 
+	transition: background-color 0.3s ease;
+}
+
+.btn-cancel:hover { 
+	background-color: #c82333; 
+}
+

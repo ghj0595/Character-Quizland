@@ -12,4 +12,8 @@ window.onload = () => {
 		location.href = '/list';
 	}
 	
+	document.getElementById("btn-write").onclick = function(){
+		location.href = '/notice';
+	}
+	
 }
