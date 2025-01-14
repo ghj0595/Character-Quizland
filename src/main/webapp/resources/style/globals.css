@@ -1,9 +1,10 @@
 @charset "UTF-8";
 
-*{
+* {
 	padding: 0;
 	margin: 0;
 }
+
 
 
 header{
@@ -39,3 +40,4 @@ footer{
 	background:blue;
 	height : 5vh;
 }
+
