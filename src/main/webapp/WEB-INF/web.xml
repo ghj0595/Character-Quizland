@@ -68,6 +68,16 @@
 	<url-pattern>/quizzes</url-pattern>  
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>noticeManagement</servlet-name>
+  	<jsp-file>/views/admin/noticeManagement.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>noticeManagement</servlet-name>
+	<url-pattern>/list</url-pattern>  
+  </servlet-mapping>
+  
   <error-page>
   	<error-code>404</error-code>
   	<location>/error</location>

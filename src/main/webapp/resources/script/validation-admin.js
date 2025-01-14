@@ -8,4 +8,8 @@ window.onload = () => {
 		location.href = '/quizzes';
 	}
 	
+	document.getElementById("btn-notice").onclick = function(){
+		location.href = '/list';
+	}
+	
 }
