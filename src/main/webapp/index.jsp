@@ -12,7 +12,7 @@
 <body>
 <section id="content">
 <h1>Hello world!</h1>
-
+</section>
 </body>
 <c:import url="/footer" />
 </html>
