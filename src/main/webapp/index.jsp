@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/style/globals.css">
-<title>Insert title here</title>
+<title>index page</title>
 </head>
 <c:import url="/header" />
 <body>
