@@ -6,4 +6,8 @@
     <h1>RANK</h1>
 </section>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> origin/feature/quiz
