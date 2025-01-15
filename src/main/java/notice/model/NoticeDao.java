@@ -37,7 +37,10 @@ public class NoticeDao {
     			pstmt.setString(1, noticeDto.getAdminCode());
     			pstmt.setString(2, noticeDto.getTitle());
     			pstmt.setString(3, noticeDto.getContent());
-    			pstmt.setInt(4, noticeDto.getStatus());
+    			
+    			int status = (noticeDto.getResDate() == null) ? 1 : 0;
+    			
+    			pstmt.setInt(4, status);
     			pstmt.setTimestamp(5, noticeDto.getResDate());
     			pstmt.setTimestamp(6, noticeDto.getCloseDate());
     			pstmt.executeUpdate();

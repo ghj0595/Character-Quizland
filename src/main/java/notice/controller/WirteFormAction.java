@@ -15,9 +15,7 @@ public class WirteFormAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	        
-	    	
-	    	
+	        	    	
 	    	String adminCode = request.getParameter("adminCode");
 	        String title = request.getParameter("title");
 	        String content = request.getParameter("content");
@@ -30,6 +28,6 @@ public class WirteFormAction extends HttpServlet {
 	        NoticeDao noticeDao = NoticeDao.getInstance();
 	        noticeDao.createNotice(noticeDto);
 	        
-	        response.sendRedirect("/notice");
+	        response.sendRedirect("/list");
 	    }
 }

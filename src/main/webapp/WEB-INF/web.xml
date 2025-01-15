@@ -8,6 +8,8 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
   <display-name>Archetype Created Web Application</display-name>
   
+  <!-- JSP Mapping -->
+  
   <servlet>
   	<servlet-name>header</servlet-name>
   	<jsp-file>/views/module/header.jsp</jsp-file>
@@ -106,6 +108,18 @@
   <servlet-mapping>
   	<servlet-name>noticeWrite</servlet-name>
 	<url-pattern>/notice</url-pattern>  
+  </servlet-mapping>
+  
+  <!-- Servlet Mapping -->
+  
+  <servlet>
+  	<servlet-name>write</servlet-name>
+  	<servlet-class>notice.controller.WriteFormAction</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>write</servlet-name>
+	<url-pattern>/notice/write</url-pattern>  
   </servlet-mapping>
     
   <error-page>
