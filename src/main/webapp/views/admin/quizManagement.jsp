@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/style/admin.css">
-<script type="module" src="/resources/script/validation-admin.js"></script>
 <title>퀴즈 관리 화면</title>
 </head>
 <c:import url="/header" />

@@ -1,7 +1,7 @@
 import { updateErrorElementStyle, validatePassword } from "./validation.js";
 
 window.onload = () => {
-	const id = document.getElementById("id");
+	const code = document.getElementById("code");
 	const password = document.getElementById("password");
 	
 	const form = document.querySelector("form");
@@ -16,10 +16,10 @@ window.onload = () => {
 		
 		let isValid = true;
 		
-		isValid = id.value !== "";
+		isValid = code.value !== "";
 		
 		if(!isValid) {
-			const errMsg = document.getElementById("error-msg-id-empty");
+			const errMsg = document.getElementById("error-msg-code-empty");
 			updateErrorElementStyle(errMsg, true);
 			return;
 		}
