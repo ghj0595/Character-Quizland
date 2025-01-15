@@ -18,7 +18,7 @@ public class DBManager {
 			Context init = new InitialContext();
 			Context context = (Context) init.lookup("java:comp/env");
 			
-			DataSource datasource = (DataSource) context.lookup("jdbc/MovieDB");
+			DataSource datasource = (DataSource) context.lookup("jdbc/QuizlandDB");
 		
 			conn = datasource.getConnection();
 			
