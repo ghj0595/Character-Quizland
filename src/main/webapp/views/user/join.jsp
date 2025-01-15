@@ -46,7 +46,7 @@
 			</div>
 		</section>
 		
-		<c:import url="/notice" />
+		<c:import url="/noticelist" />
 	</main>
 	
 </body>
