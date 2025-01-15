@@ -30,7 +30,7 @@
 		
 		<div class="btn-container">
        		<button type="submit" class="btn-submit">작성</button>
-        	<button type="button" class="btn-cancel" onclick="location.href='/noticeManagement.jsp'">취소</button>		
+        	<button type="button" class="btn-cancel" onclick="location.href='/list'">취소</button>		
 		</div>
     </form>
 </main>

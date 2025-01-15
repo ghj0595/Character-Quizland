@@ -10,10 +10,5 @@ window.onload = () => {
 	
 	document.getElementById("btn-notice").onclick = function(){
 		location.href = '/list';
-	}
-	
-	document.getElementById("btn-write").onclick = function(){
-		location.href = '/notice';
-	}
-	
+	}	
 }
