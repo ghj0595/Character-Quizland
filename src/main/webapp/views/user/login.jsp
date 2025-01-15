@@ -24,11 +24,11 @@
 				<h2>로그인</h2>
 				<form method="POST" action="/users/login">
 					<div>
-						<input type="text" id="id" name="id" placeholder="아이디">
+						<input type="text" id="code" name="code" placeholder="아이디">
 						<input type="password" id="password" name="password" placeholder="비밀번호">
 					</div>
 					<ul class="error-msg-group">
-						<li id="error-msg-id-empty" class="error-msg">아이디: 필수정보입니다.</li>
+						<li id="error-msg-code-empty" class="error-msg">아이디: 필수정보입니다.</li>
 						<li id="error-msg-password-empty" class="error-msg">비밀번호: 필수정보입니다.</li>
 						<li id="error-msg-password-pattern" class="error-msg">비밀번호: 유효하지 않은 값입니다.</li>
 					</ul>
