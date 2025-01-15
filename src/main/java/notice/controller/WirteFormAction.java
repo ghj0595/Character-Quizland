@@ -11,6 +11,7 @@ import notice.model.NoticeRequestDto;
 import java.io.IOException;
 import java.sql.Timestamp;
 
+@WebServlet("/notice/write")
 public class WirteFormAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -19,14 +20,27 @@ public class WirteFormAction extends HttpServlet {
 	    	String adminCode = request.getParameter("adminCode");
 	        String title = request.getParameter("title");
 	        String content = request.getParameter("content");
-	        int status = Integer.parseInt(request.getParameter("status"));
-	        Timestamp resDate = Timestamp.valueOf(request.getParameter("resDate"));
-	        Timestamp closeDate = Timestamp.valueOf(request.getParameter("closeDate"));
+	        
+	        int status = 1; 
+	        
+	        String resDateParam = request.getParameter("startDate"); 
+	        String closeDateParam = request.getParameter("endDate"); 
+	        
+	        Timestamp resDate = null; 
+	        Timestamp closeDate = null; 
+	        
+	        if (resDateParam != null && !resDateParam.isEmpty()) { 
+	        	resDate = Timestamp.valueOf(resDateParam + " 00:00:00"); 
+	        	status = 0;
+	        	} 
+	        if (closeDateParam != null && !closeDateParam.isEmpty()) { 
+	        	closeDate = Timestamp.valueOf(closeDateParam + " 23:59:59");	        	
+	        }
 	        
 	        NoticeRequestDto noticeDto = new NoticeRequestDto(adminCode, title, content, status, resDate, closeDate);
 	        
 	        NoticeDao noticeDao = NoticeDao.getInstance();
-	        noticeDao.createNotice(noticeDto);
+	        noticeDao.createNotice(noticeDto);	        
 	        
 	        response.sendRedirect("/list");
 	    }

@@ -44,12 +44,16 @@ public class NoticeDao {
     			pstmt.setTimestamp(5, noticeDto.getResDate());
     			pstmt.setTimestamp(6, noticeDto.getCloseDate());
     			pstmt.executeUpdate();
+    			
+    			System.out.println("데이터 베이스 연동 성공!\n" + pstmt);
     		} catch (SQLException e) {
     			e.printStackTrace();
     		} finally {
     			DBManager.close(conn, pstmt);
-    		}    		
     	}        
+    } else {
+    		System.out.println("데이터 베이스 연동 실패...");    			
+    	}    		
     }
 
     public NoticeResponseDto readNoticeByCode(int code) {

@@ -109,18 +109,6 @@
   	<servlet-name>noticeWrite</servlet-name>
 	<url-pattern>/notice</url-pattern>  
   </servlet-mapping>
-  
-  <!-- Servlet Mapping -->
-  
-  <servlet>
-  	<servlet-name>write</servlet-name>
-  	<servlet-class>notice.controller.WriteFormAction</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-  	<servlet-name>write</servlet-name>
-	<url-pattern>/notice/write</url-pattern>  
-  </servlet-mapping>
     
   <error-page>
   	<error-code>404</error-code>
