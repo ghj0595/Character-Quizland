@@ -2,7 +2,7 @@ package notice.model;
 
 import java.sql.Timestamp;
 
-public class NoticeResponse {
+public class NoticeResponseDto {
     private int code;
     private String adminCode;
     private String title;
@@ -13,7 +13,7 @@ public class NoticeResponse {
     private Timestamp regDate;
     private Timestamp modDate;
 
-    public NoticeResponse(int code, String adminCode, String title, String content, int status, Timestamp resDate, Timestamp closeDate, Timestamp regDate, Timestamp modDate) {
+    public NoticeResponseDto(int code, String adminCode, String title, String content, int status, Timestamp resDate, Timestamp closeDate, Timestamp regDate, Timestamp modDate) {
         this.code = code;
         this.adminCode = adminCode;
         this.title = title;
