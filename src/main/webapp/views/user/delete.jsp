@@ -26,7 +26,7 @@
 				<h2>회원탈퇴</h2>
 				<form method="POST" action="/users/delete">
 					<div>
-						<input type="text" id="id" name="id" placeholder="아이디" value="${log.id}" disabled>
+						<input type="text" id="code" name="code" placeholder="아이디" value="${log.code}" disabled>
 						<input type="password" id="password" name="password" placeholder="비밀번호">
 					</div>
 					<ul class="error-msg-group">
@@ -39,7 +39,7 @@
 			</div>
 		</section>
 		
-		<c:import url="/notice" />
+		<c:import url="/noticelist" />
 	</main>
 
 </body>
