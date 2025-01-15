@@ -8,6 +8,8 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
   <display-name>Archetype Created Web Application</display-name>
   
+  <!-- JSP Mapping -->
+  
   <servlet>
   	<servlet-name>header</servlet-name>
   	<jsp-file>/views/module/header.jsp</jsp-file>

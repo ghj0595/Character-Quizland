@@ -14,7 +14,7 @@
 </div>
 <main id="write-notice">
     <h2>공지사항 작성</h2>
-    <form action="notice.jsp" method="post">
+    <form action="/notice/write" method="post">
 
         <label for="title">제목</label>
         <input type="text" id="title" name="title" required><br>
@@ -23,14 +23,14 @@
         <textarea id="content" name="content" rows="10" cols="50" required></textarea><br>
 
         <label for="start-date">게시일</label>
-        <input type="date" id="start-date" name="start-date" required><br>
+        <input type="date" id="start-date" name="start-date"><br>
 
         <label for="end-date">만료일</label>
-        <input type="date" id="end-date" name="end-date" required><br>
+        <input type="date" id="end-date" name="end-date"><br>
 		
 		<div class="btn-container">
        		<button type="submit" class="btn-submit">작성</button>
-        	<button type="button" class="btn-cancel" onclick="location.href='/noticeManagement.jsp'">취소</button>		
+        	<button type="button" class="btn-cancel" onclick="location.href='/list'">취소</button>		
 		</div>
     </form>
 </main>
