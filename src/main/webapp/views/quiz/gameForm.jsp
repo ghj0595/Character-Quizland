@@ -17,7 +17,7 @@
 			<form method="POST" action="/quiz/{quizNo}">
 				<input type="hidden" name="quiz_number" value="${quizNumber}">
 				<input type="hidden" name="quiz_size" value="${quizSize}">
-				<input type="hidden" name="quiz_code" value="quiz_code">
+				<input type="hidden" name="quiz_code" value="quiz_code">3
 				<input type="hidden" name="answer_number" value="answer_number">
 				<input type="hidden" name="score" value="${score}">
 				<input type="hidden" name="timer" value="${timer}">
@@ -34,7 +34,7 @@
 				</div>			
 			</form>	
 		</section>
-		<c:import url="/notice" />
+		<c:import url="/noticelist" />
 	</main>
 	<c:import url="/footer" />
 </body>
