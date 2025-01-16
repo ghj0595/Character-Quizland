@@ -19,6 +19,7 @@ if (codeParam != null && !codeParam.isEmpty()) {
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/style/admin.css">
+<script type="module" src="/resources/script/validation-notice-delete.js"></script>
 <title>공지사항 작성 화면</title>
 </head>
 <c:import url="/header" />
@@ -49,7 +50,7 @@ if (codeParam != null && !codeParam.isEmpty()) {
 		<div class="btn-container"> 
 			<button type="submit" class="btn-submit"><%= isEditMode ? "수정" : "작성" %></button> 
 			<% if (isEditMode) { %> 
-				<button type="button" class="btn-notice-delete" onclick="location.href='/notice/delete?code=<%= notice.getCode() %>'">삭제</button> 
+				<button type="button" class="btn-notice-delete" data-code="<%= notice.getCode() %>">삭제</button> 
 			<% } else { %> 
 				<button type="button" class="btn-cancel" onclick="location.href='/list'">취소</button> 
 			<% } %> </div>
