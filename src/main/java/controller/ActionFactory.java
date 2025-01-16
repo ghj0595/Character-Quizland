@@ -22,6 +22,8 @@ public class ActionFactory {
 		
 		if(path.equals("users"))
 			return getUserAction(command, method);
+		else if(path.equals("api"))
+			return getApiAction(command, method);
 		
 		return action;
 	}
@@ -39,6 +41,15 @@ public class ActionFactory {
 			return new UpdateAction();
 		else if(command.equals("delete") && method == HttpMethod.POST)
 			return new DeleteAction();
+		
+		return action;
+	}
+	
+	private Action getApiAction(String command, HttpMethod method) {
+		Action action = null;
+		
+		if(command.equals("search-code") && method == HttpMethod.POST)
+			return new SearchCodeAction();
 		
 		return action;
 	}
