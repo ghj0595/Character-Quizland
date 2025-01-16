@@ -31,7 +31,7 @@ if (codeParam != null && !codeParam.isEmpty()) {
     <h2>공지사항 작성</h2>
     <form action="<%= isEditMode ? "/notice/update" : "/notice/write" %>" method="post">
 		<% if (isEditMode) { %> 
-		<input type="hidden" name="code" value="<%= notice.getCode() %>"> 
+		<input type="hidden" id="notice-code" name="code" value="<%= notice.getCode() %>"> 
 		<input type="hidden" name="regDate" value="<%= notice.getRegDate() %>">
 		<% } %>
 		
@@ -50,7 +50,7 @@ if (codeParam != null && !codeParam.isEmpty()) {
 		<div class="btn-container"> 
 			<button type="submit" class="btn-submit"><%= isEditMode ? "수정" : "작성" %></button> 
 			<% if (isEditMode) { %> 
-				<button type="button" class="btn-notice-delete" data-code="<%= notice.getCode() %>">삭제</button> 
+				<button type="button" class="btn-notice-delete">삭제</button> 
 			<% } else { %> 
 				<button type="button" class="btn-cancel" onclick="location.href='/list'">취소</button> 
 			<% } %> </div>
