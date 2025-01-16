@@ -7,15 +7,14 @@
 </head>
 <body>
 <header>
-
+<div class="logo">
+	<h1>
+		<a href="#">Character Quizland</a>
+	</h1>
+</div>
 <div class="btn">
 	<input type="button" value="로그인">
 	<input type="button" value="회원가입">
-</div>
-<div class="logo">
-	<h1>
-		<a>Character Quizland</a>
-	</h1>
 </div>
 
 

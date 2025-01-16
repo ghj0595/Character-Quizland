@@ -16,17 +16,28 @@ body {
 header {
     background: #343a40;
     color: white;
-    padding: 10px 0;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+}
+
+header .logo {
+    position: absolute;
+    left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
 }
 
 header .logo h1 a {
     color: white;
     text-decoration: none;
     font-size: 24px;
-    margin-left: 20px;
+}
+
+header .btn {
+	margin-left: auto;
 }
 
 header .btn input {
@@ -102,7 +113,7 @@ h2 {
 }
 
 .user-table, .quiz-table, .notice-table {
-    width: 80%;
+    width: 100%;
     border-collapse: collapse;
 }
 

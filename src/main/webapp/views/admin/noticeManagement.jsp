@@ -66,10 +66,8 @@
                 </tbody>
             </table>
         </div>
-        <c:import url="/noticelist" />
     </div>
-
-    <div id="notice"></div>
+        <c:import url="/noticelist" />
 </main>
 <c:import url="/footer" />
 </body>
