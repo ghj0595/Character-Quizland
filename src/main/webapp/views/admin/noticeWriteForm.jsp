@@ -29,7 +29,11 @@ if (codeParam != null && !codeParam.isEmpty()) {
 <main id="write-notice">
     <h2>공지사항 작성</h2>
     <form action="<%= isEditMode ? "/notice/update" : "/notice/write" %>" method="post">
-
+		<% if (isEditMode) { %> 
+		<input type="hidden" name="code" value="<%= notice.getCode() %>"> 
+		<input type="hidden" name="regDate" value="<%= notice.getRegDate() %>">
+		<% } %>
+		
         <label for="title">제목</label>
         <input type="text" id="title" name="title" value="<%= (notice != null) ? notice.getTitle() : "" %>" required><br>
 
