@@ -13,8 +13,8 @@
 	</h1>
 </div>
 <div class="btn">
-	<input type="button" value="로그인">
-	<input type="button" value="회원가입">
+	<input type="button" value="로그인" onclick="location.href='/login'">
+	<input type="button" value="회원가입" onclick="location.href='/join'">
 </div>
 
 

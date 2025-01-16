@@ -15,7 +15,7 @@
 <c:import url="/header" />
 <body>
 	<c:if test="${not empty log }">
-		<c:redirect url="/myPage" />
+		<c:redirect url="/mypage" />
 	</c:if>
 
 	<main>
@@ -24,7 +24,8 @@
 		<section id="content">
 			<div class="content-container">
 				<h2>회원가입</h2>
-				<form id="form-join" method="POST" action="/users">
+				<form id="form-join" method="POST" action="/service/users">
+				<input type="hidden" name="command" value="join">
 					<div>
 						<input type="text" id="code" name="code" placeholder="아이디" value="${userData.code}">
 						<input type="password" id="password" name="password" placeholder="비밀번호">
