@@ -123,6 +123,40 @@ public class UserDao {
 		}
 		return user;
 	}
+	
+	public User findUserByName(String name) {
+		User user = null;
+
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT * FROM users WHERE name=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				String userCode = rs.getString(1);
+				String password = rs.getString(2);
+				int bestScore = rs.getInt(4);
+				int status = rs.getInt(5);
+				Timestamp closeDate = rs.getTimestamp(6);
+				String managerCode = rs.getString(7);
+				Timestamp regDate = rs.getTimestamp(8);
+				Timestamp modDate = rs.getTimestamp(9);
+
+				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate,
+						modDate);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return user;
+	}
 
 	public User updateUser(UserRequestDto userDto) {
 		conn = DBManager.getConnection();
