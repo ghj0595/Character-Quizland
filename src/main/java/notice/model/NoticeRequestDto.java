@@ -77,4 +77,12 @@ public class NoticeRequestDto {
     public void setCloseDate(Timestamp closeDate) {
         this.closeDate = closeDate;
     }
+    
+    public void setStartDate(String startDate) { 
+    	this.resDate = (startDate != null && !startDate.isEmpty()) ? Timestamp.valueOf(startDate + " 00:00:00") : null; 
+    } 
+    
+    public void setEndDate(String endDate) { 
+    	this.closeDate = (endDate != null && !endDate.isEmpty()) ? Timestamp.valueOf(endDate + " 00:00:00") : null; 
+    }
 }

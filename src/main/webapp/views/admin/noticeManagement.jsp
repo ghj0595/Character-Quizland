@@ -50,7 +50,7 @@ if (noticeList != null) {
             			<td>${notice.code}</td> 
             			<td>${notice.adminCode}</td> 
             			<td><a href="/notice?code=${notice.code}">${notice.title}</a></td> 
-            			<td>${notice.regDate}</td> 
+            			<td>${notice.resDate}</td> 
             			<td>${notice.closeDate}</td> 
             			<td><c:choose> 
             				<c:when test="${notice.status == 0}">대기</c:when> 
