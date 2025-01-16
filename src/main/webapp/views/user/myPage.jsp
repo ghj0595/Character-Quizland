@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/style/globals.css">
-<script type="module" src="/resources/script/validation-join.js"></script>
+
 <title>마이페이지</title>
 </head>
 <c:import url="/header" />
@@ -22,9 +22,10 @@
 		<section id="content">
 			<div class="content-container">
 				<h2>${log.name}님 회원정보</h2>
-				<form method="POST" action="/users/update">
+				<form id="form" method="POST" action="/service/users">
+				<input type="hidden" name="command" value="update">
 					<div>
-						<input type="text" id="code" name="code" value="${log.code}" disabled>
+						<input type="text" id="code" name="code" value="${log.userCode}" disabled>
 						<input type="password" id="password" name="password" placeholder="기존 비밀번호">
 						<input type="password" id="new-password" name="new-password" placeholder="새로운 비밀번호">
 						<input type="text" id="name" name="name" value="${log.name}">
@@ -35,7 +36,7 @@
 					</ul>
 					<div id="btn-group">
 						<input type="submit" value="수정">
-						<input type="button" value="로그아웃" onclick="location.href='/users'">
+						<input type="button" value="로그아웃" onclick="location.href='/service/users?command=logout'">
 						<input type="button" value="탈퇴" onclick="location.href='/delete'">
 					</div>
 				</form>

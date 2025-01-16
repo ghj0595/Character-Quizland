@@ -15,7 +15,7 @@
 		<section id="content">
 			<h1>Hello world!</h1>
 		</section>
-		<c:import url="/notice" />
+		<c:import url="/noticelist" />
 	</main>
 	<c:import url="/footer" />
 </body>
