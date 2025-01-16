@@ -124,7 +124,7 @@ public class NoticeDao {
         return notices;
     }
 
-    public void updateNotice(Notice notice) {
+    public void updateNotice(NoticeResponseDto notice) {
     	
     	conn = DBManager.getConnection();
     	

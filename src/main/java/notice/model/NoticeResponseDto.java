@@ -96,4 +96,12 @@ public class NoticeResponseDto {
     public void setModDate(Timestamp modDate) {
         this.modDate = modDate;
     }
+    
+    public String getFormattedResDate() { 
+    	return (resDate != null) ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(resDate) : ""; 
+    } 
+    
+    public String getFormattedCloseDate() { 
+    	return (closeDate != null) ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(closeDate) : ""; 
+    }
 }
