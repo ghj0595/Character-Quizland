@@ -6,10 +6,12 @@
 <%
 String codeParam = request.getParameter("code");
 NoticeResponseDto notice = null;
+Boolean isEditMode = false;
 if (codeParam != null && !codeParam.isEmpty()) {
 	int code = Integer.parseInt(codeParam);
 	NoticeDao noticeDao = NoticeDao.getInstance();
 	notice = noticeDao.readNoticeByCode(code);
+	isEditMode = true;
 }
 %>
 <!DOCTYPE html>
@@ -26,7 +28,7 @@ if (codeParam != null && !codeParam.isEmpty()) {
 </div>
 <main id="write-notice">
     <h2>공지사항 작성</h2>
-    <form action="/notice/write" method="post">
+    <form action="<%= isEditMode ? "/notice/update" : "/notice/write" %>" method="post">
 
         <label for="title">제목</label>
         <input type="text" id="title" name="title" value="<%= (notice != null) ? notice.getTitle() : "" %>" required><br>
@@ -40,10 +42,13 @@ if (codeParam != null && !codeParam.isEmpty()) {
         <label for="end-date">만료일</label>
         <input type="date" id="end-date" name="endDate" value="<%= (notice != null) ? notice.getFormattedCloseDate() : "" %>" ><br>
 		
-		<div class="btn-container">
-       		<button type="submit" class="btn-submit">작성</button>
-        	<button type="button" class="btn-cancel" onclick="location.href='/list'">취소</button>		
-		</div>
+		<div class="btn-container"> 
+			<button type="submit" class="btn-submit"><%= isEditMode ? "수정" : "작성" %></button> 
+			<% if (isEditMode) { %> 
+				<button type="button" class="btn-delete" onclick="location.href='/notice/delete?code=<%= notice.getCode() %>'">삭제</button> 
+			<% } else { %> 
+				<button type="button" class="btn-cancel" onclick="location.href='/list'">취소</button> 
+			<% } %> </div>
     </form>
 </main>
 <c:import url="/footer" />
