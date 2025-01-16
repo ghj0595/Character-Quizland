@@ -1,6 +1,21 @@
+<%@page import="notice.model.NoticeResponseDto"%>
+<%@page import="java.util.List"%>
+<%@page import="notice.model.NoticeDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
+<% 
+NoticeDao noticeDao = NoticeDao.getInstance(); 
+List<NoticeResponseDto> noticeList = noticeDao.readAllNotices();
+pageContext.setAttribute("noticeList", noticeList);
+
+if (noticeList != null) { 
+	System.out.println("공지사항 목록 크기: " + noticeList.size());  
+} else { 
+		System.out.println("공지사항 목록을 가져올 수 없습니다."); 
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,14 +45,22 @@
             	</tr>
         	</thead>
         	<tbody>
-            	<tr>
-                	<td>1212</td>
-                	<td>관리자1</td>
-                	<td>공지사항 제목 예시</td>
-                	<td>2025-01-01</td>
-                	<td>2025-01-18</td>
-                	<td>게시중</td>
-            	</tr>
+            	<c:forEach var="notice" items="${noticeList}"> 
+            		<tr> 
+            			<td>${notice.code}</td> 
+            			<td>${notice.adminCode}</td> 
+            			<td><a href="/notice?code=${notice.code}">${notice.title}</a></td> 
+            			<td>${notice.regDate}</td> 
+            			<td>${notice.closeDate}</td> 
+            			<td><c:choose> 
+            				<c:when test="${notice.status == 0}">대기</c:when> 
+            				<c:when test="${notice.status == 1}">게시중</c:when> 
+            				<c:when test="${notice.status == 2}">만료</c:when> 
+            				<c:otherwise>알 수 없음</c:otherwise> 
+            				</c:choose>
+            			</td> 
+            		</tr> 
+            	</c:forEach>
         	</tbody>
     	</table>
     </div>
