@@ -32,7 +32,7 @@
 <main class="main-content">
     <c:import url="/rank" />
 
-    <div id="content">
+    <div id="table-content">
         <h2>공지사항 관리</h2>
         <div class="table-container">
             <button class="btn-write" id="btn-write">공지사항 작성</button>

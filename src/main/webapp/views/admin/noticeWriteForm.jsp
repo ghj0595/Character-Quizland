@@ -22,7 +22,6 @@ if (codeParam != null && !codeParam.isEmpty()) {
 <script type="module" src="/resources/script/validation-notice-delete.js"></script>
 <title>공지사항 작성 화면</title>
 </head>
-<c:import url="/header" />
 <body>
 <div class="current-users">
     현재 접속자 수:<span id="current-users">0</span>명
@@ -39,7 +38,7 @@ if (codeParam != null && !codeParam.isEmpty()) {
         <input type="text" id="title" name="title" value="<%= (notice != null) ? notice.getTitle() : "" %>" required><br>
 
         <label for="content">내용</label>
-        <textarea id="content" name="content" rows="10" cols="50" required><%= (notice != null) ? notice.getContent() : "" %></textarea><br>
+        <textarea id="content" name="content" required><%= (notice != null) ? notice.getContent() : "" %></textarea><br>
 
         <label for="start-date">게시일</label>
         <input type="date" id="start-date" name="startDate" value="<%= (notice != null) ? notice.getFormattedResDate() : "" %>"><br>
@@ -56,6 +55,5 @@ if (codeParam != null && !codeParam.isEmpty()) {
 			<% } %> </div>
     </form>
 </main>
-<c:import url="/footer" />
 </body>
 </html>
