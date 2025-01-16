@@ -45,7 +45,7 @@ if (codeParam != null && !codeParam.isEmpty()) {
 		<div class="btn-container"> 
 			<button type="submit" class="btn-submit"><%= isEditMode ? "수정" : "작성" %></button> 
 			<% if (isEditMode) { %> 
-				<button type="button" class="btn-delete" onclick="location.href='/notice/delete?code=<%= notice.getCode() %>'">삭제</button> 
+				<button type="button" class="btn-notice-delete" onclick="location.href='/notice/delete?code=<%= notice.getCode() %>'">삭제</button> 
 			<% } else { %> 
 				<button type="button" class="btn-cancel" onclick="location.href='/list'">취소</button> 
 			<% } %> </div>

@@ -155,7 +155,7 @@ input[type="text"], textarea, input[type="date"], select {
 	background-color: #218838; 
 }
 
-.btn-cancel, .btn-delete { 
+.btn-cancel, .btn-notice-delete { 
 	background-color: #dc3545; 
 	color: white; 
 	border: none; 
@@ -167,7 +167,7 @@ input[type="text"], textarea, input[type="date"], select {
 	transition: background-color 0.3s ease;
 }
 
-.btn-cancel:hover { 
+.btn-cancel:hover, .btn-notice-delete:hover { 
 	background-color: #c82333; 
 }
 
