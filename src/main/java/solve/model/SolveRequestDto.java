@@ -9,6 +9,11 @@ public class SolveRequestDto {
 	public SolveRequestDto() {
 	}
 
+	public SolveRequestDto(int score, int timer) {
+		this.score = score;
+		this.timer = timer;
+	}
+	
 	public SolveRequestDto(String userCode, int quizCode, int score, int timer) {
 		this.userCode = userCode;
 		this.quizCode = quizCode;
