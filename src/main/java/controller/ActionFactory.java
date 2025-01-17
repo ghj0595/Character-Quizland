@@ -1,6 +1,7 @@
 package controller;
 
 import admin.action.LoginAdminAction;
+import quiz.action.*;
 import user.action.*;
 import util.HttpMethod;
 
@@ -17,17 +18,21 @@ public class ActionFactory {
 	
 	public Action getAction(String path, String command, HttpMethod method) {
 		Action action = null;
-		
+		System.out.println("ActionFactory");
+		System.out.println(path);
+		System.out.println(command);
+		System.out.println(method);
 		if(path == null || command == null)
 			return action;
-		
+
 		if(path.equals("users"))
 			return getUserAction(command, method);
+		else if(path.equals("quiz"))
+			return getQuizAction(command, method);
 		else if(path.equals("api"))
 			return getApiAction(command, method);
 		else if(path.equals("admin"))
 			return getAdminAction(command, method);
-		
 		return action;
 	}
 	
@@ -46,6 +51,17 @@ public class ActionFactory {
 			return new DeleteAction();
 		else if(command.equals("view") && method == HttpMethod.GET)
 			return new ViewAction();
+		
+		return action;
+	}
+	
+	private Action getQuizAction(String command, HttpMethod method) {
+		Action action = null;
+		
+		if(method == HttpMethod.POST) {
+			System.out.println("CreateQuizAction");
+			return new CreateQuizAction();
+		}
 		
 		return action;
 	}
