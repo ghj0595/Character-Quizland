@@ -254,23 +254,42 @@ public class UserDao {
 		}
 		return gameCount;
 	}
-	
+
 	public void updateUserStatus(String userCode, int status) {
-	    conn = DBManager.getConnection();
+		conn = DBManager.getConnection();
 
-	    String sql = "UPDATE users SET status=? WHERE code=?";
+		String sql = "UPDATE users SET status=? WHERE code=?";
 
-	    try {
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setInt(1, status);
-	        pstmt.setString(2, userCode);
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, status);
+			pstmt.setString(2, userCode);
 
-	        pstmt.executeUpdate();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } finally {
-	        DBManager.close(conn, pstmt);
-	    }
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt);
+		}
+	}
+
+	public void updateUserCloseDate(String userCode, Timestamp closeDate) {
+		conn = DBManager.getConnection();
+
+		String sql = "UPDATE users SET status=?, close_date=? WHERE code=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, 2); 
+			pstmt.setTimestamp(2, closeDate);
+			pstmt.setString(3, userCode);
+
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt);
+		}
 	}
 
 }
