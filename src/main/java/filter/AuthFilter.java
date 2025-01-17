@@ -28,7 +28,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 		
 		if(uri.equals("/") || uri.equals("/login")) {
 			// 처리 내용
-			res.sendRedirect(uri);
+			res.sendRedirect(uri);                    
 			return;
 		}
 		

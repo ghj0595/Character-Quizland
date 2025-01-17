@@ -19,7 +19,7 @@ public class UserDao {
 	private ResultSet rs;
 
 	private UserDao() {
-		
+
 	}
 
 	private static UserDao instance = new UserDao();
@@ -113,8 +113,7 @@ public class UserDao {
 				Timestamp regDate = rs.getTimestamp(8);
 				Timestamp modDate = rs.getTimestamp(9);
 
-				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate,
-						modDate);
+				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate, modDate);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -123,7 +122,7 @@ public class UserDao {
 		}
 		return user;
 	}
-	
+
 	public User findUserByName(String name) {
 		User user = null;
 
@@ -147,8 +146,7 @@ public class UserDao {
 				Timestamp regDate = rs.getTimestamp(8);
 				Timestamp modDate = rs.getTimestamp(9);
 
-				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate,
-						modDate);
+				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate, modDate);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -209,5 +207,51 @@ public class UserDao {
 				DBManager.close(conn, pstmt);
 			}
 		}
+	}
+
+	public double calculateAverageScore(String userCode) {
+		double averageScore = 0;
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT AVG(score) AS average_score FROM solve WHERE user_code=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userCode);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				averageScore = rs.getDouble("average_score");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return averageScore;
+	}
+
+	public int calculateGameCount(String userCode) {
+		int gameCount = 0;
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT COUNT(*) AS game_count FROM solve WHERE user_code=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userCode);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				gameCount = rs.getInt("game_count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return gameCount;
 	}
 }
