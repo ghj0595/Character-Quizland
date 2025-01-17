@@ -254,4 +254,23 @@ public class UserDao {
 		}
 		return gameCount;
 	}
+	
+	public void updateUserStatus(String userCode, int status) {
+	    conn = DBManager.getConnection();
+
+	    String sql = "UPDATE users SET status=? WHERE code=?";
+
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, status);
+	        pstmt.setString(2, userCode);
+
+	        pstmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBManager.close(conn, pstmt);
+	    }
+	}
+
 }

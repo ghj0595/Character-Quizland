@@ -10,6 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/style/admin.css">
+<script type="module" src="/resources/script/validation-update-user-status.js"></script>
 <title>사용자 관리 화면</title>
 </head>
 <body>
@@ -51,10 +52,10 @@
 							<td><%= averageScore %></td> 
 							<td><%= gameCount %></td> 
 							<td> 
-								<button class="btn-ban">정지</button> 
+								<button class="btn-ban" data-user-code="<%= user.getUserCode() %>">정지</button> 
 							</td> 
 							<td> 
-								<button class="btn-delete">삭제</button> 
+								<button class="btn-delete" data-user-code="<%= user.getUserCode() %>">삭제</button> 
 							</td> 
 						</tr> 
 							<% 
