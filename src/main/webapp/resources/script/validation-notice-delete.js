@@ -4,7 +4,7 @@ window.onload = () => {
 	if (deleteButton) {
 		deleteButton.onclick = function() {
 			const noticeCode = document.getElementById("notice-code").value;
-			if (confirm("삭제 하시겠습니까?")) {
+			if (confirm("삭제하시겠습니까?")) {
 				location.href = "/notice/delete?code=" + noticeCode;
 			}
 		}

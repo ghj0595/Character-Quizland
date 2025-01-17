@@ -159,6 +159,30 @@ public class QuizDao {
 		return quiz;
 	}
 
+	public int findQuizcodeByIndex(int Index) {
+		int code = 0;
+
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT code FROM quiz LIMIT 1 OFFSET ?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Index);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				code = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return code;
+	}
+	
 	public QuizResponseDto updateQuiz(int code, QuizRequestDto quizDto) {
 		QuizResponseDto quiz = null;
 

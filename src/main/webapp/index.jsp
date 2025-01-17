@@ -14,6 +14,7 @@
 		<c:import url="/rank" />
 		<section id="content">
 			<h1>Hello world!</h1>
+			<button onclick="location.href='/game'">게임시작</button>
 		</section>
 		<c:import url="/noticelist" />
 	</main>

@@ -9,7 +9,8 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
-    width: 70vw;
+    width: 90vw;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -59,11 +60,12 @@ header .btn input:hover {
 .main-content {
     display: flex;
     min-height: 75vh;
+    margin-top: 20px;
 }
 
 #rank {
     background: #f8d7da;
-    width: 12vw;
+    flex: 1;
     padding: 10px;
     border-right: 2px solid #dee2e6;
 }
@@ -76,7 +78,7 @@ header .btn input:hover {
 
 #notice {
     background: #d4edda;
-    width: 12vw;
+    flex: 1;
     padding: 10px;
     border-left: 2px solid #dee2e6;
 }
@@ -87,6 +89,13 @@ footer {
     text-align: center;
     padding: 10px 0;
     height: 5vh;
+    margin-top: 20px;
+}
+
+#user-content {
+	flex: 3;
+	background: #e2e3e5;
+	padding: 20px;
 }
 
 .current-users {
@@ -112,14 +121,20 @@ h2 {
     align-items: flex-start;
 }
 
+.table-content {
+	width: 100%;
+	overflow-x: auto;
+}
+
 .user-table, .quiz-table, .notice-table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
 .user-table th, .user-table td, .quiz-table th, .quiz-table td, .notice-table th, .notice-table td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 12px 8px;
     text-align: center;
 }
 
@@ -128,7 +143,7 @@ h2 {
     color: white;
 }
 
-.btn-ban, .btn-delete {
+.btn-ban {
     background-color: #ff69b4;
     color: white;
     border: none;
@@ -139,9 +154,24 @@ h2 {
     font-size: 14px;
     transition: background-color 0.3s ease;
 }
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
 
-.btn-ban:hover, .btn-delete:hover {
+.btn-ban:hover {
     background-color: #ff1493;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
 }
 
 .btn-write {
@@ -172,7 +202,7 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 60%;
+    width: 80%;
     margin: 0 auto;
 }
 
