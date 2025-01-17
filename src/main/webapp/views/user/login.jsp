@@ -13,9 +13,6 @@
 </head>
 <c:import url="/header" />
 <body>
-	<c:if test="${not empty log}">
-		<c:redirect url="/" />
-	</c:if>
 
 	<main>
 		<c:import url="/rank" />
