@@ -7,18 +7,25 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/style/globals.css">
 <link rel="stylesheet" href="/resources/style/game.css">
+<script src="/resources/script/game-create.js"></script>
 <title>Game</title>
 </head>
+<c:if test="${empty quizNumber}">
+	<c:set var="quizNumber" value="1"/>
+</c:if>
+<c:if test="${empty quizSize}">
+	<c:set var="quizSize" value="10"/>
+</c:if>
 <body>
 	<c:import url="/header" />
 	<main>
 		<c:import url="/rank" />
 		<section id="content">
 			<form method="POST" action="/quiz/{quizNo}">
+				<input type="hidden" name="user_code" value="user_code">
 				<input type="hidden" name="quiz_number" value="${quizNumber}">
 				<input type="hidden" name="quiz_size" value="${quizSize}">
 				<input type="hidden" name="quiz_code" value="quiz_code">
-				<input type="hidden" name="answer_number" value="answer_number">
 				<input type="hidden" name="score" value="${score}">
 				<input type="hidden" name="timer" value="${timer}">
 				<input type="hidden" name="solve_codes" value="solve_codes">
