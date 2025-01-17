@@ -1,4 +1,4 @@
-package notice.controller;
+package notice.action;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

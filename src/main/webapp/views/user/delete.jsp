@@ -24,9 +24,10 @@
 		<section id="content">
 			<div class="content-container">
 				<h2>회원탈퇴</h2>
-				<form method="POST" action="/users/delete">
+				<form id="form" method="POST" action="/service/users">
+				<input type="hidden" name="command" value="delete">
 					<div>
-						<input type="text" id="code" name="code" placeholder="아이디" value="${log.code}" disabled>
+						<input type="text" id="code" name="code" placeholder="아이디" value="${log.userCode}" disabled>
 						<input type="password" id="password" name="password" placeholder="비밀번호">
 					</div>
 					<ul class="error-msg-group">

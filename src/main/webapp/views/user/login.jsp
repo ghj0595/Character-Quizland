@@ -14,7 +14,7 @@
 <c:import url="/header" />
 <body>
 	<c:if test="${not empty log}">
-		<c:redirect url="/mypage" />
+		<c:redirect url="/" />
 	</c:if>
 
 	<main>
@@ -22,7 +22,8 @@
 		<section id="content">
 			<div class="content-container">
 				<h2>로그인</h2>
-				<form method="POST" action="/users/login">
+				<form id="form" method="POST" action="/service/users">
+				<input type="hidden" name="command" value="login">
 					<div>
 						<input type="text" id="code" name="code" placeholder="아이디">
 						<input type="password" id="password" name="password" placeholder="비밀번호">
