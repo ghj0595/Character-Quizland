@@ -12,9 +12,6 @@
 </head>
 <c:import url="/header" />
 <body>
-	<c:if test="${empty log }">
-		<c:redirect url="/login" />
-	</c:if>
 
 	<main>
 		<c:import url="/rank" />
@@ -40,15 +37,14 @@
 						<input type="button" value="탈퇴" onclick="location.href='/delete'">
 					</div>
 				</form>
-
+		
 				<div>
 				<span class="total-game">총 게임 수: ${totalGame }</span>
 				<span class="best-score">최고 점수: ${log.bestScore }</span>
-				<span class="avg-score">평균 점수: ${avgScroe }</span>
+				<span class="avg-score">평균 점수: ${avgScore }</span>
 				<span class="total-score">총 점수: ${totalScore }</span>
-				<span class="correct-rate">정답률: ${correctRate }</span>
 				</div>
-
+				
 			</div>
 		</section>
 		

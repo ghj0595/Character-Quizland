@@ -9,12 +9,13 @@
 <header>
 <div class="logo">
 	<h1>
-		<a href="#">Character Quizland</a>
+		<a href="/">Character Quizland</a>
 	</h1>
 </div>
 <div class="btn">
 	<input type="button" value="로그인" onclick="location.href='/login'">
 	<input type="button" value="회원가입" onclick="location.href='/join'">
+	<input type="button" value="관리자 로그인" onclick="location.href='/loginAdmin'">
 </div>
 
 

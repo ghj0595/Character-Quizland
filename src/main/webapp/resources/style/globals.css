@@ -39,3 +39,13 @@ footer{
 	height : 5vh;
 }
 
+.error-msg-group>li::before {
+	content: "○ ";
+}
+
+.error-msg-group>li, .error-msg {
+	font-size: 0.7em;
+	display: none;
+	color: red;
+	margin-bottom: 5px;
+}

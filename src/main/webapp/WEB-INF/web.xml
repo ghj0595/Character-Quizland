@@ -189,6 +189,16 @@
   	<servlet-name>noticeWrite</servlet-name>
 	<url-pattern>/notice</url-pattern>  
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>loginAdmin</servlet-name>
+  	<jsp-file>/views/admin/loginAdmin.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>loginAdmin</servlet-name>
+	<url-pattern>/loginAdmin</url-pattern>  
+  </servlet-mapping>
     
   <error-page>
   	<error-code>404</error-code>
