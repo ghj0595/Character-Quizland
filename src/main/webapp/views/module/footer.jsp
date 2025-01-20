@@ -4,8 +4,8 @@
 <html>
 <body>
 <footer>
-<h1>FOOTER</h1>
-
+<p>&copy; 2025 Character Quizland. All Rights Reserved.</p>
+<p>Address: Gangnam-gu, Seoul, Republic of Korea</p>
 </footer>
 </body>
 </html>
