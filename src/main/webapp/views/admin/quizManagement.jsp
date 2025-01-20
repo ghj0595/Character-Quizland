@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/style/admin.css">
+<script type="module" src="/resources/script/validation-quiz-delete.js"></script>
 <title>퀴즈 관리 화면</title>
 </head>
 <c:import url="/header" />
@@ -40,15 +41,18 @@
 							List<QuizResponseDto> quizList = quizDao.findQuizAll(1); 
 							
 							for (QuizResponseDto quiz : quizList) { 
-								 
+								 String typeString = quiz.getType() == 0 ? "MOVIE" : "TV";
 						%> 
 						<tr> 
 							<td><%= quiz.getCode() %></td> 
-							<td><%= quiz.getType() %></td> 
+							<td><%= typeString %></td> 
 							<td><%= quiz.getContentId() %></td> 
 							<td><%= quiz.getPeopleId() %></td>
+							<td>13</td>
+							<td>8</td>
+							<td>80%</td>
 							<td> 
-								<button class="btn-delete">삭제</button> 
+								<button class="btn-delete" data-quiz-code="<%= quiz.getCode() %>">삭제</button> 
 							</td> 
 						</tr> 
 							<% 
