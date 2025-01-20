@@ -1,4 +1,3 @@
-<%@page import="user.model.User"%>
 <%@page import="java.sql.Date"%>
 <%@page import="user.model.UserRequestDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -10,33 +9,32 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/style/globals.css">
 <script type="module" src="/resources/script/validation-login.js"></script>
-<title>회원탈퇴</title>
+<title>관리자 로그인</title>
 </head>
 <c:import url="/header" />
 <body>
 
 	<main>
 		<c:import url="/rank" />
-		
 		<section id="content">
 			<div class="content-container">
-				<h2>회원탈퇴</h2>
-				<form id="form" method="POST" action="/service/users">
-				<input type="hidden" name="command" value="delete">
+				<h2>관리자 로그인</h2>
+				<form id="form" method="POST" action="/service/admin">
+				<input type="hidden" name="command" value="login">
 					<div>
-						<input type="text" id="code" name="code" placeholder="아이디" value="${log.userCode}" disabled>
+						<input type="text" id="code" name="code" placeholder="아이디">
 						<input type="password" id="password" name="password" placeholder="비밀번호">
 					</div>
 					<ul class="error-msg-group">
+						<li id="error-msg-code-empty" class="error-msg">아이디: 필수정보입니다.</li>
 						<li id="error-msg-password-empty" class="error-msg">비밀번호: 필수정보입니다.</li>
 						<li id="error-msg-password-pattern" class="error-msg">비밀번호: 유효하지 않은 값입니다.</li>
 					</ul>
 
-					<input type="submit" value="회원탈퇴">
+					<input type="submit" value="로그인">
 				</form>
 			</div>
 		</section>
-		
 		<c:import url="/noticelist" />
 	</main>
 

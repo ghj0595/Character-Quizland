@@ -100,6 +100,36 @@
 	<url-pattern>/mypage</url-pattern>  
   </servlet-mapping> 
   
+  <servlet>
+  	<servlet-name>game</servlet-name>
+  	<jsp-file>/views/quiz/gameForm.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>game</servlet-name>
+	<url-pattern>/game</url-pattern>  
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>gameResult</servlet-name>
+  	<jsp-file>/views/quiz/gameResult.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>gameResult</servlet-name>
+	<url-pattern>/result</url-pattern>  
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>totalResult</servlet-name>
+  	<jsp-file>/views/quiz/totalResult.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>totalResult</servlet-name>
+	<url-pattern>/total</url-pattern>  
+  </servlet-mapping>
+  
    <servlet>
   	<servlet-name>notice</servlet-name>
   	<jsp-file>/views/module/notice.jsp</jsp-file>
@@ -158,6 +188,16 @@
   <servlet-mapping>
   	<servlet-name>noticeWrite</servlet-name>
 	<url-pattern>/notice</url-pattern>  
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>loginAdmin</servlet-name>
+  	<jsp-file>/views/admin/loginAdmin.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>loginAdmin</servlet-name>
+	<url-pattern>/loginAdmin</url-pattern>  
   </servlet-mapping>
     
   <error-page>

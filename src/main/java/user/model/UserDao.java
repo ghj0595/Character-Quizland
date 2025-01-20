@@ -19,7 +19,7 @@ public class UserDao {
 	private ResultSet rs;
 
 	private UserDao() {
-		
+
 	}
 
 	private static UserDao instance = new UserDao();
@@ -89,6 +89,43 @@ public class UserDao {
 		}
 		return list;
 	}
+	
+	public ArrayList<User> findUserRank() {
+	    ArrayList<User> list = new ArrayList<>();
+
+	    conn = DBManager.getConnection();
+
+	    if (conn != null) {
+	        String sql = "SELECT * FROM users ORDER BY best_score DESC LIMIT 10";
+
+	        try {
+	            pstmt = conn.prepareStatement(sql);
+	            rs = pstmt.executeQuery();
+
+	            while (rs.next()) {
+	                String userCode = rs.getString(1);
+	                String password = rs.getString(2);
+	                String name = rs.getString(3);
+	                int bestScore = rs.getInt(4);
+	                int status = rs.getInt(5);
+	                Timestamp closeDate = rs.getTimestamp(6);
+	                String managerCode = rs.getString(7);
+	                Timestamp regDate = rs.getTimestamp(8);
+	                Timestamp modDate = rs.getTimestamp(9);
+
+	                User user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate, modDate);
+	                list.add(user);
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            DBManager.close(conn, pstmt, rs);
+	        }
+	    }
+	    return list;
+	}
+
 
 	public User findUserByCode(String userCode) {
 		User user = null;
@@ -113,8 +150,7 @@ public class UserDao {
 				Timestamp regDate = rs.getTimestamp(8);
 				Timestamp modDate = rs.getTimestamp(9);
 
-				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate,
-						modDate);
+				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate, modDate);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -123,7 +159,7 @@ public class UserDao {
 		}
 		return user;
 	}
-	
+
 	public User findUserByName(String name) {
 		User user = null;
 
@@ -147,8 +183,7 @@ public class UserDao {
 				Timestamp regDate = rs.getTimestamp(8);
 				Timestamp modDate = rs.getTimestamp(9);
 
-				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate,
-						modDate);
+				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate, modDate);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -210,4 +245,88 @@ public class UserDao {
 			}
 		}
 	}
+
+	public double calculateAverageScore(String userCode) {
+		double averageScore = 0;
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT AVG(score) AS average_score FROM solve WHERE user_code=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userCode);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				averageScore = rs.getDouble("average_score");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return averageScore;
+	}
+
+	public int calculateGameCount(String userCode) {
+		int gameCount = 0;
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT COUNT(*) AS game_count FROM solve WHERE user_code=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userCode);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				gameCount = rs.getInt("game_count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return gameCount;
+	}
+
+	public void updateUserStatus(String userCode, int status) {
+		conn = DBManager.getConnection();
+
+		String sql = "UPDATE users SET status=? WHERE code=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, status);
+			pstmt.setString(2, userCode);
+
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt);
+		}
+	}
+
+	public void updateUserCloseDate(String userCode, Timestamp closeDate) {
+		conn = DBManager.getConnection();
+
+		String sql = "UPDATE users SET status=?, close_date=? WHERE code=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, 2); 
+			pstmt.setTimestamp(2, closeDate);
+			pstmt.setString(3, userCode);
+
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt);
+		}
+	}
+
 }

@@ -5,6 +5,11 @@ public class QuizResponseDto {
 	private int type;
 	private int contentId;
 	private int peopleId;
+	private String contentLink;
+	private String peopleLink;
+	private int count;
+	private double averageScore;
+	private double averageTimer;
 	
 	public QuizResponseDto() {
 	}
@@ -47,4 +52,44 @@ public class QuizResponseDto {
 	public void setPeopleId(int peopleId) {
 		this.peopleId = peopleId;
 	}
+
+	public String getContentLink() {
+		return contentLink;
+	}
+
+	public void setContentLink(String contentLink) {
+		this.contentLink = contentLink;
+	}
+
+	public String getPeopleLink() {
+		return peopleLink;
+	}
+
+	public void setPeopleLink(String peopleLink) {
+		this.peopleLink = peopleLink;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public double getAverageScore() {
+		return averageScore;
+	}
+
+	public void setAverageScore(double averageScore) {
+		this.averageScore = averageScore;
+	}
+
+	public double getAverageTimer() {
+		return averageTimer;
+	}
+
+	public void setAverageTimer(double correctRate) {
+		this.averageTimer = correctRate;
+	}		
 }

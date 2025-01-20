@@ -7,21 +7,28 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/style/globals.css">
 <link rel="stylesheet" href="/resources/style/game.css">
+<script src="/resources/script/game-create.js"></script>
 <title>Game</title>
 </head>
+<c:if test="${empty quizNumber}">
+	<c:set var="quizNumber" value="1"/>
+</c:if>
+<c:if test="${empty quizSize}">
+	<c:set var="quizSize" value="10"/>
+</c:if>
+
 <body>
 	<c:import url="/header" />
 	<main>
 		<c:import url="/rank" />
 		<section id="content">
 			<form method="POST" action="/quiz/{quizNo}">
+				<input type="hidden" name="user_code" value="${log}">
 				<input type="hidden" name="quiz_number" value="${quizNumber}">
 				<input type="hidden" name="quiz_size" value="${quizSize}">
 				<input type="hidden" name="quiz_code" value="quiz_code">
-				<input type="hidden" name="answer_number" value="answer_number">
 				<input type="hidden" name="score" value="${score}">
 				<input type="hidden" name="timer" value="${timer}">
-				<input type="hidden" name="solve_codes" value="solve_codes">
 				<div class="flexible-text" id="quiz-num">Quiz ${quizNumber} / ${quizSize}</div>
 				<img id="quiz-poster" alt="오징어 게임" src="https://image.tmdb.org/t/p/w342/caq0z9C2vvKdDhGe1EX6nerswV5.jpg">
 				<div class="flexible-text text-center" id="quiz-question">해당 작품의 ${characterName}을(를) 연기한 배우를 선택하세요.(${score}점)</div>
