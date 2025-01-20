@@ -193,13 +193,13 @@ public class SolveDao {
 				double suspiciousRate= rs.getDouble(7);
 
 				JSONObject info=new JSONObject();
-				info.append("code", code);
-				info.append("name", name);
-				info.append("best_score", bestScore);
-				info.append("avg_timer", avgTimer);
-				info.append("total_count", totalCount);
-				info.append("suspicious_count", suspiciousCount);
-				info.append("suspicious_rate", suspiciousRate);
+				info.put("code", code);
+				info.put("name", name);
+				info.put("best_score", bestScore);
+				info.put("avg_timer", avgTimer);
+				info.put("total_count", totalCount);
+				info.put("suspicious_count", suspiciousCount);
+				info.put("suspicious_rate", suspiciousRate);
 				list.put(info);
 			}
 		} catch (SQLException e) {
@@ -219,7 +219,7 @@ public class SolveDao {
 
 		conn = DBManager.getConnection();
  
-		String sql = "SELECT q.code,q.type,q.content_id,q.people_id,COUNT(*), SUM(s.score)/COUNT(*) as score, SUM(s.timer)/COUNT(*)/1000 FROM  quiz q JOIN solve s ON q.code=s.quiz_code GROUP BY q.code ORDER BY score ASC LIMIT ? OFFSET ?";
+		String sql = "SELECT q.code,q.type,q.content_id,q.people_id,COUNT(*), SUM(s.score)/COUNT(*) as score, SUM(s.timer)/COUNT(*)/1000  FROM  quiz q JOIN solve s ON q.code=s.quiz_code GROUP BY q.code ORDER BY score ASC LIMIT ? OFFSET ?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -238,13 +238,13 @@ public class SolveDao {
 				double avgTimer= rs.getDouble(7);
 
 				JSONObject info=new JSONObject();
-				info.append("code", code);
-				info.append("type", type);
-				info.append("content_id", contentId);
-				info.append("people_id", peopleId);
-				info.append("total_count", totalCount);
-				info.append("average_score", avgScore);
-				info.append("average_timer", avgTimer);
+				info.put("code", code);
+				info.put("type", type);
+				info.put("content_id", contentId);
+				info.put("people_id", peopleId);
+				info.put("total_count", totalCount);
+				info.put("average_score", avgScore);
+				info.put("average_timer", avgTimer);
 				list.put(info);
 			}
 		} catch (SQLException e) {

@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import solve.model.SolveDao;
 import util.DBManager;
 
 public class QuizDao {
@@ -28,7 +32,6 @@ public class QuizDao {
 
 		conn = DBManager.getConnection();
 
-		
 		if (conn != null) {
 			try {
 				String sql = "INSERT INTO quiz(type, content_id, people_id) VALUES(?, ?, ?)";
@@ -38,8 +41,8 @@ public class QuizDao {
 				pstmt.setInt(2, quizDto.getContentId());
 				pstmt.setInt(3, quizDto.getPeopleId());
 				pstmt.execute();
-				
-				quiz = findQuizByTypeContent(quizDto.getType(),quizDto.getContentId());
+
+				quiz = findQuizByTypeContent(quizDto.getType(), quizDto.getContentId());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
@@ -91,10 +94,16 @@ public class QuizDao {
 				int type = rs.getInt(2);
 				int contentId = rs.getInt(3);
 				int peopleId = rs.getInt(4);
+				String contentLink = "https://api.themoviedb.org/3/movie/" + contentId;
+				String peopleLink = "https://api.themoviedb.org/3/person/" + peopleId;
 
 				QuizResponseDto quizDto = new QuizResponseDto(code, type, contentId, peopleId);
+				quizDto.setContentLink(contentLink);
+				quizDto.setPeopleLink(peopleLink);
+				
 				list.add(quizDto);
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -130,7 +139,7 @@ public class QuizDao {
 		}
 		return quiz;
 	}
-	
+
 	public QuizResponseDto findQuizByTypeContent(int type, int contentId) {
 		QuizResponseDto quiz = null;
 
@@ -182,7 +191,7 @@ public class QuizDao {
 		}
 		return code;
 	}
-	
+
 	public QuizResponseDto updateQuiz(int code, QuizRequestDto quizDto) {
 		QuizResponseDto quiz = null;
 

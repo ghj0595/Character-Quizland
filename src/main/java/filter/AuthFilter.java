@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter("/*")
 public class AuthFilter extends HttpFilter implements Filter {
 	private static final long serialVersionUID = 1L;
 
@@ -68,7 +67,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 		if (session == null || session.getAttribute("log") == null) {
 			res.sendRedirect("/login");
 			return;
-		}
+		}	
 
 		chain.doFilter(request, response);
 	}
