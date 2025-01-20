@@ -1,13 +1,27 @@
-const fetchMakeGameData = async(num,size) => {
-	let data = new Object();
-	data.quiz_number=num;
-	data.quiz_size=size;
-	let list = new Array();
-	data.solve_codes=list;
+const fetchMakeQuizCode = async(num,size) => {
+	let user = sessionStorage.getItem('log');
+	console.log(user);
+	let userCode = "test";
+	if(user!==null){
+		userCode=user.userCode;
+		console.log(userCode);		
+	}
+	
+	let data = {
+	    quiz_number: num,
+	    quiz_size: size,
+	    solve_codes: []
+	};
+		
+	let list = sessionStorage.getItem('solves');
+	if (list) {
+	    data.solve_codes = JSON.parse(list);
+	}
 	
 	const response = await fetch(`/service/quiz?command=create`,{
 		method: 'POST',
 		headers: {
+			'Authorization' : userCode,
 		    'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(data)
@@ -19,8 +33,7 @@ const fetchMakeGameData = async(num,size) => {
 
 
 window.onload = async () => {
-	let gameData = await fetchMakeGameData(1,10);
+	const listContainer = document.getElementById("list-container");
+	let gameData = await fetchMakeQuizCode(1,10);
 	console.log(gameData);
-	
-	
 };
