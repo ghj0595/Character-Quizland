@@ -1,6 +1,7 @@
 package controller;
 
 import admin.action.LoginAdminAction;
+import admin.action.LogoutAdminAction;
 import quiz.action.*;
 import user.action.*;
 import util.HttpMethod;
@@ -80,6 +81,8 @@ public class ActionFactory {
 		
 		if(command.equals("login") && method == HttpMethod.POST)
 			return new LoginAdminAction();
+		else if(command.equals("logout") && method == HttpMethod.GET)
+			return new LogoutAdminAction();
 		
 		return action;
 	}
