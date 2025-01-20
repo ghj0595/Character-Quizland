@@ -37,6 +37,11 @@ public class Notice {
 			this.modDate = modDate;
 		}
 
+		public Notice(int code, String title) {
+			this.code = code;
+			this.title = title;
+		}
+
 		public int getCode() {
 			return code;
 		}

@@ -89,6 +89,43 @@ public class UserDao {
 		}
 		return list;
 	}
+	
+	public ArrayList<User> findUserRank() {
+	    ArrayList<User> list = new ArrayList<>();
+
+	    conn = DBManager.getConnection();
+
+	    if (conn != null) {
+	        String sql = "SELECT * FROM users ORDER BY best_score DESC LIMIT 10";
+
+	        try {
+	            pstmt = conn.prepareStatement(sql);
+	            rs = pstmt.executeQuery();
+
+	            while (rs.next()) {
+	                String userCode = rs.getString(1);
+	                String password = rs.getString(2);
+	                String name = rs.getString(3);
+	                int bestScore = rs.getInt(4);
+	                int status = rs.getInt(5);
+	                Timestamp closeDate = rs.getTimestamp(6);
+	                String managerCode = rs.getString(7);
+	                Timestamp regDate = rs.getTimestamp(8);
+	                Timestamp modDate = rs.getTimestamp(9);
+
+	                User user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate, modDate);
+	                list.add(user);
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            DBManager.close(conn, pstmt, rs);
+	        }
+	    }
+	    return list;
+	}
+
 
 	public User findUserByCode(String userCode) {
 		User user = null;
