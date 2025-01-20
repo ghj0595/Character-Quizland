@@ -5,7 +5,7 @@ window.onload = () => {
 	}
 	
 	document.getElementById("btn-quiz").onclick = function(){
-		location.href = '/quizzes';
+		location.href = '/QuizListAction';
 	}
 	
 	document.getElementById("btn-notice").onclick = function(){

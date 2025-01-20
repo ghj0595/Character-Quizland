@@ -39,30 +39,19 @@
 						</tr>
 					</thead>
 					<tbody>
-						<% 
-							SolveDao solveDao = SolveDao.getInstance(); 
-							JSONArray quizList = solveDao.findQuizSolveAll(1); 
-							
-							for (int i = 0; i < quizList.length(); i++) { 
-								JSONObject obj = quizList.getJSONObject(i);
-								
-								String typeString = obj.getInt("type") == 0 ? "movie" : "tv";
-						%> 
-						<tr> 
-							<td><%= obj.getInt("code") %></td> 
-							<td><%= typeString %></td> 
-							<td><a href="https://themoviedb.org/<%=typeString%>/<%= obj.getInt("content_id")%>" target="_blank"><%= obj.getInt("content_id") %></a></td> 
-							<td><a href="https://themoviedb.org/person/<%= obj.getInt("people_id")%>" target="_blank"><%= obj.getInt("people_id") %></a></td> 
-							<td><%= obj.getInt("total_count") %></td>
-							<td><%= obj.getDouble("average_score") %></td>
-							<td><%= obj.getDouble("average_timer") %></td>
-							<td> 
-								<button class="btn-delete" data-quiz-code="<%= obj.getInt("code") %>">삭제</button> 
-							</td> 
-						</tr> 
-							<% 
-								} 
-							%>
+						<c:forEach var="quiz" items="${quizList}"> 
+							<c:set var="typeString" value="${quiz.type == 0 ? 'movie' : 'tv'}" /> 
+							<tr> 
+								<td>${quiz.code}</td> 
+								<td>${typeString}</td> 
+								<td><a href="https://themoviedb.org/${typeString}/${quiz.content_id}" target="_blank">${quiz.content_id}</a></td> 
+								<td><a href="https://themoviedb.org/person/${quiz.people_id}" target="_blank">${quiz.people_id}</a></td> 
+								<td>${quiz.total_count}</td> 
+								<td>${quiz.average_score}</td> 
+								<td>${quiz.average_timer}</td> 
+								<td> <button class="btn-delete" data-quiz-code="${quiz.code}">삭제</button> </td> 
+							</tr> 
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
