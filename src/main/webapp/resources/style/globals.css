@@ -129,20 +129,46 @@ header .btn input:hover {
     display: none; 
 } 
 
+#content { 
+	display: flex; 
+	min-height: 75vh; 
+	margin-top: 20px; 
+	justify-content: center; 
+	align-items: center; 
+	flex: 4;
+}
+
 .content-container { 
-    background-color: #ffffff; 
-    padding: 100px; 
-    border-radius: 5px; 
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
-    text-align: center;
-    flex: 2; 
+	background-color: #ffffff; 
+	padding: 40px; 
+	border-radius: 5px; 
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+	text-align: center; 
+}
+
+#btn-start { 
+	background-color: #007bff; 
+	color: white; 
+	border: none; 
+	padding: 20px 40px;
+	font-size: 24px; 
+	border-radius: 10px; 
+	cursor: pointer; 
+	transition: background-color 0.3s ease;
+}
+
+#btn-start:hover { 
+	background-color: #0056b3; 
 } 
 
 form { 
     margin-top: 20px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 } 
 
-input[type="text"], input[type="password"], input[type="submit"] { 
+input[type="text"], input[type="password"], input[type="submit"],#btn-logout,#btn-delete { 
     display: block; 
     width: 100%; 
     padding: 10px 15px; 
@@ -151,16 +177,26 @@ input[type="text"], input[type="password"], input[type="submit"] {
     border-radius: 5px; 
 } 
 
+#btn-logout,#btn-delete,
 input[type="submit"] { 
     background-color: #007bff; 
     color: white; 
     border: none; 
-    cursor: pointer; 
+    cursor: pointer;  
 } 
 
-input[type="submit"]:hover { 
+input[type="submit"]:hover, #btn-logout:hover, #btn-delete:hover { 
     background-color: #0056b3; 
 } 
+
+
+.total-game, .best-score, .avg-score, .total-score { 
+	display: block; 
+	margin-top: 10px; 
+	font-size: 16px; 
+	color: #333;
+	 
+}
 
 footer {
     background: #343a40;

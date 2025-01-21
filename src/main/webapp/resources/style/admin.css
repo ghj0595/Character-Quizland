@@ -91,6 +91,7 @@ header .btn input:hover {
 }
 
 #table-content {
+	flex: 4;
     background: #ffffff;
     width: 46vw;
     padding: 10px;
@@ -133,7 +134,7 @@ footer {
 }
 
 #user-content {
-	flex: 3;
+	flex: 4;
 	background: #ffffff;
 	padding: 20px;
 }
