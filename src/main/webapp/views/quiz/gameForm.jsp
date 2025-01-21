@@ -10,34 +10,47 @@
 <script src="/resources/script/game-create.js"></script>
 <title>Game</title>
 </head>
-<c:if test="${empty quizNumber}">
-	<c:set var="quizNumber" value="1"/>
-</c:if>
+<c:choose>
+	<c:when test="${empty quizNumber}">
+		<c:set var="quizNumber" value="1" scope = "session" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="quizNumber" value="${quizNumber+1}"/>
+	</c:otherwise>
+</c:choose>
 <c:if test="${empty quizSize}">
 	<c:set var="quizSize" value="10"/>
 </c:if>
-
+<c:if test="${empty solve_codes}">
+	<c:set var="solve_codes" value="[]"/>
+</c:if>
+<c:if test="${empty score}">
+	<c:set var="score" value="10"/>
+</c:if>
+<c:if test="${empty timer}">
+	<c:set var="timer" value="20"/>
+</c:if>
 <body>
 	<c:import url="/header" />
 	<main>
 		<c:import url="/rank" />
 		<section id="content">
-			<form method="POST" action="/quiz/{quizNo}">
-				<input type="hidden" name="user_code" value="${log}">
+			<form id="game-form" method="POST">
 				<input type="hidden" name="quiz_number" value="${quizNumber}">
 				<input type="hidden" name="quiz_size" value="${quizSize}">
-				<input type="hidden" name="quiz_code" value="quiz_code">
-				<input type="hidden" name="score" value="${score}">
-				<input type="hidden" name="timer" value="${timer}">
+				<input id="quiz_code" type="hidden" name="quiz_code" value="${quizCode}">
+				<input id="score" type="hidden" name="score" value="${score}">
+				<input id="timer" type="hidden" name="timer" value="${timer}">
+				<input id="solve_codes" type="hidden" name="solve_codes" value="${solve_codes}">
 				<div class="flexible-text" id="quiz-num">Quiz ${quizNumber} / ${quizSize}</div>
-				<img id="quiz-poster" alt="오징어 게임" src="https://image.tmdb.org/t/p/w342/caq0z9C2vvKdDhGe1EX6nerswV5.jpg">
+				<img id="quiz-poster">
 				<div class="flexible-text text-center" id="quiz-question">해당 작품의 ${characterName}을(를) 연기한 배우를 선택하세요.(${score}점)</div>
-				<div class="flexible-text text-center" id="quiz-timer">남은시간 : ${timer}초</div>
+				<div class="flexible-text text-center" id="quiz-timer">남은시간 : <span id="view-timer"></span>초</div>
 				<div id="quiz-answers">
-					<button class="answer" id="answer1"><img class="answer-image" id="answer-image1" alt="이정재" src="https://image.tmdb.org/t/p/w185/3h5Cfm0X8ohWn7psZkqdNWqXAHH.jpg"></button>
-					<button class="answer" id="answer2"><img class="answer-image" id="answer-image2" alt="이병헌" src="https://image.tmdb.org/t/p/w185/pY4pwYO8qwtzvuzpzRczDACDiVA.jpg"></button>
-					<button class="answer" id="answer3"><img class="answer-image" id="answer-image3" alt="임시완" src="https://image.tmdb.org/t/p/w185/tEZuIaMESdBw4LfNq3vshGR4VlP.jpg"></button>
-					<button class="answer" id="answer4"><img class="answer-image" id="answer-image4" alt="위하준" src="https://image.tmdb.org/t/p/w185/9V9H2mzk9XLMVPr0HtZHPCbM0Q2.jpg"></button>
+					<button class="answer"><img class="answer-image"></button>
+					<button class="answer"><img class="answer-image"></button>
+					<button class="answer"><img class="answer-image"></button>
+					<button class="answer"><img class="answer-image"></button>
 				</div>			
 			</form>	
 		</section>
