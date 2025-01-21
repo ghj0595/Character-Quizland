@@ -26,6 +26,7 @@ const fetchResult = async(data) => {
 
 
 window.onload = async () => {
+	const loading = document.getElementById('loading');	
 	const form = document.getElementById('game-form');
 	
 	const formData = new FormData(form);
@@ -39,6 +40,7 @@ window.onload = async () => {
 		else
 			jsonData[key] = value;
 	});
+	form.style.display="none";
 	
 	let quizData = await fetchData(jsonData);
 
@@ -66,16 +68,6 @@ window.onload = async () => {
 		images[i].src=quizData.options[i]
 	}
 	
-	let remainingTime = 20
-	let countdown = setInterval(()=>{
-		if(remainingTime > 0){
-			remainingTime-=0.01;
-			timer.value = remainingTime;
-			viewTimer.innerText = remainingTime.toFixed(2);
-		}else{
-			clearInterval(timer);
-		}
-	},10);
 	const character = quizData.character_name;
 	
 	const questionText = (character, score ) =>{
@@ -84,21 +76,29 @@ window.onload = async () => {
 	
 	questionText(character,score.value);
 	
+	let isCalled=false;
+	
+	const fetchCall = async ()=>{
+		if(!isCalled){
+			const resultData = new FormData(form);
+	
+			const reqData = {};
+			resultData.forEach((value, key) => {
+				if(key==="solve_codes")
+					reqData[key] = JSON.parse(value);
+				else
+					reqData[key] = value;
+			});
+			isCalled=true;
+			await fetchResult(reqData);
+		}
+	};
+	
 	const buttons=document.getElementsByClassName('answer');
 	for (let i = 0; i < buttons.length; i++) {
 		if(i===quizData.answer_number){
 			buttons[i].addEventListener("click", async (e) => {
-				const resultData = new FormData(form);
-	
-				const reqData = {};
-				resultData.forEach((value, key) => {
-					if(key==="solve_codes")
-						reqData[key] = JSON.parse(value);
-					else
-						reqData[key] = value;
-				});
-	
-				await fetchResult(reqData);
+				fetchCall();
 			});
 		}else{
 			buttons[i].addEventListener("click", e => {
@@ -112,4 +112,19 @@ window.onload = async () => {
 	form.addEventListener("submit", e => {
 	    e.preventDefault();
 	});
+	
+	loading.style.display="none";
+	form.style.display="";
+	let remainingTime = 20
+	let countdown = setInterval(async ()=>{
+		if(remainingTime > 0){
+			remainingTime-=0.01;
+			timer.value = remainingTime;
+			viewTimer.innerText = remainingTime.toFixed(2);
+		}else{
+			clearInterval(timer);
+			fetchCall();
+		}
+	},10);
+	countdown;
 };

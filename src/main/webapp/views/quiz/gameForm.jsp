@@ -10,22 +10,19 @@
 <script src="/resources/script/game-create.js"></script>
 <title>Game</title>
 </head>
-
-<c:if test="${empty solve_codes}">
-	<c:set var="solve_codes" value="[]" scope = "session"/>
-</c:if>
 <body>
 	<c:import url="/header" />
 	<main>
 		<c:import url="/rank" />
 		<section id="content">
+			<div id="loading">Loading....</div>
 			<form id="game-form" method="POST">
 				<input id="quiz_number" type="hidden" name="quiz_number" value="1">
 				<input id="quiz_size" type="hidden" name="quiz_size" value="10">
 				<input id="quiz_code" type="hidden" name="quiz_code" value="${quizCode}">
 				<input id="score" type="hidden" name="score" value="10">
 				<input id="timer" type="hidden" name="timer" value="20">
-				<input id="solve_codes" type="hidden" name="solve_codes" value="${solve_codes}">
+				<input id="solve_codes" type="hidden" name="solve_codes" value="${empty solve_codes?[]:solve_codes}">
 				<div class="flexible-text" id="quiz-num">Quiz ${quizNumber} / ${quizSize}</div>
 				<img id="quiz-poster">
 				<div class="flexible-text text-center" id="quiz-question">해당 작품의 ${characterName}을(를) 연기한 배우를 선택하세요.(${score}점)</div>

@@ -29,6 +29,7 @@
 				<div class="content-text" id="person-name"><a href="https://www.themoviedb.org/person/73249">이정재</a></div>
 			</div>		
 			<div class="flexible-text text-center" id="quiz-score">현재 점수 : ${totalScore}점</div>
+			<button onclick="location.href='/game'">다음 문제</button>
 		</section>
 		<c:import url="/noticelist" />
 	</main>

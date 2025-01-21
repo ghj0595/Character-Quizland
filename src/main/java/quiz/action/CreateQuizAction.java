@@ -75,8 +75,10 @@ public class CreateQuizAction implements Action{
 
 			int code=0;
 			QuizResponseDto resQuiz=null;
-			
+			int count=0;
 			while(true) {
+				count++;
+				System.out.println(count);
 				if(quizSize >= 10) {
 					int reusePer = Math.min(quizSize, 1000);
 					int rNum=ran.nextInt(1500);

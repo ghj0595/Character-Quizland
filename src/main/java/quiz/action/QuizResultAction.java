@@ -9,6 +9,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import board.action.RequestDispatcher;
 import controller.Action;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,14 +18,15 @@ import jakarta.servlet.http.HttpSession;
 import quiz.model.QuizDao;
 import quiz.model.QuizResponseDto;
 import solve.model.SolveDao;
+import solve.model.SolveRequestDto;
 import solve.model.SolveResponseDto;
 import user.model.User;
+import user.model.UserDao;
 
 public class QuizResultAction implements Action{
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("QuizResultAction");
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("log");
 		if(user == null) {
@@ -43,9 +45,7 @@ public class QuizResultAction implements Action{
 		JSONObject reqData = new JSONObject(builder.toString());
 		JSONObject resData = new JSONObject();
 		
-		System.out.println(reqData);
-		
-		if(userCode.isEmpty() || !reqData.has("quiz_number") || !reqData.has("quiz_size") ) {
+		if(userCode.isEmpty() || !reqData.has("quiz_number") || !reqData.has("quiz_size") || !reqData.has("score") || !reqData.has("timer") || !reqData.has("solve_codes") ) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			resData.put("status", HttpServletResponse.SC_BAD_REQUEST);
 			resData.put("error", "BAD REQUEST");
@@ -54,6 +54,9 @@ public class QuizResultAction implements Action{
 		}else {
 			int number = reqData.getInt("quiz_number");
 			int size = reqData.getInt("quiz_size");
+			int curScore = reqData.getInt("score");
+			double sec = reqData.getDouble("timer");
+			int timer=(int) (sec * 1000);
 			JSONArray solveCodes = reqData.getJSONArray("solve_codes");
 			List<Object> solves=solveCodes.toList();
 			int solveCode = (int) solves.get(solves.size()-1);
@@ -61,19 +64,49 @@ public class QuizResultAction implements Action{
 			SolveDao solveDao = SolveDao.getInstance();
 			QuizDao quizDao = QuizDao.getInstance();
 			SolveResponseDto solve = solveDao.findSolveByCode(solveCode);
+			
+			SolveRequestDto reqSolve = new SolveRequestDto(curScore,timer);
+			solveDao.updateSolve(solveCode, reqSolve);
+			
 			QuizResponseDto quiz=quizDao.findQuizByCode(solve.getQuizCode());
 			
-			JSONObject content= TMDBApiManager.getContent(quiz.getType(), quiz.getContentId());
-			content.append("type", quiz.getType());
-			content.append("poster_path", "https://image.tmdb.org/t/p/w342"+content.get("poster_path"));
-			JSONObject people= TMDBApiManager.getPeople(quiz.getPeopleId());
-			JSONObject score= new JSONObject();
 			
 			resData.put("status", HttpServletResponse.SC_OK);
+			
+			JSONObject content= TMDBApiManager.getContent(quiz.getType(), quiz.getContentId());
+			content.put("type", quiz.getType());
+			content.put("poster_path", "https://image.tmdb.org/t/p/w342"+content.get("poster_path"));
+			content.put("content_path", "https://image.tmdb.org/t/p/w342"+content.get("poster_path"));
+
+			JSONObject people= TMDBApiManager.getPeople(quiz.getPeopleId());
+			people.put("profile_path", "https://image.tmdb.org/t/p/w342"+content.get("poster_path"));
+			people.put("people_path", "https://image.tmdb.org/t/p/w342"+content.get("poster_path"));
+
+			JSONObject score= new JSONObject();
+			score.put("score", curScore);
+			int totalScore = 0;
+			for(Object s : solves) {
+				SolveResponseDto curSolve = solveDao.findSolveByCode((int)s);
+				totalScore +=curSolve.getScore();
+			}
+			score.put("total_score", totalScore);
+			if(number==size) {
+				UserDao userdao= UserDao.getInstance(); 
+				int rank = userdao.getRankByScore(totalScore);
+				double per = userdao.getPerByScore(totalScore);
+				score.put("rank", rank);
+				score.put("percentage", per);
+			}
+			
 			resData.put("content", content);
 			resData.put("people", people);
 			resData.put("score", score);
 			resData.put("solve_codes", solveCodes);
+			
+			session.setAttribute("result", resData.toString());
+			System.out.println(resData);
+
+			response.sendRedirect("/result");
 		}
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
@@ -81,5 +114,6 @@ public class QuizResultAction implements Action{
 		PrintWriter out = response.getWriter();
 		out.append(resData.toString());
 		out.flush();
+		
 	}
 }
