@@ -19,7 +19,7 @@
 
 <body>
 	<c:import url="/header" />
-	<main>
+	<main class="main-container">
 		<c:import url="/rank" />
 		<section id="content">
 			<form method="POST" action="/quiz/{quizNo}">
