@@ -20,7 +20,7 @@ public class DeleteQuiz extends HttpServlet {
 		QuizDao quizDao = QuizDao.getInstance();
 		quizDao.deleteQuizByCode(code);
 		
-		response.sendRedirect("/quizzes");
+		response.sendRedirect("/QuizListAction");
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
