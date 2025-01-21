@@ -50,6 +50,7 @@ footer{
 	margin-bottom: 5px;
 }
 
+.notice-list,
 .rank-list {
     list-style-type: none;
     padding-left: 5px;    

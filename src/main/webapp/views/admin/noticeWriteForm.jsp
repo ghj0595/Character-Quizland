@@ -2,7 +2,7 @@
 <%@page import="notice.model.NoticeResponseDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
 <%
 String codeParam = request.getParameter("code");
 NoticeResponseDto notice = null;
@@ -46,13 +46,22 @@ if (codeParam != null && !codeParam.isEmpty()) {
         <label for="end-date">만료일</label>
         <input type="date" id="end-date" name="endDate" value="<%= (notice != null) ? notice.getFormattedCloseDate() : "" %>" ><br>
 		
+		<c:if test="${not empty admin }">
 		<div class="btn-container"> 
 			<button type="submit" class="btn-submit"><%= isEditMode ? "수정" : "작성" %></button> 
 			<% if (isEditMode) { %> 
 				<button type="button" class="btn-notice-delete">삭제</button> 
 			<% } else { %> 
 				<button type="button" class="btn-cancel" onclick="location.href='/list'">취소</button> 
-			<% } %> </div>
+			<% } %> 
+		</div>
+		</c:if>
+		
+		<c:if test="${not empty log }">
+		<div class="btn-container"> 				
+			<button type="button" class="btn-cancel" onclick="location.href='/'">홈으로</button> 
+		</div>
+		</c:if>
     </form>
 </main>
 </body>
