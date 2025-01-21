@@ -63,11 +63,31 @@ header .btn input:hover {
     margin-top: 20px;
 }
 
-#rank {
-    background: #f8d7da;
-    flex: 1;
-    padding: 10px;
-    border-right: 2px solid #dee2e6;
+#rank { 
+	background: #f8d7da; 
+	flex: 1; 
+	padding: 20px; 
+	border-right: 2px solid #dee2e6; 
+	overflow: auto; 
+} 
+
+.rank-title {
+	color: #343a40; 
+	font-size: 20px; 
+	margin-bottom: 10px; 
+	text-align: center; 
+} 
+
+.rank-list { 
+	list-style-type: none; 
+}
+
+.rank-list li { 
+	background-color: #ffffff; 
+	margin-bottom: 5px; 
+	padding: 10px; 
+	border-radius: 5px; 
+	border: 1px solid #dddddd; 
 }
 
 #table-content {
@@ -76,11 +96,31 @@ header .btn input:hover {
     padding: 10px;
 }
 
-#notice {
-    background: #d4edda;
-    flex: 1;
-    padding: 10px;
-    border-left: 2px solid #dee2e6;
+#notice { 
+	background: #d4edda; 
+	flex: 1; 
+	padding: 20px; 
+	border-left: 2px solid #dee2e6; 
+	overflow: auto; 
+}
+
+.notice-title { 
+	color: #343a40; 
+	font-size: 20px; 
+	margin-bottom: 10px; 
+	text-align: center; 
+}
+
+.notice-list { 
+	list-style-type: none; 
+}
+
+.notice-list li { 
+	background-color: #ffffff; 
+	margin-bottom: 5px; 
+	padding: 10px; 
+	border-radius: 5px; 
+	border: 1px solid #dddddd; 
 }
 
 footer {
