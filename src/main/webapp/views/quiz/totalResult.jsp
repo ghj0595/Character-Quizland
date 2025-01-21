@@ -18,6 +18,8 @@
 			<div class="flexible-text text-center" id="total-score">총 점수 : ${score}점</div>
 			<div class="flexible-text text-center" id="current-rank">현재 점수의 순위 : ${rank}위</div>
 			<div class="flexible-text text-center" id="current-per">상위 ${per}%입니다.</div>
+			
+			<button onclick="location.href='/game'">재시작</button>
 		</section>
 		<c:import url="/noticelist" />
 	</main>

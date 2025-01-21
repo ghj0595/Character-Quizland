@@ -63,24 +63,65 @@ header .btn input:hover {
     margin-top: 20px;
 }
 
-#rank {
-    background: #f8d7da;
-    flex: 1;
-    padding: 10px;
-    border-right: 2px solid #dee2e6;
+#rank { 
+	background: #eaf4fc; 
+	flex: 1; 
+	padding: 20px; 
+	border-right: 2px solid #dee2e6; 
+	overflow: auto; 
+} 
+
+.rank-title {
+	color: #343a40; 
+	font-size: 20px; 
+	margin-bottom: 10px; 
+	text-align: center; 
+} 
+
+.rank-list { 
+	list-style-type: none; 
+}
+
+.rank-list li { 
+	background-color: #ffffff; 
+	margin-bottom: 5px; 
+	padding: 10px; 
+	border-radius: 5px; 
+	border: 1px solid #dddddd; 
 }
 
 #table-content {
-    background: #e2e3e5;
+	flex: 4;
+    background: #ffffff;
     width: 46vw;
     padding: 10px;
 }
 
-#notice {
-    background: #d4edda;
-    flex: 1;
-    padding: 10px;
-    border-left: 2px solid #dee2e6;
+#notice { 
+	background: #f9fceb; 
+	flex: 1; 
+	padding: 20px; 
+	border-left: 2px solid #dee2e6; 
+	overflow: auto; 
+}
+
+.notice-title { 
+	color: #343a40; 
+	font-size: 20px; 
+	margin-bottom: 10px; 
+	text-align: center; 
+}
+
+.notice-list { 
+	list-style-type: none; 
+}
+
+.notice-list li { 
+	background-color: #ffffff; 
+	margin-bottom: 5px; 
+	padding: 10px; 
+	border-radius: 5px; 
+	border: 1px solid #dddddd; 
 }
 
 footer {
@@ -93,8 +134,8 @@ footer {
 }
 
 #user-content {
-	flex: 3;
-	background: #e2e3e5;
+	flex: 4;
+	background: #ffffff;
 	padding: 20px;
 }
 
@@ -263,4 +304,29 @@ textarea {
 
 .btn-cancel:hover, .btn-notice-delete:hover {
     background-color: #c82333;
+}
+
+.button-container { 
+	display: flex; 
+	flex-direction: column;	
+	align-items: center;
+	margin: 20px 0; 
+	padding: 20px 10px; 
+	background-color: #ffffff; 
+}
+
+.button { 
+	background-color: #007bff; 
+	color: white; 
+	border: none; 
+	padding: 20px 40px; 
+	margin-bottom: 60px;
+	border-radius: 5px; 
+	cursor: pointer; 
+	font-size: 16px; 
+	transition: background-color 0.3s ease; 
+}
+
+.button:hover { 
+	background-color: #0056b3; 
 }

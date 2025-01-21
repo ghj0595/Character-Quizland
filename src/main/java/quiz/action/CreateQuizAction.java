@@ -11,8 +11,6 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.mysql.cj.xdevapi.JsonArray;
-
 import controller.Action;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,16 +22,21 @@ import quiz.model.QuizResponseDto;
 import solve.model.SolveDao;
 import solve.model.SolveRequestDto;
 import solve.model.SolveResponseDto;
+import user.model.User;
 
 
 public class CreateQuizAction implements Action{
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String user = request.getHeader("Authorization");
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("log");
+		if(user == null) {
+			response.sendRedirect("/login");
+			return;
+		}
 		
-		System.out.println("CreateQuizAction");
-		System.out.println(user);
+		String userCode=user.getUserCode();
 		
 		StringBuilder builder = new StringBuilder(); 
 		BufferedReader reader =  request.getReader();
@@ -44,8 +47,7 @@ public class CreateQuizAction implements Action{
 		JSONObject reqData = new JSONObject(builder.toString());
 		JSONObject resData = new JSONObject();
 
-		System.out.println(reqData);
-		if(user==null || user.isEmpty() || !reqData.has("quiz_number") || !reqData.has("quiz_size") ) {
+		if(userCode.isEmpty() || !reqData.has("quiz_number") || !reqData.has("quiz_size") ) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			resData.put("status", HttpServletResponse.SC_BAD_REQUEST);
 			resData.put("error", "BAD REQUEST");
@@ -60,24 +62,23 @@ public class CreateQuizAction implements Action{
 			
 			QuizDao quizDao = QuizDao.getInstance();
 			int quizSize=quizDao.getTotalSize();
-			System.out.println("no"+number);
-			System.out.println("size"+size);
-			System.out.println("DAOSIZE"+quizSize);
 
 			SolveDao solveDao = SolveDao.getInstance();
 			List<Object> solves=solveCodes.toList();
 			ArrayList<Integer> quizCodes= new ArrayList<>();
 			
 			for (Object i : solves) {
-				SolveResponseDto solve = solveDao.findSolveByCode((Integer) i);
+				SolveResponseDto solve = solveDao.findSolveByCode((int) i);
 				if(solve!=null)
 					quizCodes.add(solve.getQuizCode());
 			}
 
-			Integer code=0;
-			
-			
+			int code=0;
+			QuizResponseDto resQuiz=null;
+			int count=0;
 			while(true) {
+				count++;
+				System.out.println(count);
 				if(quizSize >= 10) {
 					int reusePer = Math.min(quizSize, 1000);
 					int rNum=ran.nextInt(1500);
@@ -85,50 +86,87 @@ public class CreateQuizAction implements Action{
 					if(rNum<reusePer) {
 						rNum=ran.nextInt(quizSize);
 						code=quizDao.findQuizcodeByIndex(rNum);
-						System.out.println("reUse : " + code);
+						resQuiz=quizDao.findQuizByCode(code);
 					}
-				}else {
+				}
+				if(resQuiz == null){
 					int type=ran.nextInt(2);
 					
-					int contentId = TMDBApiManager.getRandomPopularContent(type);
+					int contentId = TMDBApiManager.getRandomContentID(type);
+					JSONArray castChk = TMDBApiManager.getCast(type, contentId);
+					int profileNum = 0;
+
+					for(int i=0;i<castChk.length();i++) {
+						if(castChk.getJSONObject(i).get("profile_path")!=null)
+							profileNum++;
+					}
 					
-					QuizResponseDto resQuiz = quizDao.findQuizByTypeContent(type, contentId);
-					if(resQuiz ==null) {
+					resQuiz = quizDao.findQuizByTypeContent(type, contentId);
+					if(profileNum>=4 && resQuiz == null) {
 						int peopleId= TMDBApiManager.getPeopleID(type, contentId);
 						
 						QuizRequestDto reqQuiz= new QuizRequestDto(type,contentId,peopleId); 
 						quizDao.createQuiz(reqQuiz);
 						
 						resQuiz = quizDao.findQuizByTypeContent(type, contentId);
-						System.out.println(resQuiz);
 					}
 					if(resQuiz !=null)
 						code=resQuiz.getCode();
-					System.out.println("make : " + code);
 				}
 				if(code>0 && !quizCodes.contains(code)) {
-					System.out.println("result " + code);
 					break;
 				}
 			}
 			
-			System.out.println(code);
-			System.out.println(quizCodes);
-			System.out.println(quizCodes.contains(code));
-			
-			SolveRequestDto reqSolve=new SolveRequestDto(user,code,0,20000);
+			SolveRequestDto reqSolve=new SolveRequestDto(userCode,code,0,20000);
 			solveDao.createSolve(reqSolve);
+			SolveResponseDto resSolve= solveDao.findLatestSolveByUser(userCode);
 			
-			//퀴즈 생성 또는 추출후 부여
-			SolveResponseDto resSolve= solveDao.findLatestSolveByUser(user);
 			if(resSolve!=null)
 				solves.add(resSolve.getCode());
+			
+			JSONArray cast = TMDBApiManager.getCast(resQuiz.getType(), resQuiz.getContentId());
+			int castSize= cast.length();
 
+			ArrayList<Integer> optIds =new ArrayList<>();
+			optIds.add(resQuiz.getPeopleId());
+
+			for(int i=0;i<3;i++) {
+				int rNum = ran.nextInt(castSize);
+				JSONObject people= cast.getJSONObject(rNum);
+
+				int id= people.getInt("id");
+				if(optIds.contains(id) || people.isNull("profile_path"))
+					i--;
+				else
+					optIds.add(id);
+			}
+
+			for(int i=0;i<20;i++) {
+				int rNum = ran.nextInt(optIds.size());
+				int tmp =optIds.get(0);
+				optIds.set(0, optIds.get(rNum));
+				optIds.set(rNum, tmp);
+			}
+			
+			ArrayList<String> optPath = new ArrayList<>();
+			for(int id: optIds) {
+				JSONObject people= TMDBApiManager.getPeople(id);
+				String path="https://image.tmdb.org/t/p/w185"+people.get("profile_path");
+				optPath.add(path);
+			}
+			JSONObject content = TMDBApiManager.getContent(resQuiz.getType(), resQuiz.getContentId());
+			JSONObject firstCast= cast.getJSONObject(0);
+			
+			String posterPath = "https://image.tmdb.org/t/p/w342"+content.get("poster_path"); 
 			resData.put("status", HttpServletResponse.SC_CREATED);
 			resData.put("message","퀴즈 생성이 완료되었습니다.");
 			resData.put("quiz_code", code);
 			resData.put("solve_codes", solves);
-
+			resData.put("poster_path", posterPath);
+			resData.put("character_name", firstCast.get("character"));
+			resData.put("answer_number", optIds.indexOf(resQuiz.getPeopleId()));
+			resData.put("options", optPath);
 		}
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");

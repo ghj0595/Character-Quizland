@@ -329,4 +329,51 @@ public class UserDao {
 		}
 	}
 
+	public int getRankByScore(int Score) {
+		int rank = 9999;
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT COUNT(best_score) + 1 AS rank FROM users WHERE best_score > ?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Score); 
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				rank = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt);
+		}
+		
+		return rank;
+	}
+	
+	public double getPerByScore(int Score) {
+		double per = 100;
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT (COUNT(CASE WHEN best_score > ? THEN 0 END) + 1) * 100.0 / COUNT(*) AS per FROM users";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Score); 
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				per = rs.getDouble(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt);
+		}
+		
+		return per;
+	}
 }
