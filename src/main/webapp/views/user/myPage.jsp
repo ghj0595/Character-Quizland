@@ -13,7 +13,7 @@
 <c:import url="/header" />
 <body>
 
-	<main>
+	<main class="main-container">
 		<c:import url="/rank" />
 		
 		<section id="content">
@@ -33,8 +33,8 @@
 					</ul>
 					<div id="btn-group">
 						<input type="submit" value="수정">
-						<input type="button" value="로그아웃" onclick="location.href='/service/users?command=logout'">
-						<input type="button" value="탈퇴" onclick="location.href='/delete'">
+						<input type="button" id="btn-logout" value="로그아웃" onclick="location.href='/service/users?command=logout'">
+						<input type="button" id="btn-delete" value="탈퇴" onclick="location.href='/delete'">
 					</div>
 				</form>
 		

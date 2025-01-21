@@ -1,33 +1,111 @@
-@charset "UTF-8";
+@charset "UTF-8"; 
 
-* {
-	padding: 0;
-	margin: 0;
+* { 
+    padding: 0; 
+    margin: 0; 
+    box-sizing: border-box; 
+} 
+
+body { 
+    font-family: Arial, sans-serif; 
+    background-color: #f8f9fa; 
+    width: 90vw; 
+    max-width: 1280px; 
+    margin: 0 auto; 
+} 
+
+header { 
+    background: #343a40; 
+    color: white; 
+    padding: 10px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    position: relative; 
+} 
+
+header .logo { 
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    text-align: center; 
+} 
+
+header .logo h1 a { 
+    color: white; 
+    text-decoration: none; 
+    font-size: 24px; 
+} 
+
+header .btn { 
+    margin-left: auto; 
+} 
+
+header .btn input { 
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    margin: 10px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 14px; 
+    transition: background-color 0.3s ease; 
+} 
+
+header .btn input:hover { 
+    background-color: #0056b3; 
+} 
+
+.main-container { 
+	display: flex; 
+	min-height: 75vh; 
+	margin-top: 20px;
+	justify-content: space-between; 
 }
 
-header{
-	background:red;
-	height : 20vh;
+#rank { 
+    background: #eaf4fc; 
+    flex: 1; 
+    padding: 20px; 
+    border-right: 2px solid #dee2e6; 
+    overflow: auto;
+} 
+
+.rank-title {
+    color: #343a40; 
+    font-size: 20px; 
+    margin-bottom: 10px; 
+    text-align: center; 
+} 
+
+.rank-list { 
+    list-style-type: none; 
 }
 
-body{
-	margin:0 auto;
-	width : 70vw;
+.rank-list li { 
+    background-color: #ffffff; 
+    margin-bottom: 5px; 
+    padding: 10px; 
+    border-radius: 5px; 
+    border: 1px solid #dddddd; 
 }
 
-main{
-	display:flex;
-	min-height : 75vh;
-}
-#rank{
-	background:pink;
-	width : 12vw;
+#notice { 
+    background: #f9fceb; 
+    flex: 1; 
+    padding: 20px; 
+    border-left: 2px solid #dee2e6; 
+    overflow: auto;
 }
 
-#content{
-	background:gray;
-	width : 46vw;
-}
+.notice-title {
+    color: #343a40; 
+    font-size: 20px; 
+    margin-bottom: 10px; 
+    text-align: center; 
+} 
+
 
 #notice{
 	background:green;
@@ -53,5 +131,101 @@ footer{
 .notice-list,
 .rank-list {
     list-style-type: none;
-    padding-left: 5px;    
+}
+
+.notice-list li {
+    background-color: #ffffff;
+    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #dddddd;
+}
+
+.error-msg-group { 
+    list-style: none; 
+    margin: 10px 0; 
+    color: red; 
+    font-size: 14px; 
+} 
+
+.error-msg { 
+    display: none; 
+} 
+
+#content { 
+	display: flex; 
+	min-height: 75vh; 
+	margin-top: 20px; 
+	justify-content: center; 
+	align-items: center; 
+	flex: 4;
+}
+
+.content-container { 
+	background-color: #ffffff; 
+	padding: 40px; 
+	border-radius: 5px; 
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+	text-align: center; 
+}
+
+#btn-start { 
+	background-color: #007bff; 
+	color: white; 
+	border: none; 
+	padding: 20px 40px;
+	font-size: 24px; 
+	border-radius: 10px; 
+	cursor: pointer; 
+	transition: background-color 0.3s ease;
+}
+
+#btn-start:hover { 
+	background-color: #0056b3; 
+} 
+
+form { 
+    margin-top: 20px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} 
+
+input[type="text"], input[type="password"], input[type="submit"],#btn-logout,#btn-delete { 
+    display: block; 
+    width: 100%; 
+    padding: 10px 15px; 
+    margin-top: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+} 
+
+#btn-logout,#btn-delete,
+input[type="submit"] { 
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    cursor: pointer;  
+} 
+
+input[type="submit"]:hover, #btn-logout:hover, #btn-delete:hover { 
+    background-color: #0056b3; 
+} 
+
+
+.total-game, .best-score, .avg-score, .total-score { 
+	display: block; 
+	margin-top: 10px; 
+	font-size: 16px; 
+	color: #333;
+	 
+}
+
+footer {
+    background: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    height: 5vh;
+    margin-top: 20px;
 }

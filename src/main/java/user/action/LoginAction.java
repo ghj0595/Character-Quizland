@@ -12,24 +12,20 @@ import user.model.UserDao;
 
 public class LoginAction implements Action {
 
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String code = request.getParameter("code");
-		String password = request.getParameter("password");
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String code = request.getParameter("code");
+        String password = request.getParameter("password");
 
-		UserDao userDao = UserDao.getInstance();
-		User user = userDao.findUserByCode(code);
+        UserDao userDao = UserDao.getInstance();
+        User user = userDao.findUserByCode(code);
 
-		String url = "";
-
-		if(user != null && user.checkPassword(password)) {
-			HttpSession session = request.getSession();
-			session.setAttribute("log", user);
-			url = "/";
-		} else {
-			url = "/login";
-		}
-
-		response.sendRedirect(url);
-	}
-
+        if (user != null && user.checkPassword(password)) {
+            HttpSession session = request.getSession();
+            session.setAttribute("log", user);
+            response.sendRedirect("/");
+        } else {
+            request.setAttribute("loginError", "아이디 또는 비밀번호가 틀렸습니다.");
+            request.getRequestDispatcher("/login").forward(request, response);
+        }
+    }
 }

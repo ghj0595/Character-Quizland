@@ -12,7 +12,7 @@
 </head>
 <body>
 	<c:import url="/header" />
-	<main>
+	<main class="main-container">
 		<c:import url="/rank" />
 		<section id="content">
 			<div id="loading">Loading....</div>
