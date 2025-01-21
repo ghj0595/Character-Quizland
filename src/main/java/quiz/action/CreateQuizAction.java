@@ -167,6 +167,8 @@ public class CreateQuizAction implements Action{
 			resData.put("character_name", firstCast.get("character"));
 			resData.put("answer_number", optIds.indexOf(resQuiz.getPeopleId()));
 			resData.put("options", optPath);
+			
+			System.out.println(resData);
 		}
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
