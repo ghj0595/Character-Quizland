@@ -17,6 +17,7 @@ import user.model.UserDao;
 import java.io.IOException;
 import java.util.ArrayList;
 
+@WebFilter("/*")
 public class AuthFilter extends HttpFilter implements Filter {
 	private static final long serialVersionUID = 1L;
 
@@ -85,14 +86,11 @@ public class AuthFilter extends HttpFilter implements Filter {
 		}
 		
 		if (uri.equals("/notice")) {
-			if (session.getAttribute("log") != null) {
-				res.sendRedirect("/");
-				return;
-			}else if (session.getAttribute("admin") == null) {
-				res.sendRedirect("/loginAdmin");
-				return;
-			}else {
+			if (session.getAttribute("log") != null || session.getAttribute("admin") != null) {
 				chain.doFilter(request, response);
+				return;
+			} else {
+				res.sendRedirect("/");
 				return;
 			}
 		}
@@ -148,7 +146,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 		if (session.getAttribute("log") == null) {
 			res.sendRedirect("/login");
 			return;
-		}	
+		}
 
 		chain.doFilter(request, response);
 	}
