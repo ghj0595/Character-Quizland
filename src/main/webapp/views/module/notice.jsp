@@ -6,7 +6,7 @@
 <body>
 	<section id="notice">
 		<h1>NOTICE</h1>
-		<ul>
+		<ul class="notice-list">
 			<c:forEach var="notice" items="${noticeList}">
 				<li>${notice.code}. Title: ${notice.title}</li>
 			</c:forEach>
