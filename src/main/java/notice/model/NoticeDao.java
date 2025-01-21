@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -158,16 +157,13 @@ public class NoticeDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		Timestamp now = new Timestamp(System.currentTimeMillis());
-
-		String sql = "SELECT code, title FROM notice WHERE res_date <= ? AND close_date >= ?";
+		String sql = "SELECT code, title FROM notice WHERE status=?";
 
 		try {
 			conn = DBManager.getConnection();
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setTimestamp(1, now);
-			pstmt.setTimestamp(2, now);
+			pstmt.setInt(1, 1);
 
 			rs = pstmt.executeQuery();
 
