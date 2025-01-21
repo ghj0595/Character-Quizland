@@ -60,6 +60,11 @@
     object-fit: cover;
 }
 
+.answer-image:disabled {
+     opacity: 0.5;
+     cursor: not-allowed;
+}
+
 #quiz-result_title{
 	font-size: calc((4vw + 4vh) / 2);
 	padding: calc((1vw + 1vh) / 2);

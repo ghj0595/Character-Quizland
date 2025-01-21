@@ -11,8 +11,6 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.mysql.cj.xdevapi.JsonArray;
-
 import controller.Action;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,13 +31,13 @@ public class CreateQuizAction implements Action{
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("log");
+		if(user == null) {
+			response.sendRedirect("/login");
+			return;
+		}
+		
 		String userCode=user.getUserCode();
 		
-		
-		System.out.println("CreateQuizAction");
-		System.out.println(user);
-		System.out.println(session.getAttribute("quizNumber"));
-
 		StringBuilder builder = new StringBuilder(); 
 		BufferedReader reader =  request.getReader();
 		while(reader.ready()) {
@@ -47,13 +45,9 @@ public class CreateQuizAction implements Action{
 		}
 		
 		JSONObject reqData = new JSONObject(builder.toString());
-		
-		System.out.println(reqData);
-		
 		JSONObject resData = new JSONObject();
 
-		System.out.println(reqData);
-		if(userCode==null || userCode.isEmpty() || !reqData.has("quiz_number") || !reqData.has("quiz_size") ) {
+		if(userCode.isEmpty() || !reqData.has("quiz_number") || !reqData.has("quiz_size") ) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			resData.put("status", HttpServletResponse.SC_BAD_REQUEST);
 			resData.put("error", "BAD REQUEST");
@@ -68,9 +62,6 @@ public class CreateQuizAction implements Action{
 			
 			QuizDao quizDao = QuizDao.getInstance();
 			int quizSize=quizDao.getTotalSize();
-			System.out.println("no"+number);
-			System.out.println("size"+size);
-			System.out.println("DAOSIZE"+quizSize);
 
 			SolveDao solveDao = SolveDao.getInstance();
 			List<Object> solves=solveCodes.toList();
@@ -95,109 +86,85 @@ public class CreateQuizAction implements Action{
 						code=quizDao.findQuizcodeByIndex(rNum);
 						resQuiz=quizDao.findQuizByCode(code);
 					}
-				}else {
+				}
+				if(resQuiz == null){
 					int type=ran.nextInt(2);
 					
 					int contentId = TMDBApiManager.getRandomContentID(type);
+					JSONArray castChk = TMDBApiManager.getCast(type, contentId);
+					int profileNum = 0;
+
+					for(int i=0;i<castChk.length();i++) {
+						if(castChk.getJSONObject(i).get("profile_path")!=null)
+							profileNum++;
+					}
 					
 					resQuiz = quizDao.findQuizByTypeContent(type, contentId);
-					if(resQuiz ==null) {
+					if(profileNum>=4 && resQuiz == null) {
 						int peopleId= TMDBApiManager.getPeopleID(type, contentId);
 						
 						QuizRequestDto reqQuiz= new QuizRequestDto(type,contentId,peopleId); 
 						quizDao.createQuiz(reqQuiz);
 						
 						resQuiz = quizDao.findQuizByTypeContent(type, contentId);
-						System.out.println(resQuiz);
 					}
 					if(resQuiz !=null)
 						code=resQuiz.getCode();
-					System.out.println("make : " + code);
 				}
 				if(code>0 && !quizCodes.contains(code)) {
-					System.out.println("result " + code);
 					break;
 				}
 			}
-
-			System.out.println(code);
-			System.out.println(quizCodes);
-			System.out.println(quizCodes.contains(code));
 			
 			SolveRequestDto reqSolve=new SolveRequestDto(userCode,code,0,20000);
 			solveDao.createSolve(reqSolve);
-			System.out.println(reqSolve);
-			
-			//퀴즈 생성 또는 추출후 부여
 			SolveResponseDto resSolve= solveDao.findLatestSolveByUser(userCode);
-			System.out.println(resSolve);
 			
 			if(resSolve!=null)
 				solves.add(resSolve.getCode());
 			
 			JSONArray cast = TMDBApiManager.getCast(resQuiz.getType(), resQuiz.getContentId());
-			System.out.println("result");
-			System.out.println(resQuiz.getType());
-			System.out.println(resQuiz.getContentId());
-			System.out.println(cast);
 			int castSize= cast.length();
-			System.out.println(castSize);
-			if(castSize>3) {
-				ArrayList<Integer> optIds =new ArrayList<>();
-				optIds.add(resQuiz.getPeopleId());
-				System.out.println(optIds);
 
-				for(int i=0;i<3;i++) {
-					int rNum = ran.nextInt(castSize);
-					JSONObject people= cast.getJSONObject(rNum);
-					System.out.println(people);
+			ArrayList<Integer> optIds =new ArrayList<>();
+			optIds.add(resQuiz.getPeopleId());
 
-					int id= people.getInt("id");
-					System.out.println(id);
-					if(optIds.contains(id))
-						i--;
-					else
-						optIds.add(id);
-				}
-				System.out.println(optIds);
-				for(int i=0;i<20;i++) {
-					int rNum = ran.nextInt(optIds.size());
-					int tmp =optIds.get(0);
-					System.out.println("랜덤" + rNum);
-					System.out.println(optIds.get(0));
-					optIds.set(0, optIds.get(rNum));
-					System.out.println(optIds.get(rNum));
-					optIds.set(rNum, tmp);
-				}
-				System.out.println(optIds);
-				
-				ArrayList<String> optPath = new ArrayList<>();
-				for(int id: optIds) {
-					JSONObject people= TMDBApiManager.getPeople(id);
-					String path="https://image.tmdb.org/t/p/w185"+people.get("profile_path");
-					optPath.add(path);
-				}
-				System.out.println(optPath);
-				JSONObject content = TMDBApiManager.getContent(resQuiz.getType(), resQuiz.getContentId());
-				JSONObject firstCast= cast.getJSONObject(0);
-				
-				String posterPath = "https://image.tmdb.org/t/p/w342"+content.get("poster_path"); 
-				System.out.println(posterPath);
-				resData.put("status", HttpServletResponse.SC_CREATED);
-				resData.put("message","퀴즈 생성이 완료되었습니다.");
-				resData.put("quiz_code", code);
-				resData.put("solve_codes", solves);
-				resData.put("poster_path", posterPath);
-				resData.put("character_name", firstCast.get("character"));
-				resData.put("answer_number", optIds.indexOf(resQuiz.getPeopleId()));
-				resData.put("options", optPath);
-			}else {
-				response.setStatus(HttpServletResponse.SC_CONFLICT);
-				resData.put("status", HttpServletResponse.SC_CONFLICT);
-				resData.put("error", "CONFLICT");
-				resData.put("message","캐스팅인원이 모자름");
-				resData.put("timestamp",new Timestamp(System.currentTimeMillis()));
+			for(int i=0;i<3;i++) {
+				int rNum = ran.nextInt(castSize);
+				JSONObject people= cast.getJSONObject(rNum);
+
+				int id= people.getInt("id");
+				if(optIds.contains(id) || people.isNull("profile_path"))
+					i--;
+				else
+					optIds.add(id);
 			}
+
+			for(int i=0;i<20;i++) {
+				int rNum = ran.nextInt(optIds.size());
+				int tmp =optIds.get(0);
+				optIds.set(0, optIds.get(rNum));
+				optIds.set(rNum, tmp);
+			}
+			
+			ArrayList<String> optPath = new ArrayList<>();
+			for(int id: optIds) {
+				JSONObject people= TMDBApiManager.getPeople(id);
+				String path="https://image.tmdb.org/t/p/w185"+people.get("profile_path");
+				optPath.add(path);
+			}
+			JSONObject content = TMDBApiManager.getContent(resQuiz.getType(), resQuiz.getContentId());
+			JSONObject firstCast= cast.getJSONObject(0);
+			
+			String posterPath = "https://image.tmdb.org/t/p/w342"+content.get("poster_path"); 
+			resData.put("status", HttpServletResponse.SC_CREATED);
+			resData.put("message","퀴즈 생성이 완료되었습니다.");
+			resData.put("quiz_code", code);
+			resData.put("solve_codes", solves);
+			resData.put("poster_path", posterPath);
+			resData.put("character_name", firstCast.get("character"));
+			resData.put("answer_number", optIds.indexOf(resQuiz.getPeopleId()));
+			resData.put("options", optPath);
 		}
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
