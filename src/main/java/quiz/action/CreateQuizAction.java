@@ -32,9 +32,26 @@ public class CreateQuizAction implements Action{
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("log");
+		
 		if(user == null) {
 			response.sendRedirect("/login");
 			return;
+		}
+
+		int size = 10;
+		if(session.getAttribute("quizSize")!=null) {
+			try {
+				size = (int)session.getAttribute("quizSize");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else {
+			session.setAttribute("quizSize", size);
+		}
+		
+		JSONArray solveCodes= new JSONArray();
+		if(session.getAttribute("solveCodes")!=null) {
+			solveCodes = new JSONArray(session.getAttribute("solveCodes").toString());
 		}
 		
 		String userCode=user.getUserCode();
@@ -48,7 +65,7 @@ public class CreateQuizAction implements Action{
 		JSONObject reqData = new JSONObject(builder.toString());
 		JSONObject resData = new JSONObject();
 
-		if(userCode.isEmpty() || !reqData.has("quiz_number") || !reqData.has("quiz_size") ) {
+		if(userCode.isEmpty() || !reqData.has("quiz_size") || !reqData.has("solve_codes") || !reqData.has("timer") ) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			resData.put("status", HttpServletResponse.SC_BAD_REQUEST);
 			resData.put("error", "BAD REQUEST");
@@ -56,9 +73,7 @@ public class CreateQuizAction implements Action{
 			resData.put("timestamp",new Timestamp(System.currentTimeMillis()));
 		}else {
 			Random ran = new Random();
-
-			JSONArray solveCodes = reqData.getJSONArray("solve_codes");
-			System.out.println(solveCodes);
+			
 			QuizDao quizDao = QuizDao.getInstance();
 			int quizSize=quizDao.getTotalSize();
 
@@ -120,7 +135,8 @@ public class CreateQuizAction implements Action{
 
 			if(resSolve!=null)
 				solves.add(resSolve.getCode());
-			session.setAttribute("solve_codes", solves);
+			session.setAttribute("solveCodes", solves);
+
 			
 			JSONArray cast = TMDBApiManager.getCast(resQuiz.getType(), resQuiz.getContentId());
 			int castSize= cast.length();
@@ -169,12 +185,9 @@ public class CreateQuizAction implements Action{
 			resData.put("character_name", cast.getJSONObject(0).get("character"));
 			resData.put("answer_number", optIds.indexOf(resQuiz.getPeopleId()));
 			resData.put("options", optPath);
-			
-			System.out.println(resData);
 		}
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		
 		
 		PrintWriter out = response.getWriter();
 		out.append(resData.toString());

@@ -32,35 +32,30 @@ window.onload = async () => {
 	const formData = new FormData(form);
 
 	const jsonData = {};
-	
 	formData.forEach((value, key) => {
-		if(key==="solve_codes"){
-			jsonData[key] = JSON.parse(value);
-		}
-		else
 			jsonData[key] = value;
 	});
 	
 	let quizData = await fetchData(jsonData);
 
-	const quizNumber = document.getElementById('quiz_number');		
-	const quizSize = document.getElementById('quiz_size');		
-	const quizCode = document.getElementById('quiz_code');	
-	const score = document.getElementById('score');	
-	const timer = document.getElementById('timer');	
+	const quizSize = document.getElementById('quiz_size');
 	const solveCodes = document.getElementById('solve_codes');
+	const quizCode = document.getElementById('quiz_code');	
+	const score = document.getElementById('score');
+	const timer = document.getElementById('timer');
 
 	const viewNumber = document.getElementById('quiz-num');	
-	const viewTimer = document.getElementById('view-timer');	
-	
+
 	const poster=document.getElementById('quiz-poster');
+
 	const question=document.getElementById('quiz-question');
+	const viewTimer = document.getElementById('view-timer');
+	
 	const images=document.getElementsByClassName('answer-image');
 
-	quizNumber.value = quizData.solve_codes.length;
 	quizCode.value = quizData.quiz_code;
 	solveCodes.value = JSON.stringify(quizData.solve_codes);
-	viewNumber.innerText=`Quiz ${quizNumber.value} / ${quizSize.value}`;
+	viewNumber.innerText=`Quiz ${quizData.solve_codes.length} / ${quizSize.value}`;
 
 	poster.src= quizData.poster_path;
 	for (let i = 0; i < images.length; i++) {
