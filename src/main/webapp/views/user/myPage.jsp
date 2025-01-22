@@ -38,6 +38,7 @@
 				</form>
 		
 				<div>
+				<span class="total-game">--------------- 통계 ---------------</span>
 				<span class="total-game">총 게임 수: ${totalGame }</span>
 				<span class="best-score">최고 점수: ${log.bestScore }</span>
 				<span class="avg-score">평균 점수: ${avgScore }</span>

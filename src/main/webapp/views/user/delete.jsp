@@ -21,7 +21,7 @@
      </script>
 </c:if>
 
-	<main>
+	<main class="main-container">
 		<c:import url="/rank" />
 		
 		<section id="content">
