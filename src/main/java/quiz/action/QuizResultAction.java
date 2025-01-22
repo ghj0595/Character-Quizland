@@ -9,7 +9,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import board.action.RequestDispatcher;
 import controller.Action;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -104,16 +103,13 @@ public class QuizResultAction implements Action{
 			resData.put("solve_codes", solveCodes);
 			
 			session.setAttribute("result", resData.toString());
-			System.out.println(resData);
-
-			response.sendRedirect("/result");
 		}
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		
 		PrintWriter out = response.getWriter();
 		out.append(resData.toString());
 		out.flush();
-		
 	}
 }

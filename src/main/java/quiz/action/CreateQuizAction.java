@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -56,10 +57,8 @@ public class CreateQuizAction implements Action{
 		}else {
 			Random ran = new Random();
 
-			int number = reqData.getInt("quiz_number");
-			int size = reqData.getInt("quiz_size");
 			JSONArray solveCodes = reqData.getJSONArray("solve_codes");
-			
+			System.out.println(solveCodes);
 			QuizDao quizDao = QuizDao.getInstance();
 			int quizSize=quizDao.getTotalSize();
 
@@ -75,10 +74,7 @@ public class CreateQuizAction implements Action{
 
 			int code=0;
 			QuizResponseDto resQuiz=null;
-			int count=0;
 			while(true) {
-				count++;
-				System.out.println(count);
 				if(quizSize >= 10) {
 					int reusePer = Math.min(quizSize, 1000);
 					int rNum=ran.nextInt(1500);
@@ -92,23 +88,24 @@ public class CreateQuizAction implements Action{
 				if(resQuiz == null){
 					int type=ran.nextInt(2);
 					
-					int contentId = TMDBApiManager.getRandomContentID(type);
+					JSONObject content = TMDBApiManager.getRandomContent(type);
+					int contentId = content.getInt("id");
+					
 					JSONArray castChk = TMDBApiManager.getCast(type, contentId);
 					int profileNum = 0;
-
-					for(int i=0;i<castChk.length();i++) {
-						if(castChk.getJSONObject(i).get("profile_path")!=null)
-							profileNum++;
+					if(!castChk.isEmpty() && castChk.getJSONObject(0).get("character")!="" && 
+							castChk.getJSONObject(0).get("profile_path")!=null) {
+						for(int i=0;i<castChk.length();i++) {
+							if(castChk.getJSONObject(i).get("profile_path")!=null)
+								profileNum++;
+						}
 					}
-					
+
 					resQuiz = quizDao.findQuizByTypeContent(type, contentId);
-					if(profileNum>=4 && resQuiz == null) {
-						int peopleId= TMDBApiManager.getPeopleID(type, contentId);
-						
-						QuizRequestDto reqQuiz= new QuizRequestDto(type,contentId,peopleId); 
-						quizDao.createQuiz(reqQuiz);
-						
-						resQuiz = quizDao.findQuizByTypeContent(type, contentId);
+					if(content.get("poster_path")!=null && profileNum>=4 && resQuiz == null) {
+						int peopleId= castChk.getJSONObject(0).getInt("id");
+						QuizRequestDto reqQuiz= new QuizRequestDto(type,contentId,peopleId);
+						resQuiz = quizDao.createQuiz(reqQuiz);
 					}
 					if(resQuiz !=null)
 						code=resQuiz.getCode();
@@ -117,17 +114,24 @@ public class CreateQuizAction implements Action{
 					break;
 				}
 			}
-			
+
 			SolveRequestDto reqSolve=new SolveRequestDto(userCode,code,0,20000);
-			solveDao.createSolve(reqSolve);
-			SolveResponseDto resSolve= solveDao.findLatestSolveByUser(userCode);
-			
+			SolveResponseDto resSolve= solveDao.createSolve(reqSolve);
+
 			if(resSolve!=null)
 				solves.add(resSolve.getCode());
+			session.setAttribute("solve_codes", solves);
 			
 			JSONArray cast = TMDBApiManager.getCast(resQuiz.getType(), resQuiz.getContentId());
 			int castSize= cast.length();
 
+			HashMap<Integer,String> castPath= new HashMap<>();
+			for(int i=0;i<castSize;i++) {
+				JSONObject people= cast.getJSONObject(i);
+				if(!people.isNull("profile_path")) 
+					castPath.put(people.getInt("id"), (String) people.get("profile_path"));
+			}
+			
 			ArrayList<Integer> optIds =new ArrayList<>();
 			optIds.add(resQuiz.getPeopleId());
 
@@ -151,12 +155,10 @@ public class CreateQuizAction implements Action{
 			
 			ArrayList<String> optPath = new ArrayList<>();
 			for(int id: optIds) {
-				JSONObject people= TMDBApiManager.getPeople(id);
-				String path="https://image.tmdb.org/t/p/w185"+people.get("profile_path");
+				String path="https://image.tmdb.org/t/p/w185"+castPath.get(id);
 				optPath.add(path);
 			}
 			JSONObject content = TMDBApiManager.getContent(resQuiz.getType(), resQuiz.getContentId());
-			JSONObject firstCast= cast.getJSONObject(0);
 			
 			String posterPath = "https://image.tmdb.org/t/p/w342"+content.get("poster_path"); 
 			resData.put("status", HttpServletResponse.SC_CREATED);
@@ -164,7 +166,7 @@ public class CreateQuizAction implements Action{
 			resData.put("quiz_code", code);
 			resData.put("solve_codes", solves);
 			resData.put("poster_path", posterPath);
-			resData.put("character_name", firstCast.get("character"));
+			resData.put("character_name", cast.getJSONObject(0).get("character"));
 			resData.put("answer_number", optIds.indexOf(resQuiz.getPeopleId()));
 			resData.put("options", optPath);
 			

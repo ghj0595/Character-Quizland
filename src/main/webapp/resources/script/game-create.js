@@ -40,7 +40,6 @@ window.onload = async () => {
 		else
 			jsonData[key] = value;
 	});
-	form.style.display="none";
 	
 	let quizData = await fetchData(jsonData);
 
@@ -91,6 +90,7 @@ window.onload = async () => {
 			});
 			isCalled=true;
 			await fetchResult(reqData);
+			location.href="/result";
 		}
 	};
 	
@@ -117,7 +117,7 @@ window.onload = async () => {
 	form.style.display="";
 	let remainingTime = 20
 	let countdown = setInterval(async ()=>{
-		if(remainingTime > 0){
+		if(remainingTime >= 0.01){
 			remainingTime-=0.01;
 			timer.value = remainingTime;
 			viewTimer.innerText = remainingTime.toFixed(2);

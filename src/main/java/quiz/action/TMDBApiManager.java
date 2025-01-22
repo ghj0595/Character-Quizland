@@ -34,7 +34,6 @@ public class TMDBApiManager {
 
 		while (retryCount < maxRetries) {
 			try {
-				System.out.println("시도중?");
 				URL url = new URL(uri);
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
@@ -48,14 +47,12 @@ public class TMDBApiManager {
 				while (reader.ready()) {
 					builder.append(reader.readLine());
 				}
-				System.out.println("읽는중?");
 
 				reader.close();
 				conn.disconnect();
 				return new JSONObject(builder.toString());
 			} catch (Exception e) {
 				retryCount++;
-				System.out.println(retryCount);
 				if (retryCount >= maxRetries) {
 					e.printStackTrace();
 				}
@@ -65,11 +62,9 @@ public class TMDBApiManager {
 				} catch (InterruptedException ie) {
 					ie.printStackTrace();
 				}
-				System.out.println("진행?");
 				waitTime *= 2;
 			}
 		}
-		System.out.println("줬어?");
 		return new JSONObject();
 	}
 
