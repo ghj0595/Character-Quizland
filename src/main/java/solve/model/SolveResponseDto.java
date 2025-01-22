@@ -80,4 +80,10 @@ public class SolveResponseDto {
 	public void setModDate(Timestamp modDate) {
 		this.modDate = modDate;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return String.format("%d %s %d %d %d %s %s", code, userCode, quizCode, score, timer, regDate, modDate);
+	}
 }

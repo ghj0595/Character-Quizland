@@ -11,10 +11,10 @@
 </head>
 <body>
 	<c:import url="/header" />
-	<main>
+	<main class="main-container">
 		<c:import url="/rank" />
 		<section id="content">
-			<div class="flexible-text" id="quiz-num">Quiz ${quizNumber} / ${quizSize}</div>
+			<div class="flexible-title" id="quiz-num">Quiz ${quizNumber} / ${quizSize}</div>
 			<div class="text-center" id="quiz-result_title">정답화면</div>
 			<div class="flexible-text text-center" id="quiz-score">점수 : ${score}점</div>
 			<div class="result" id="quiz-content">

@@ -19,138 +19,129 @@ import java.util.ArrayList;
 
 @WebFilter("/*")
 public class AuthFilter extends HttpFilter implements Filter {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse res = (HttpServletResponse) response;
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
 
-		String uri = req.getRequestURI();
-		HttpSession session = req.getSession(false);
+        String uri = req.getRequestURI();
+        HttpSession session = req.getSession(false);
 
-		if (session == null) {
-			session = req.getSession(true);
-		}
+        if (session == null) {
+            session = req.getSession(true);
+        }
 
-		System.out.println("Requested URI: " + uri);
+        // Logging for debugging
+        System.out.println("Requested URI: " + uri);
 
-		UserDao userdao = UserDao.getInstance();
-		ArrayList<User> rankList = userdao.findUserRank();
-		session.setAttribute("rankList", rankList);
+        // Always update session attributes
+        updateSessionAttributes(session);
 
-		NoticeDao noticeDao = NoticeDao.getInstance();
-		ArrayList<Notice> noticeList = noticeDao.findActiveNotices();
-		session.setAttribute("noticeList", noticeList);
+        // Static resources
+        if (isStaticResource(uri)) {
+            chain.doFilter(request, response);
+            return;
+        }
 
-		if (uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".png") || uri.endsWith(".jpg")
-				|| uri.endsWith(".jpeg") || uri.endsWith(".gif") || uri.startsWith("/service")) {
-			chain.doFilter(request, response);
-			return;
-		}
+        // Authentication and Authorization logic
+        if (isLoginPage(uri)) {
+            handleLoginRedirect(session, res, chain, request, response);
+            return;
+        }
 
-		if (uri.equals("/login") || uri.equals("/loginAdmin")) {
-			if (session.getAttribute("log") != null) {
-				res.sendRedirect("/");
-				return;
-			} else if (session.getAttribute("admin") != null) {
-				res.sendRedirect("/manager");
-				return;
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		}
+        if (isJoinPage(uri)) {
+            handleJoinRedirect(session, res, chain, request, response);
+            return;
+        }
 
-		if (uri.equals("/join")) {
-			if (session.getAttribute("log") != null) {
-				res.sendRedirect("/service/users?command=view");
-				return;
-			} else if (session.getAttribute("admin") != null) {
-				res.sendRedirect("/manager");
-				return;
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		}
+        if (isRestrictedForUsers(uri)) {
+            if (session.getAttribute("log") == null) {
+                res.sendRedirect("/login");
+            } else {
+                chain.doFilter(request, response);
+            }
+            return;
+        }
 
-		if (uri.equals("/mypage")) {
-			if (session.getAttribute("log") == null) {
-				res.sendRedirect("/login");
-				return;
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		}
+        if (isRestrictedForAdmins(uri)) {
+            if (session.getAttribute("admin") == null) {
+                res.sendRedirect("/loginAdmin");
+            } else {
+                chain.doFilter(request, response);
+            }
+            return;
+        }
 
-		if (uri.equals("/notice")) {
-			if (session.getAttribute("log") != null || session.getAttribute("admin") != null) {
-				chain.doFilter(request, response);
-				return;
-			} else {
-				res.sendRedirect("/");
-				return;
-			}
-		}
+        if (uri.equals("/")) {
+            if (session.getAttribute("admin") != null) {
+                res.sendRedirect("/manager");
+            } else {
+                chain.doFilter(request, response);
+            }
+            return;
+        }
 
-		if (uri.equals("/manager")) {
-			if (session.getAttribute("log") != null) {
-				res.sendRedirect("/");
-				return;
-			} else if (session.getAttribute("admin") == null) {
-				res.sendRedirect("/loginAdmin");
-				return;
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		}
+        // Default case
+        chain.doFilter(request, response);
+    }
 
-		if (uri.equals("/QuizListAction")) {
-			if (session.getAttribute("log") != null) {
-				res.sendRedirect("/");
-				return;
-			} else if (session.getAttribute("admin") == null) {
-				res.sendRedirect("/loginAdmin");
-				return;
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		}
+    private void updateSessionAttributes(HttpSession session) {
+        UserDao userDao = UserDao.getInstance();
+        ArrayList<User> rankList = userDao.findUserRank();
+        session.setAttribute("rankList", rankList);
 
-		if (uri.equals("/quizzes") || uri.equals("/list") || uri.equals("/user")) {
-			if (session.getAttribute("admin") == null) {
-				res.sendRedirect("/loginAdmin");
-				return;
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		}
+        NoticeDao noticeDao = NoticeDao.getInstance();
+        ArrayList<Notice> noticeList = noticeDao.findActiveNotices();
+        session.setAttribute("noticeList", noticeList);
+    }
 
-		if (uri.equals("/game")) {
-			if (session.getAttribute("log") == null) {
-				res.sendRedirect("/login");
-				return;
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		}
+    private boolean isStaticResource(String uri) {
+        return uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".png") ||
+               uri.endsWith(".jpg") || uri.endsWith(".jpeg") || uri.endsWith(".gif") ||
+               uri.startsWith("/service");
+    }
 
-		if (uri.equals("/")) {
-			if (session.getAttribute("admin") != null) {
-				res.sendRedirect("/manager");
-				return;
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		}
+    private boolean isLoginPage(String uri) {
+        return uri.equals("/login") || uri.equals("/loginAdmin");
+    }
 
-		chain.doFilter(request, response);
-	}
+    private boolean isJoinPage(String uri) {
+        return uri.equals("/join");
+    }
+
+    private boolean isRestrictedForUsers(String uri) {
+        return uri.equals("/mypage") || uri.equals("/game");
+    }
+
+    private boolean isRestrictedForAdmins(String uri) {
+        return uri.equals("/manager") || uri.equals("/QuizListAction") ||
+               uri.equals("/quizzes") || uri.equals("/list") || uri.equals("/user");
+    }
+
+    private void handleLoginRedirect(HttpSession session, HttpServletResponse res,
+                                     FilterChain chain, ServletRequest request,
+                                     ServletResponse response) throws IOException, ServletException {
+        if (session.getAttribute("log") != null) {
+            res.sendRedirect("/");
+        } else if (session.getAttribute("admin") != null) {
+            res.sendRedirect("/manager");
+        } else {
+            chain.doFilter(request, response);
+        }
+    }
+
+    private void handleJoinRedirect(HttpSession session, HttpServletResponse res,
+                                    FilterChain chain, ServletRequest request,
+                                    ServletResponse response) throws IOException, ServletException {
+        if (session.getAttribute("log") != null) {
+            res.sendRedirect("/service/users?command=view");
+        } else if (session.getAttribute("admin") != null) {
+            res.sendRedirect("/manager");
+        } else {
+            chain.doFilter(request, response);
+        }
+    }
 }
