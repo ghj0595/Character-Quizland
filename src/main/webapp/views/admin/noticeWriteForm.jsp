@@ -57,7 +57,7 @@ if (codeParam != null && !codeParam.isEmpty()) {
 		</div>
 		</c:if>
 		
-		<c:if test="${not empty log }">
+		<c:if test="${empty admin }">
 		<div class="btn-container"> 				
 			<button type="button" class="btn-cancel" onclick="location.href='/'">홈으로</button> 
 		</div>
