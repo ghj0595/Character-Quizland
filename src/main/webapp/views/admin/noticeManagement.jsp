@@ -5,17 +5,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<%
-    NoticeDao noticeDao = NoticeDao.getInstance();
-    List<NoticeResponseDto> noticeList = noticeDao.readAllNotices();
-    pageContext.setAttribute("noticeList", noticeList);
-
-    if (noticeList != null) {
-        System.out.println("공지사항 목록 크기: " + noticeList.size());
-    } else {
-        System.out.println("공지사항 목록을 가져올 수 없습니다.");
-    }
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,6 +36,7 @@
                         <th>상태</th>
                     </tr>
                 </thead>
+                <c:set var="noticeList" value="${NoticeDao.getInstance().readAllNotices()}" />                
                 <tbody>
                     <c:forEach var="notice" items="${noticeList}">
                         <tr>
