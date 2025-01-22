@@ -180,7 +180,7 @@ form {
     align-items: center;
 } 
 
-input[type="text"], input[type="password"], input[type="submit"],#btn-logout,#btn-delete { 
+input[type="text"], input[type="password"], input[type="submit"],#btn-delete { 
     display: block; 
     width: 100%; 
     padding: 10px 15px; 
@@ -195,6 +195,7 @@ input[type="submit"] {
     color: white; 
     border: none; 
     cursor: pointer;  
+    margin: 5px;
 } 
 
 input[type="submit"]:hover, #btn-logout:hover, #btn-delete:hover { 
@@ -217,4 +218,9 @@ footer {
     padding: 10px 0;
     height: 5vh;
     margin-top: 20px;
+}
+
+#btn-group{
+	display: flex;
+	padding: 10x;
 }
