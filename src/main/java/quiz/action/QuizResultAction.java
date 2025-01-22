@@ -73,7 +73,10 @@ public class QuizResultAction implements Action{
 			double sec = reqData.getDouble("timer");
 			int timer=(int) (sec * 1000);
 			List<Object> solves=solveCodes.toList();
+			System.out.println("solves"+solves);
 			int solveSize = solves.size();
+			System.out.println("solveSize"+solveSize);
+			
 			int solveCode = (int) solves.get(solveSize-1);
 			
 			SolveDao solveDao = SolveDao.getInstance();
@@ -86,11 +89,11 @@ public class QuizResultAction implements Action{
 			JSONObject content= TMDBApiManager.getContent(quiz.getType(), quiz.getContentId());
 			content.put("type", quiz.getType());
 			content.put("poster_path", "https://image.tmdb.org/t/p/w342"+content.get("poster_path"));
-			content.put("content_path", "https://image.tmdb.org/"+(quiz.getType()==0?"movie":"tv")+"/"+content.get("id"));
+			content.put("content_path", "https://www.themoviedb.org/"+(quiz.getType()==0?"movie":"tv")+"/"+content.get("id"));
 
 			JSONObject people= TMDBApiManager.getPeople(quiz.getPeopleId());
 			people.put("profile_path", "https://image.tmdb.org/t/p/w185"+people.get("profile_path"));
-			people.put("people_path", "https://image.tmdb.org/person/"+people.get("id"));
+			people.put("people_path", "https://www.themoviedb.org/person/"+people.get("id"));
 
 			JSONObject score= new JSONObject();
 			score.put("score", curScore);

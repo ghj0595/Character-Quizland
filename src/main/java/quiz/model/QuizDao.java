@@ -28,8 +28,6 @@ public class QuizDao {
 	}
 
 	public QuizResponseDto createQuiz(QuizRequestDto quizDto) {
-		QuizResponseDto quiz = null;
-
 		conn = DBManager.getConnection();
 
 		if (conn != null) {
@@ -41,15 +39,13 @@ public class QuizDao {
 				pstmt.setInt(2, quizDto.getContentId());
 				pstmt.setInt(3, quizDto.getPeopleId());
 				pstmt.execute();
-
-				quiz = findQuizByTypeContent(quizDto.getType(), quizDto.getContentId());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
 				DBManager.close(conn, pstmt);
 			}
 		}
-		return quiz;
+		return findQuizByTypeContent(quizDto.getType(), quizDto.getContentId());
 	}
 
 	public int getTotalSize() {
