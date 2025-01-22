@@ -23,6 +23,7 @@ window.onload = () => {
             updateErrorElementStyle(errEmpty, true);
             updateErrorElementStyle(errDupl, false);
             updateErrorElementStyle(errPattern, false);
+            isValidCode = false;
             return;
         } else {
             updateErrorElementStyle(errEmpty, false);
@@ -71,6 +72,7 @@ window.onload = () => {
 
         if (input === "") {
             updateErrorElementStyle(errEmpty, true);
+            isValidPassword = false; 
             return;
         } else {
             updateErrorElementStyle(errEmpty, false);
@@ -92,6 +94,7 @@ window.onload = () => {
 
         if (input === "") {
             updateErrorElementStyle(errEmpty, true);
+            isValidName = false; 
             return;
         } else {
             updateErrorElementStyle(errEmpty, false);
@@ -109,14 +112,16 @@ window.onload = () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        if (!isValidCode && code.value === "") {
-            const error = document.getElementById("error-msg-code-empty");
-            updateErrorElementStyle(error, true);
+        if (code.value.trim() === "") {
+            const errorEmpty = document.getElementById("error-msg-code-empty");
+            updateErrorElementStyle(errorEmpty, true);
+            isValidCode = false;
         }
 
-        if (!isValidPassword && password.value === "") {
-            const error = document.getElementById("error-msg-password-empty");
-            updateErrorElementStyle(error, true);
+        if (password.value.trim() === "") {
+            const errorEmpty = document.getElementById("error-msg-password-empty");
+            updateErrorElementStyle(errorEmpty, true);
+            isValidPassword = false;
         }
 
         if (!isPasswordMatched) {
@@ -124,14 +129,19 @@ window.onload = () => {
             updateErrorElementStyle(error, true);
         }
 
-        if (!isValidName && name.value === "") {
+        if (name.value.trim() === "") {
             const error = document.getElementById("error-msg-name-empty");
             updateErrorElementStyle(error, true);
+            isValidName = false;
         }
 
-        isValidCode = await checkDuplCode(code.value);
+        const isValidId = await checkDuplCode(code.value);
+        const errDupl = document.getElementById("error-msg-code");
+        updateErrorElementStyle(errDupl, !isValidId);
 
-        if (isValidCode && isValidPassword && isPasswordMatched && isValidName) {
+        isValidCode = validateCode(code.value);
+
+        if (isValidCode && isValidPassword && isPasswordMatched && isValidName && isValidId) {
             form.submit();
         }
     });
