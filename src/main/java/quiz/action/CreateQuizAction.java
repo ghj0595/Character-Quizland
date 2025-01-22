@@ -37,7 +37,7 @@ public class CreateQuizAction implements Action{
 			response.sendRedirect("/login");
 			return;
 		}
-
+		
 		int size = 10;
 		if(session.getAttribute("quizSize")!=null) {
 			try {
@@ -89,15 +89,21 @@ public class CreateQuizAction implements Action{
 
 			int code=0;
 			QuizResponseDto resQuiz=null;
+			System.out.println("CreateQuiz- ready");
+			int count =0;
 			while(true) {
+				count++;
+				System.out.println(count);
 				if(quizSize >= 10) {
 					int reusePer = Math.min(quizSize, 1000);
 					int rNum=ran.nextInt(1500);
 					
 					if(rNum<reusePer) {
+						System.out.println("reuse");
 						rNum=ran.nextInt(quizSize);
 						code=quizDao.findQuizcodeByIndex(rNum);
 						resQuiz=quizDao.findQuizByCode(code);
+						System.out.println("reuse" + resQuiz);
 					}
 				}
 				if(resQuiz == null){
@@ -108,60 +114,70 @@ public class CreateQuizAction implements Action{
 					
 					JSONArray castChk = TMDBApiManager.getCast(type, contentId);
 					int profileNum = 0;
-					if(!castChk.isEmpty() && castChk.getJSONObject(0).get("character")!="" && 
-							castChk.getJSONObject(0).get("profile_path")!=null) {
+					if(!castChk.isEmpty() && castChk.getJSONObject(0).get("character")!=""
+							&& !castChk.getJSONObject(0).get("character").toString().contains("self")
+							&& !castChk.getJSONObject(0).isNull("profile_path")) {
 						for(int i=0;i<castChk.length();i++) {
-							if(castChk.getJSONObject(i).get("profile_path")!=null)
+							if(!castChk.getJSONObject(i).isNull("profile_path"))
 								profileNum++;
 						}
 					}
 
 					resQuiz = quizDao.findQuizByTypeContent(type, contentId);
-					if(content.get("poster_path")!=null && profileNum>=4 && resQuiz == null) {
+					if(!content.isNull("poster_path") && profileNum>=4 && resQuiz == null) {
+						System.out.println("create");
+
 						int peopleId= castChk.getJSONObject(0).getInt("id");
 						QuizRequestDto reqQuiz= new QuizRequestDto(type,contentId,peopleId);
 						resQuiz = quizDao.createQuiz(reqQuiz);
+						System.out.println("create" + resQuiz);
 					}
 					if(resQuiz !=null)
 						code=resQuiz.getCode();
 				}
 				if(code>0 && !quizCodes.contains(code)) {
+					System.out.println("result" + resQuiz);
 					break;
 				}
 			}
-
+			System.out.println("CreateQuiz - complete");
 			SolveRequestDto reqSolve=new SolveRequestDto(userCode,code,0,20000);
 			SolveResponseDto resSolve= solveDao.createSolve(reqSolve);
 
-			if(resSolve!=null)
+			if(resSolve!=null) {
+				System.out.println("ADD");
 				solves.add(resSolve.getCode());
+			}else{
+				System.out.println("NULL");
+			}
 			session.setAttribute("solveCodes", solves);
 
-			
+			System.out.println("CreateQuiz - Cast - get");
 			JSONArray cast = TMDBApiManager.getCast(resQuiz.getType(), resQuiz.getContentId());
 			int castSize= cast.length();
-
+			System.out.println("CreateQuiz - Cast - complete");
+			
 			HashMap<Integer,String> castPath= new HashMap<>();
 			for(int i=0;i<castSize;i++) {
 				JSONObject people= cast.getJSONObject(i);
 				if(!people.isNull("profile_path")) 
 					castPath.put(people.getInt("id"), (String) people.get("profile_path"));
 			}
-			
+			System.out.println("CreateQuiz - optIds - get");
 			ArrayList<Integer> optIds =new ArrayList<>();
 			optIds.add(resQuiz.getPeopleId());
 
 			for(int i=0;i<3;i++) {
 				int rNum = ran.nextInt(castSize);
 				JSONObject people= cast.getJSONObject(rNum);
-
+				System.out.println("CreateQuiz - optIds - complete"+people);
 				int id= people.getInt("id");
 				if(optIds.contains(id) || people.isNull("profile_path"))
 					i--;
 				else
 					optIds.add(id);
 			}
-
+			System.out.println("CreateQuiz - optIds - complete");
 			for(int i=0;i<20;i++) {
 				int rNum = ran.nextInt(optIds.size());
 				int tmp =optIds.get(0);
@@ -174,8 +190,9 @@ public class CreateQuizAction implements Action{
 				String path="https://image.tmdb.org/t/p/w185"+castPath.get(id);
 				optPath.add(path);
 			}
+			System.out.println("CreateQuiz - content - get");
 			JSONObject content = TMDBApiManager.getContent(resQuiz.getType(), resQuiz.getContentId());
-			
+			System.out.println("CreateQuiz - content - complete");
 			String posterPath = "https://image.tmdb.org/t/p/w342"+content.get("poster_path"); 
 			resData.put("status", HttpServletResponse.SC_CREATED);
 			resData.put("message","퀴즈 생성이 완료되었습니다.");
@@ -185,6 +202,7 @@ public class CreateQuizAction implements Action{
 			resData.put("character_name", cast.getJSONObject(0).get("character"));
 			resData.put("answer_number", optIds.indexOf(resQuiz.getPeopleId()));
 			resData.put("options", optPath);
+			System.out.println("CreateQuiz - sendout");
 		}
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");

@@ -30,11 +30,8 @@ public class SolveDao {
 	}
 
 	public SolveResponseDto createSolve(SolveRequestDto solveDto) {
-		SolveResponseDto solve = null;
-
 		conn = DBManager.getConnection();
 
-		
 		if (conn != null) {
 			try {
 				String sql = "INSERT INTO solve(user_code, quiz_code, score, timer) VALUES(?, ?, ?, ?)";
@@ -45,15 +42,14 @@ public class SolveDao {
 				pstmt.setInt(3, solveDto.getScore());
 				pstmt.setInt(4, solveDto.getTimer());
 				pstmt.execute();
-				
-				solve = findLatestSolveByUser(solveDto.getUserCode());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
 				DBManager.close(conn, pstmt);
 			}
 		}
-		return solve;
+		
+		return findLatestSolveByUser(solveDto.getUserCode());
 	}
 
 	public int getTotalSize() {
@@ -288,11 +284,11 @@ public class SolveDao {
 	
 	public SolveResponseDto findLatestSolveByUser(String userCode) {
 		SolveResponseDto solve = null;
-
+		System.out.println("findLatestSolveByUser");
 		conn = DBManager.getConnection();
 
 		String sql = "SELECT * FROM solve WHERE user_code=? ORDER BY code DESC LIMIT 1";
-
+		System.out.println(sql);
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userCode);
@@ -306,8 +302,9 @@ public class SolveDao {
 				int timer = rs.getInt(5);
 				Timestamp regDate = rs.getTimestamp(6);
 				Timestamp modDate = rs.getTimestamp(7);
-
+				System.out.println(code);
 				solve = new SolveResponseDto(code, userCode, quizCode, score, timer, regDate, modDate);
+				System.out.println(solve);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
