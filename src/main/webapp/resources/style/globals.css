@@ -106,17 +106,6 @@ header .btn input:hover {
     text-align: center; 
 } 
 
-
-#notice{
-	background:green;
-	width : 12vw;
-}
-
-footer{
-	background:blue;
-	height : 5vh;
-}
-
 .error-msg-group>li::before {
 	content: "○ ";
 }

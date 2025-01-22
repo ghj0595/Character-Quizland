@@ -21,7 +21,7 @@ public class WirteFormAction extends HttpServlet {
 	        String title = request.getParameter("title");
 	        String content = request.getParameter("content");
 	        
-	        int status = 1; 
+	        int status = 1; // 게시 중
 	        
 	        String resDateParam = request.getParameter("startDate"); 
 	        String closeDateParam = request.getParameter("endDate"); 
@@ -31,7 +31,7 @@ public class WirteFormAction extends HttpServlet {
 	        
 	        if (resDateParam != null && !resDateParam.isEmpty()) { 
 	        	resDate = Timestamp.valueOf(resDateParam + " 00:00:00"); 
-	        	status = 0;
+	        	status = 0; // 대기
 	        	} 
 	        if (closeDateParam != null && !closeDateParam.isEmpty()) { 
 	        	closeDate = Timestamp.valueOf(closeDateParam + " 23:59:59");	        	
