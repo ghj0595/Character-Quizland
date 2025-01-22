@@ -85,16 +85,6 @@ public class AuthFilter extends HttpFilter implements Filter {
 			}
 		}
 
-		if (uri.equals("/notice")) {
-			if (session.getAttribute("log") != null || session.getAttribute("admin") != null) {
-				chain.doFilter(request, response);
-				return;
-			} else {
-				res.sendRedirect("/");
-				return;
-			}
-		}
-
 		if (uri.equals("/manager")) {
 			if (session.getAttribute("log") != null) {
 				res.sendRedirect("/");

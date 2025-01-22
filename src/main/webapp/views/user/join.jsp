@@ -27,7 +27,7 @@
 						<input type="text" id="code" name="code" placeholder="아이디" value="${userData.code}">
 						<input type="password" id="password" name="password" placeholder="비밀번호">
 						<input type="password" id="chk-password" name="chk-password" placeholder="비밀번호확인">
-						<input type="text" id="name" name="name" placeholder="이름" value="${userData.name}">
+						<input type="text" id="name" name="name" placeholder="닉네임" value="${userData.name}">
 					</div>
 					<ul class="error-msg-group">
 						<li id="error-msg-code">아이디: 사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.</li>
