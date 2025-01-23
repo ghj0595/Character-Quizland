@@ -189,8 +189,6 @@ public class QuizDao {
 	}
 
 	public QuizResponseDto updateQuiz(int code, QuizRequestDto quizDto) {
-		QuizResponseDto quiz = null;
-
 		conn = DBManager.getConnection();
 
 		String sql = "UPDATE quiz SET type=?, content_id=?, people_id=? WHERE code=?";
@@ -204,14 +202,13 @@ public class QuizDao {
 			pstmt.setInt(4, code);
 			pstmt.execute();
 
-			quiz = findQuizByCode(code);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DBManager.close(conn, pstmt);
 		}
 
-		return quiz;
+		return findQuizByCode(code);
 	}
 
 	public void deleteQuizByCode(int code) {

@@ -44,9 +44,10 @@ public class TMDBApiManager {
 
 				StringBuilder builder = new StringBuilder();
 
-				while (reader.ready()) {
-					builder.append(reader.readLine());
-				}
+			    String line;
+			    while ((line = reader.readLine()) != null) {
+			        builder.append(line);
+			    }
 
 				reader.close();
 				conn.disconnect();
@@ -146,7 +147,9 @@ public class TMDBApiManager {
 
 	public static int getPeopleID(int type, int code) throws IOException {
 		JSONArray cast = getCast(type, code);
-
+		if (cast.isEmpty())
+			return 0;
+		
 		JSONObject people = cast.getJSONObject(0);
 
 		return people.getInt("id");
