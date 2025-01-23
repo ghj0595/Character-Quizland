@@ -23,9 +23,7 @@ public class UpdateAction extends HttpServlet {
 		        String content = request.getParameter("content");
 		        String regDateParam = request.getParameter("regDate");		        		
 		        String resDateParam = request.getParameter("startDate");
-		        String closeDateParam = request.getParameter("endDate");
-		        
-		        int status = 1; 
+		        String closeDateParam = request.getParameter("endDate");		 
 
 		        Timestamp resDate = null;
 		        Timestamp closeDate = null;
@@ -34,14 +32,13 @@ public class UpdateAction extends HttpServlet {
 
 		        if (resDateParam != null && !resDateParam.isEmpty()) {
 		            resDate = Timestamp.valueOf(resDateParam + " 00:00:00");
-		            status = 0;
 		        }
 		        if (closeDateParam != null && !closeDateParam.isEmpty()) {
 		            closeDate = Timestamp.valueOf(closeDateParam + " 23:59:59");
 		        }
 
 		        NoticeDao noticeDao = NoticeDao.getInstance();
-		        NoticeResponseDto notice = new NoticeResponseDto(code, adminCode, title, content, status, resDate, closeDate, regDate, modDate);
+		        NoticeResponseDto notice = new NoticeResponseDto(code, adminCode, title, content, resDate, closeDate, regDate, modDate);
 		        noticeDao.updateNotice(notice);
 
 		        response.sendRedirect("/list");
