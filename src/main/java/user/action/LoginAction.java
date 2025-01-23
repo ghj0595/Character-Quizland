@@ -20,9 +20,14 @@ public class LoginAction implements Action {
         User user = userDao.findUserByCode(code);
 
         if (user != null && user.checkPassword(password)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("log", user);
-            response.sendRedirect("/");
+        	if(user.getStatus()==0) {
+        		HttpSession session = request.getSession();
+                session.setAttribute("log", user);
+                response.sendRedirect("/");
+        	} else {
+        		request.setAttribute("loginError", "정지된 아이디입니다.");
+                request.getRequestDispatcher("/login").forward(request, response);
+        	}
         } else {
             request.setAttribute("loginError", "아이디 또는 비밀번호가 틀렸습니다.");
             request.getRequestDispatcher("/login").forward(request, response);
