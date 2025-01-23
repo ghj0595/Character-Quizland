@@ -34,6 +34,25 @@ public class WirteFormAction extends HttpServlet {
 	        	closeDate = Timestamp.valueOf(closeDateParam + " 23:59:59");	        	
 	        }
 	        
+	        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+	        if (resDate != null && resDate.before(currentDate)) {
+	            request.setAttribute("errorMessage", "게시일을 다시 확인해주세요.");
+	            request.getRequestDispatcher("/notice").forward(request, response);
+	            return;
+	        }
+	        
+	        if (closeDate != null) {
+	            if (resDate != null && closeDate.before(resDate)) {
+	                request.setAttribute("errorMessage", "만료일을 다시 확인해주세요.");
+	                request.getRequestDispatcher("/notice").forward(request, response);
+	                return;
+	            } else if (closeDate.before(currentDate)) {
+	                request.setAttribute("errorMessage", "만료일을 다시 확인해주세요.");
+	                request.getRequestDispatcher("/notice").forward(request, response);
+	                return;
+	            }
+	        } 
+	        
 	        NoticeRequestDto noticeDto = new NoticeRequestDto(adminCode, title, content, resDate, closeDate);
 	        
 	        NoticeDao noticeDao = NoticeDao.getInstance();

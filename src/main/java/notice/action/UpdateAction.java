@@ -36,6 +36,25 @@ public class UpdateAction extends HttpServlet {
 		        if (closeDateParam != null && !closeDateParam.isEmpty()) {
 		            closeDate = Timestamp.valueOf(closeDateParam + " 23:59:59");
 		        }
+		        
+		        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		        if (resDate != null && resDate.before(currentDate)) {
+		            request.setAttribute("errorMessage", "게시일을 다시 확인해주세요.");
+		            request.getRequestDispatcher("/notice").forward(request, response);
+		            return;
+		        }
+		        
+		        if (closeDate != null) {
+		            if (resDate != null && closeDate.before(resDate)) {
+		                request.setAttribute("errorMessage", "만료일을 다시 확인해주세요.");
+		                request.getRequestDispatcher("/notice").forward(request, response);
+		                return;
+		            } else if (closeDate.before(currentDate)) {
+		                request.setAttribute("errorMessage", "만료일을 다시 확인해주세요.");
+		                request.getRequestDispatcher("/notice").forward(request, response);
+		                return;
+		            }
+		        }
 
 		        NoticeDao noticeDao = NoticeDao.getInstance();
 		        NoticeResponseDto notice = new NoticeResponseDto(code, adminCode, title, content, resDate, closeDate, regDate, modDate);

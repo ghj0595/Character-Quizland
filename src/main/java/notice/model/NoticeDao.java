@@ -38,11 +38,10 @@ public class NoticeDao {
 				pstmt.setString(2, noticeDto.getTitle());
 				pstmt.setString(3, noticeDto.getContent());					
 				
-				if(noticeDto.getResDate() == null) {
-					pstmt.setInt(4, noticeDto.getStatus());					
-				} else if(noticeDto.getResDate() != null) {
-					int status = 0;
-					pstmt.setInt(4, status);
+				if(noticeDto.getResDate() != null) {					
+					pstmt.setInt(4, 0);
+				} else {
+					pstmt.setInt(4, 1);					
 				}
 
 				pstmt.setTimestamp(5, noticeDto.getResDate());

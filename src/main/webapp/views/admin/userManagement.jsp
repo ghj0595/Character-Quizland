@@ -15,7 +15,6 @@
 <title>사용자 관리 화면</title>
 </head>
 <body>
-	<c:import url="/DeleteUser"></c:import>
 	<c:import url="/header" />
 	<div class="current-users">
 		현재 접속자 수:<span id="current-users">0</span>명
