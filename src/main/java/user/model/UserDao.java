@@ -340,7 +340,6 @@ public class UserDao {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				System.out.println("rank");
 				rank = rs.getInt(1);
 			}
 		} catch (SQLException e) {
