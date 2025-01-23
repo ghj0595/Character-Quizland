@@ -63,32 +63,16 @@ public class AuthFilter extends HttpFilter implements Filter {
 		}
 
 		if (uri.equals("/join")) {
-			if (session.getAttribute("log") != null) {
-				res.sendRedirect("/service/users?command=view");
-				return;
-			} else if (session.getAttribute("admin") != null) {
-				res.sendRedirect("/manager");
-				return;
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		}
-
-		if (uri.equals("/manager") || uri.equals("/QuizListAction")) {
-			if (session.getAttribute("log") != null) {
+			if (session.getAttribute("log") != null || session.getAttribute("admin") != null) {
 				res.sendRedirect("/");
 				return;
-			} else if (session.getAttribute("admin") == null) {
-				res.sendRedirect("/loginAdmin");
-				return;
 			} else {
 				chain.doFilter(request, response);
 				return;
 			}
 		}
 
-		if (uri.equals("/quizzes") || uri.equals("/list") || uri.equals("/user")) {
+		if (uri.equals("/list") || uri.equals("/user") || uri.equals("/manager") || uri.equals("/QuizListAction")) {
 			if (session.getAttribute("admin") == null) {
 				res.sendRedirect("/loginAdmin");
 				return;
@@ -97,6 +81,11 @@ public class AuthFilter extends HttpFilter implements Filter {
 				return;
 			}
 		}
+		
+		if (uri.equals("/quizzes")) {
+				res.sendRedirect("/QuizListAction");
+				return;
+			} 
 
 		if (uri.equals("/game") || uri.equals("/mypage") || uri.equals("/total") || uri.equals("/result")) {
 			if (session.getAttribute("log") == null) {
