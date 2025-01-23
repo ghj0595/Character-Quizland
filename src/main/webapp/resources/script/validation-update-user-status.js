@@ -16,7 +16,7 @@ window.onload = () => {
         button.onclick = function() {
             const userCode = this.dataset.userCode;
             if (confirm("삭제하시겠습니까?")) {
-                location.href = "/UpdateUserCloseDate?userCode=" + userCode;
+                location.href = "/DeleteUser?userCode=" + userCode;
             }
         }
     });

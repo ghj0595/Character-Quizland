@@ -53,7 +53,7 @@
 									<button class="btn-ban" data-user-code="${user.userCode}">정지</button>
 								</td>
 								<td>
-									<button class="btn-delete" data	-user-code="${user.userCode}">삭제</button>
+									<button class="btn-delete" data-user-code="${user.userCode}">삭제</button>
 								</td>
 							</tr>
 						</c:forEach>
