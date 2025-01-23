@@ -60,6 +60,8 @@ public class ActionFactory {
 			return new CreateQuizAction();
 		}else if(command.equals("result") && method == HttpMethod.POST) {
 			return new QuizResultAction();
+		}else if(command.equals("total") && method == HttpMethod.GET) {
+			return new TotalResultAction();
 		}
 		
 		return action;

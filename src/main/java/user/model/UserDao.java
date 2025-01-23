@@ -96,8 +96,7 @@ public class UserDao {
 	    conn = DBManager.getConnection();
 
 	    if (conn != null) {
-	        String sql = "SELECT * FROM users ORDER BY best_score DESC LIMIT 10";
-
+	        String sql = "SELECT * FROM users ORDER BY best_score DESC, reg_date ASC LIMIT 10";
 	        try {
 	            pstmt = conn.prepareStatement(sql);
 	            rs = pstmt.executeQuery();
@@ -328,12 +327,30 @@ public class UserDao {
 			DBManager.close(conn, pstmt);
 		}
 	}
+	
+	public void updateUserBestScore(String userCode, int bestScore) {
+		conn = DBManager.getConnection();
+
+		String sql = "UPDATE users SET best_score=? WHERE code=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bestScore); 
+			pstmt.setString(2, userCode);
+
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt);
+		}
+	}
 
 	public int getRankByScore(int Score) {
 		int rank = 9999;
 		conn = DBManager.getConnection();
 
-		String sql = "SELECT COUNT(best_score) + 1 AS rank FROM users WHERE best_score > ?";
+		String sql = "SELECT COUNT(best_score) + 1 FROM users WHERE best_score > ?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -342,6 +359,7 @@ public class UserDao {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
+				System.out.println("rank");
 				rank = rs.getInt(1);
 			}
 		} catch (SQLException e) {
