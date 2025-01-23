@@ -18,7 +18,6 @@
     </c:otherwise>
 </c:choose>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +30,13 @@
     <div class="current-users">
         현재 접속자 수:<span id="current-users">0</span>명
     </div>
+    
+<c:if test="${not empty errorMessage}">
+     <script>
+         alert("${errorMessage}");
+     </script>
+</c:if>
+
     <main id="write-notice">
         <h2>공지사항 작성</h2>
         <form action="${isEditMode ? '/notice/update' : '/notice/write'}" method="post">

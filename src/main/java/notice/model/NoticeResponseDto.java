@@ -23,9 +23,21 @@ public class NoticeResponseDto {
         this.closeDate = closeDate;
         this.regDate = regDate;
         this.modDate = modDate;
-    }
+    }    
 
-    public int getCode() {
+    public NoticeResponseDto(int code, String adminCode, String title, String content, Timestamp resDate,
+			Timestamp closeDate, Timestamp regDate, Timestamp modDate) {
+		this.code = code;
+		this.adminCode = adminCode;
+		this.title = title;
+		this.content = content;
+		this.resDate = resDate;
+		this.closeDate = closeDate;
+		this.regDate = regDate;
+		this.modDate = modDate;
+	}
+
+	public int getCode() {
         return code;
     }
 

@@ -20,15 +20,13 @@ public class DeleteUser extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		UserDao userDao = UserDao.getInstance();
-		Timestamp now = new Timestamp(System.currentTimeMillis());
+		String code = request.getParameter("userCode");
 		
-		List<User> users = userDao.findUserAll();
-		for(User user : users) {
-			if(user.getCloseDate() != null && user.getCloseDate().before(now)) {
-				userDao.deleteUserByCode(user.getUserCode());
-			}
-		}
+		UserDao userDao = UserDao.getInstance();
+		userDao.deleteUserByCode(code);
+		
+		response.sendRedirect("/user");
+
 	}
 
 

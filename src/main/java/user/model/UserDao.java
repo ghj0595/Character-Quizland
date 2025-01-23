@@ -310,25 +310,6 @@ public class UserDao {
 		}
 	}
 
-	public void updateUserCloseDate(String userCode, Timestamp closeDate) {
-		conn = DBManager.getConnection();
-
-		String sql = "UPDATE users SET status=?, close_date=? WHERE code=?";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, 2); 
-			pstmt.setTimestamp(2, closeDate);
-			pstmt.setString(3, userCode);
-
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DBManager.close(conn, pstmt);
-		}
-	}
-
 	public int getRankByScore(int Score) {
 		int rank = 9999;
 		conn = DBManager.getConnection();

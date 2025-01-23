@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +36,14 @@ public class NoticeDao {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, noticeDto.getAdminCode());
 				pstmt.setString(2, noticeDto.getTitle());
-				pstmt.setString(3, noticeDto.getContent());
+				pstmt.setString(3, noticeDto.getContent());					
+				
+				if(noticeDto.getResDate() != null) {					
+					pstmt.setInt(4, 0);
+				} else {
+					pstmt.setInt(4, 1);					
+				}
 
-				int status = (noticeDto.getResDate() == null) ? 1 : 0;
-
-				pstmt.setInt(4, status);
 				pstmt.setTimestamp(5, noticeDto.getResDate());
 				pstmt.setTimestamp(6, noticeDto.getCloseDate());
 				pstmt.executeUpdate();
@@ -119,7 +123,15 @@ public class NoticeDao {
 			pstmt.setString(1, notice.getAdminCode());
 			pstmt.setString(2, notice.getTitle());
 			pstmt.setString(3, notice.getContent());
-			pstmt.setInt(4, notice.getStatus());
+			
+			Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+
+			if (notice.getResDate() != null && notice.getResDate().before(currentDate)) {
+				pstmt.setInt(4, 1);
+			} else {
+				pstmt.setInt(4, 0);
+			}
+			
 			pstmt.setTimestamp(5, notice.getResDate());
 			pstmt.setTimestamp(6, notice.getCloseDate());
 			pstmt.setTimestamp(7, notice.getRegDate());
