@@ -15,7 +15,13 @@
 <c:import url="/header" />
 <body>
 
-	<main>
+<c:if test="${not empty deleteError}">
+     <script>
+         alert("${deleteError}");
+     </script>
+</c:if>
+
+	<main class="main-container">
 		<c:import url="/rank" />
 		
 		<section id="content">

@@ -14,7 +14,6 @@
 <c:import url="/header" />
 <body>
 
-
 <c:if test="${not empty loginError}">
      <script>
          alert("${loginError}");

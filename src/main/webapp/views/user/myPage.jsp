@@ -32,13 +32,13 @@
 						<li id="error-msg-password-pattern">새로운 비밀번호: 5자이상 입력해주세요.</li>
 					</ul>
 					<div id="btn-group">
-						<input type="submit" value="수정">
-						<input type="button" id="btn-logout" value="로그아웃" onclick="location.href='/service/users?command=logout'">
-						<input type="button" id="btn-delete" value="탈퇴" onclick="location.href='/delete'">
+						<input type="submit" value="수정">	
+						<input type="button" id="btn-delete" value="회원탈퇴" onclick="location.href='/delete'">
 					</div>
 				</form>
 		
 				<div>
+				<span class="total-game">--------------- 통계 ---------------</span>
 				<span class="total-game">총 게임 수: ${totalGame }</span>
 				<span class="best-score">최고 점수: ${log.bestScore }</span>
 				<span class="avg-score">평균 점수: ${avgScore }</span>
