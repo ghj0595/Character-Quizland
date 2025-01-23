@@ -19,9 +19,7 @@ public class WirteFormAction extends HttpServlet {
 	        	    	
 	    	String adminCode = request.getParameter("adminCode");
 	        String title = request.getParameter("title");
-	        String content = request.getParameter("content");
-	        
-	        int status = 1; // 게시 중
+	        String content = request.getParameter("content");	        
 	        
 	        String resDateParam = request.getParameter("startDate"); 
 	        String closeDateParam = request.getParameter("endDate"); 
@@ -31,13 +29,31 @@ public class WirteFormAction extends HttpServlet {
 	        
 	        if (resDateParam != null && !resDateParam.isEmpty()) { 
 	        	resDate = Timestamp.valueOf(resDateParam + " 00:00:00"); 
-	        	status = 0; // 대기
 	        	} 
 	        if (closeDateParam != null && !closeDateParam.isEmpty()) { 
 	        	closeDate = Timestamp.valueOf(closeDateParam + " 23:59:59");	        	
 	        }
 	        
-	        NoticeRequestDto noticeDto = new NoticeRequestDto(adminCode, title, content, status, resDate, closeDate);
+	        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+	        if (resDate != null && resDate.before(currentDate)) {
+	            request.setAttribute("errorMessage", "게시일을 다시 확인해주세요.");
+	            request.getRequestDispatcher("/notice").forward(request, response);
+	            return;
+	        }
+	        
+	        if (closeDate != null) {
+	            if (resDate != null && closeDate.before(resDate)) {
+	                request.setAttribute("errorMessage", "만료일을 다시 확인해주세요.");
+	                request.getRequestDispatcher("/notice").forward(request, response);
+	                return;
+	            } else if (closeDate.before(currentDate)) {
+	                request.setAttribute("errorMessage", "만료일을 다시 확인해주세요.");
+	                request.getRequestDispatcher("/notice").forward(request, response);
+	                return;
+	            }
+	        } 
+	        
+	        NoticeRequestDto noticeDto = new NoticeRequestDto(adminCode, title, content, resDate, closeDate);
 	        
 	        NoticeDao noticeDao = NoticeDao.getInstance();
 	        noticeDao.createNotice(noticeDto);	        

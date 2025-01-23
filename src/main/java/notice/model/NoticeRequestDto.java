@@ -22,8 +22,18 @@ public class NoticeRequestDto {
         this.resDate = resDate;
         this.closeDate = closeDate;
     }        
+    
+    
 
-    public NoticeRequestDto(String adminCode, String title, String content, int status) {
+    public NoticeRequestDto(String adminCode, String title, String content, Timestamp resDate, Timestamp closeDate) {
+		this.adminCode = adminCode;
+		this.title = title;
+		this.content = content;
+		this.resDate = resDate;
+		this.closeDate = closeDate;
+	}
+
+	public NoticeRequestDto(String adminCode, String title, String content, int status) {
 		this.adminCode = adminCode;
 		this.title = title;
 		this.content = content;

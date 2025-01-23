@@ -308,25 +308,6 @@ public class UserDao {
 			DBManager.close(conn, pstmt);
 		}
 	}
-
-	public void updateUserCloseDate(String userCode, Timestamp closeDate) {
-		conn = DBManager.getConnection();
-
-		String sql = "UPDATE users SET status=?, close_date=? WHERE code=?";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, 2); 
-			pstmt.setTimestamp(2, closeDate);
-			pstmt.setString(3, userCode);
-
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DBManager.close(conn, pstmt);
-		}
-	}
 	
 	public void updateUserBestScore(String userCode, int bestScore) {
 		conn = DBManager.getConnection();
