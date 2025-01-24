@@ -47,12 +47,9 @@ public class TotalResultAction  implements Action{
 		int totalScore = reqData.getJSONObject("score").getInt("total_score");
 
 		UserDao userDao = UserDao.getInstance();
-
 	    boolean isBestScore=false;
-	    if(user.getBestScore()<totalScore) {
-	    	userDao.updateUserBestScore(user.getUserCode(),totalScore);
+	    if(userDao.getUserBestScore(user.getUserCode()) ==totalScore)
 	    	isBestScore=true;
-	    }
 	    
 	    resData.put("status", HttpServletResponse.SC_OK);
 		resData.put("score", totalScore);

@@ -22,8 +22,8 @@
 				<input id="quiz_code" type="hidden" name="quiz_code">
 				<input id="score" type="hidden" name="score" value="10">
 				<input id="timer" type="hidden" name="timer" value="20">
-				<div class="flexible-title" id="quiz-num"></div>
-				<img id="quiz-poster">
+				<div class="flexible-title  text-center" id="quiz-num"></div>
+				<div id="quiz-poster-div"><img id="quiz-poster"></div>
 				<div class="flexible-text text-center" id="quiz-question"></div>
 				<div class="flexible-text text-center" id="quiz-timer">남은시간 : <span id="view-timer"></span>초</div>
 				<div id="quiz-answers">
