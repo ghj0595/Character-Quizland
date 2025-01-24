@@ -309,6 +309,30 @@ public class UserDao {
 		}
 	}
 	
+	public int getUserBestScore(String userCode) {
+		int bestScore = 0;
+
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT best_score FROM users WHERE code=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userCode);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				bestScore = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return bestScore;
+	}
+	
 	public void updateUserBestScore(String userCode, int bestScore) {
 		conn = DBManager.getConnection();
 

@@ -102,8 +102,9 @@ public class QuizResultAction implements Action{
 			if(curSolve!=null)
 				totalScore +=curSolve.getScore();
 		}
+
 		UserDao userDao = UserDao.getInstance();
-	    if(user.getBestScore()<totalScore)
+	    if(userDao.getUserBestScore(user.getUserCode())<totalScore)
 	    	userDao.updateUserBestScore(user.getUserCode(),totalScore);
 		
 		score.put("total_score", totalScore);

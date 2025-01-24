@@ -12,22 +12,22 @@
 </head>
 <body>
 	<c:import url="/header" />
-	<main>
+	<main class="main-container">
 		<c:import url="/rank" />
 		<section id="content">
-			<div id="result-block">
-				<div class="text-center" id="quiz-result_title">게임결과</div>
-				<div class="flexible-text text-center" id="total-score">총 점수 : ${score}점</div>
-				<div class="flexible-text text-center" id="current-rank">현재 점수의 순위 : ${rank}위</div>
-				<div class="flexible-text text-center" id="current-per">상위 ${per}%입니다.</div>
-				<div class="text-center" id="congratulation" style="display:none">
-				<img alt="" src="https://media.istockphoto.com/id/1451590744/vector/congratulations-beautiful-greeting-card-poster-banner.jpg?s=612x612&w=0&k=20&c=CD60HIUbZNFGDcVWOfBB90Zjp0weQaFBi5CjetIgRSw=">
-				최고점수를 축하합니다!
-				 </div>
-				<form id="result-form" method="GET" action="/game">
-					<input id="next" type="submit" value="재도전">
-				</form>
+			<div class="text-center" id="quiz-result_title">게임결과</div>
+			<div class="flexible-text text-center" id="total-score">총 점수 : ${score}점</div>
+			<div class="flexible-text text-center" id="current-rank">현재 점수의 순위 : ${rank}위</div>
+			<div class="flexible-text text-center" id="current-per">상위 ${per}%입니다.</div>
+			<div class="text-center" id="congratulation" style="display:none">
+				<div>
+					<img alt="" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2Y0MW5lZjByaW5kZGZwcjY0eWdjenAxNmZyMjN0MTVodzFhZXFhbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/EKLcBb4RWxTpKUeD0K/giphy.gif">
+				</div>
+				<div>최고점수를 축하합니다!</div>
 			</div>
+			<form id="result-form" method="GET" action="/game">
+				<input id="next" type="submit" value="재도전">
+			</form>
 		</section>
 		<c:import url="/noticelist" />
 	</main>
