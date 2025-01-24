@@ -99,6 +99,6 @@
 	font-size: calc((1.54vw + 1.5vh) / 2);
 	text-align: center;
 }
-#result{
+#result-block{
 	display: block;
 }

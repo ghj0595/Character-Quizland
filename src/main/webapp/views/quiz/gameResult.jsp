@@ -15,25 +15,27 @@
 	<main class="main-container">
 		<c:import url="/rank" />
 		<section id="content">
-			<input id="result" type="hidden" value="${result}">
-			<input id="quiz_size" type="hidden" name="quiz_size" value="${empty quizSize?10:quizSize}">
-			<div id="result">
+			<div id="result-block">
 				<div class="flexible-title" id="quiz-num"></div>
 				<div class="text-center" id="quiz-result_title">정답화면</div>
 				<div class="flexible-text text-center" id="quiz-score"></div>
 				<div class="result" id="quiz-content">
-					<img class="result-image" id="content-poster"">
+					<img class="result-image" id="content-poster">
 					<div id="content-info">
-						<div class="content-text"><a id="content-title"></a></div>
+						<div class="content-text" id="content-title"></div>
 						<div class="content-text" id="content-overview"></div>
 					</div> 
 				</div>
 				<div class="result" id="quiz-person">
 					<img class="result-image" id="person-profile">
-					<div class="content-text"><a id="person-name"></a></div>
+					<div class="content-text" id="person-name"></div>
 				</div>		
 				<div class="flexible-text text-center" id="total_score"></div>
-				<button id="next" onclick="location.href='/game'">다음 문제</button>
+				<form id="result-form" method="GET" action="/game">
+					<input id="result" type="hidden" value="${result}">
+					<input id="quiz_size" type="hidden" name="quiz_size" value="${empty quizSize?10:quizSize}">
+					<input id="next" type="submit" value="다음 게임">
+				</form>
 			</div>
 		</section>
 		<c:import url="/noticelist" />

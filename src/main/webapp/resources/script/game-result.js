@@ -1,11 +1,9 @@
-window.onload = async () => {
+window.onload = () => {
 	const result = document.getElementById('result');	
 	const quizSize = document.getElementById('quiz_size');
 
-	console.log(result.value)
 	const resultData = JSON.parse(result.value)
-	console.log(resultData)
-
+	
 	const num = document.getElementById('quiz-num');	
 	const score=document.getElementById('quiz-score');
 
@@ -18,21 +16,49 @@ window.onload = async () => {
 	
 	const totalScore=document.getElementById('total_score');
 	
-	const button=document.getElementById('next');
+	const form = document.getElementById('result-form');
+	const submit=document.getElementById('next');
 	
-	num.innerText=`Quiz ${resultData.num} / ${quizSize.value}`;
-	score.innerText=`점수 : ${resultData.score.score}점`;
+	title.innerHTML = "";
+	overview.innerHTML = "";
+	name.innerHTML = "";
 	
-	poster.alt=`${resultData.content.title}`;
-	poster.src=`${resultData.content.poster_path}`;
-	title.href=`${resultData.content.content_path}`;
-	title.innerText=`${resultData.content.title}`;
-	overview.innerText=`${resultData.content.overview}`;
+	num.textContent = `Quiz ${resultData.num} / ${quizSize.value}`;
+	score.textContent = `점수 : ${resultData.score.score}점`;
 	
-	profile.alt=`${resultData.people.name}`;
-	profile.src=`${resultData.people.profile_path}`;
-	name.href=`${resultData.people.people_path}`;
-	name.innerText=`${resultData.people.name}`;
+	const contentTitle=resultData.content.type===0? resultData.content.title : resultData.content.name;
+	poster.alt = contentTitle || "포스터 이미지";
+	poster.src = resultData.content.poster_path || "default-poster.png";
 	
-	totalScore.innerText=`현재 점수 : ${resultData.score.total_score}점`;
+	title.appendChild(createLinkElement(resultData.content.content_path, contentTitle , "제목 없음"));
+	
+	if (resultData.content.overview && resultData.content.overview.trim() !== "") {
+	    const overviewText = document.createTextNode(resultData.content.overview);
+	    overview.appendChild(overviewText);
+	} else {
+	    overview.textContent = "줄거리가 제공되지 않는 작품입니다.";
+	}
+	
+	profile.alt = resultData.people.name || "프로필 이미지";
+	profile.src = resultData.people.profile_path || "default-profile.png";
+	
+	name.appendChild(createLinkElement(resultData.people.people_path, resultData.people.name, "이름 없음"));
+	
+	totalScore.textContent = `현재 점수 : ${resultData.score.total_score}점`;
+	
+	if (resultData.num == quizSize.value) {
+	    submit.value = "전체 결과";
+		form.action="/total";
+	} else {
+	    submit.value = "다음 게임";
+		form.action="/game";
+	}
 };
+
+function createLinkElement(href, text, defaultText) {
+    const link = document.createElement("a");
+    link.href = href || "#";
+    link.textContent = text?.trim() || defaultText;
+    link.target = "_blank";
+    return link;
+}

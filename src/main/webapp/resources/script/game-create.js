@@ -57,11 +57,6 @@ window.onload = async () => {
 	solveCodes.value = JSON.stringify(quizData.solve_codes);
 	viewNumber.innerText=`Quiz ${quizData.solve_codes.length} / ${quizSize.value}`;
 
-	poster.src= quizData.poster_path;
-	for (let i = 0; i < images.length; i++) {
-		images[i].src=quizData.options[i]
-	}
-	
 	const character = quizData.character_name;
 	
 	const questionText = (character, score ) =>{
@@ -83,8 +78,8 @@ window.onload = async () => {
 				else
 					reqData[key] = value;
 			});
-			isCalled=true;
 			await fetchResult(reqData);
+			isCalled=true;
 			location.href="/result";
 		}
 	};
@@ -92,8 +87,8 @@ window.onload = async () => {
 	const buttons=document.getElementsByClassName('answer');
 	for (let i = 0; i < buttons.length; i++) {
 		if(i===quizData.answer_number){
-			buttons[i].addEventListener("click", async (e) => {
-				fetchCall();
+			buttons[i].addEventListener("click", async () => {
+			    await fetchCall();
 			});
 		}else{
 			buttons[i].addEventListener("click", e => {
@@ -108,18 +103,43 @@ window.onload = async () => {
 	    e.preventDefault();
 	});
 	
-	loading.style.display="none";
-	form.style.display="";
-	let remainingTime = 20
-	let countdown = setInterval(async ()=>{
-		if(remainingTime >= 0.01){
-			remainingTime-=0.01;
-			timer.value = remainingTime;
-			viewTimer.innerText = remainingTime.toFixed(2);
-		}else{
-			clearInterval(timer);
-			fetchCall();
+	const loadImages = () => {
+	    const promises = [];
+
+	    // Load poster
+	    const posterPromise = new Promise((resolve) => {
+	        poster.src = quizData.poster_path;
+	        poster.onload = resolve;
+	        poster.onerror = resolve;
+	    });
+	    promises.push(posterPromise);
+
+		for (let i = 0; i < images.length; i++) {
+	        const imagePromise = new Promise((resolve) => {
+	            images[i].src=quizData.options[i];
+	            images[i].onload = resolve;
+	            images[i].onerror = resolve;
+	        });
+	        promises.push(imagePromise);
 		}
-	},10);
+	    return Promise.all(promises);
+	};
+
+	await loadImages();
+	
+	loading.style.display="none";
+    form.style.display="";
+	
+	let remainingTime = 20
+	let countdown = setInterval(async () => {
+	    if (remainingTime >= 0.01) {
+	        remainingTime -= 0.01;
+	        timer.value = remainingTime;
+	        viewTimer.innerText = remainingTime.toFixed(2);
+	    } else {
+	        clearInterval(countdown);
+	        await fetchCall();
+	    }
+	}, 10);
 	countdown;
 };

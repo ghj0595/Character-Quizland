@@ -284,11 +284,11 @@ public class SolveDao {
 	
 	public SolveResponseDto findLatestSolveByUser(String userCode) {
 		SolveResponseDto solve = null;
-		System.out.println("findLatestSolveByUser");
+
 		conn = DBManager.getConnection();
 
 		String sql = "SELECT * FROM solve WHERE user_code=? ORDER BY code DESC LIMIT 1";
-		System.out.println(sql);
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userCode);
@@ -302,9 +302,8 @@ public class SolveDao {
 				int timer = rs.getInt(5);
 				Timestamp regDate = rs.getTimestamp(6);
 				Timestamp modDate = rs.getTimestamp(7);
-				System.out.println(code);
+
 				solve = new SolveResponseDto(code, userCode, quizCode, score, timer, regDate, modDate);
-				System.out.println(solve);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -346,8 +345,6 @@ public class SolveDao {
 	}
 	
 	public SolveResponseDto updateSolve(int code, SolveRequestDto solveDto) {
-		SolveResponseDto solve = null;
-
 		conn = DBManager.getConnection();
 
 		
@@ -360,14 +357,13 @@ public class SolveDao {
 			pstmt.setInt(3, code);
 			pstmt.execute();
 
-			solve = findSolveByCode(code);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DBManager.close(conn, pstmt);
 		}
 
-		return solve;
+		return findSolveByCode(code);
 	}
 	
 	public void deleteSolveByCode(int code) {
