@@ -8,7 +8,7 @@
 		<h1>TOP10</h1>
 		<ul class="rank-list">
 			<c:forEach var="user" items="${rankList}" varStatus="status">
-				<li>${status.index + 1}등: ${user.name} ${user.bestScore}점</li>
+				<li>${user.rank}등: ${user.name} ${user.bestScore}점</li>
 			</c:forEach>
 		</ul>
 	</section>
