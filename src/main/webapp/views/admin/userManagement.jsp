@@ -9,16 +9,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/resources/style/admin.css">
-<script type="module"
-	src="/resources/script/validation-update-user-status.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/resources/style/test.css">
+<script type="module" src="/resources/script/validation-update-user-status.js"></script>
 <title>사용자 관리 화면</title>
 </head>
 <body>
 	<c:import url="/header" />
-	<div class="current-users">
-		현재 접속자 수:<span id="current-users">0</span>명
-	</div>
 	<main class="main-content">
 		<c:import url="/rank" />
 
