@@ -25,6 +25,10 @@
 <link rel="stylesheet" href="/resources/style/admin.css">
 <script type="module" src="/resources/script/validation-notice-delete.js"></script>
 <title>공지사항 작성 화면</title>
+    <link rel="shortcut icon" href="https://w7.pngwing.com/pngs/79/989/png-transparent-logo-vimeo-computer-icons-social-media-social-media-text-photography-orange-thumbnail.png">
+    <meta property="og:title" content="quizland">
+    <meta property="og:description" content="퀴즈랜드에서 퀴즈를 풀어요">
+    <meta property="og:image" content="https://cdn-icons-png.freepik.com/256/3407/3407038.png?semt=ais_hybrid">
 </head>
 <body>
     <div class="current-users">
