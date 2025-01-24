@@ -30,11 +30,8 @@ public class SolveDao {
 	}
 
 	public SolveResponseDto createSolve(SolveRequestDto solveDto) {
-		SolveResponseDto solve = null;
-
 		conn = DBManager.getConnection();
 
-		
 		if (conn != null) {
 			try {
 				String sql = "INSERT INTO solve(user_code, quiz_code, score, timer) VALUES(?, ?, ?, ?)";
@@ -45,15 +42,14 @@ public class SolveDao {
 				pstmt.setInt(3, solveDto.getScore());
 				pstmt.setInt(4, solveDto.getTimer());
 				pstmt.execute();
-				
-				solve = findLatestSolveByUser(solveDto.getUserCode());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
 				DBManager.close(conn, pstmt);
 			}
 		}
-		return solve;
+		
+		return findLatestSolveByUser(solveDto.getUserCode());
 	}
 
 	public int getTotalSize() {
@@ -349,8 +345,6 @@ public class SolveDao {
 	}
 	
 	public SolveResponseDto updateSolve(int code, SolveRequestDto solveDto) {
-		SolveResponseDto solve = null;
-
 		conn = DBManager.getConnection();
 
 		
@@ -363,14 +357,13 @@ public class SolveDao {
 			pstmt.setInt(3, code);
 			pstmt.execute();
 
-			solve = findSolveByCode(code);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DBManager.close(conn, pstmt);
 		}
 
-		return solve;
+		return findSolveByCode(code);
 	}
 	
 	public void deleteSolveByCode(int code) {

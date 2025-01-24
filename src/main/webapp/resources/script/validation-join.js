@@ -13,24 +13,22 @@ window.onload = () => {
     let isPasswordMatched = false;
     let isValidName = validateName(name.value);
 
-    // 아이디 중복 체크
     code.addEventListener("change", async (e) => {
         const input = e.target.value;
         const errEmpty = document.getElementById("error-msg-code-empty");
         const errDupl = document.getElementById("error-msg-code");
         const errPattern = document.getElementById("error-msg-code-pattern");
 
-        // 아이디 비어있을 경우 처리
         if (input === "") {
             updateErrorElementStyle(errEmpty, true);
             updateErrorElementStyle(errDupl, false);
             updateErrorElementStyle(errPattern, false);
+            isValidCode = false;
             return;
         } else {
             updateErrorElementStyle(errEmpty, false);
         }
 
-        // 아이디 패턴 검사
         isValidCode = validateCode(input);
         if (!isValidCode) {
             updateErrorElementStyle(errPattern, true);
@@ -38,12 +36,10 @@ window.onload = () => {
             updateErrorElementStyle(errPattern, false);
         }
 
-        // 아이디 중복 검사
         const isValidId = await checkDuplCode(input);
         updateErrorElementStyle(errDupl, !isValidId);
     });
 
-    // 비밀번호 확인
     chkPassword.addEventListener("change", e => {
         const passwordValue = password.value;
         const chkPasswordValue = e.target.value;
@@ -58,7 +54,6 @@ window.onload = () => {
         }
     });
 
-    // 비밀번호 확인 focusout
     chkPassword.addEventListener("focusout", e => {
         const chkPasswordValue = e.target.value;
         const errChkPassword = document.getElementById("error-msg-password-chk");
@@ -70,7 +65,6 @@ window.onload = () => {
         }
     });
 
-    // 비밀번호 입력 이벤트
     password.addEventListener("change", e => {
         const input = e.target.value;
         const errPattern = document.getElementById("error-msg-password-pattern");
@@ -78,6 +72,7 @@ window.onload = () => {
 
         if (input === "") {
             updateErrorElementStyle(errEmpty, true);
+            isValidPassword = false; 
             return;
         } else {
             updateErrorElementStyle(errEmpty, false);
@@ -92,7 +87,6 @@ window.onload = () => {
         }
     });
 
-    // 이름 입력 이벤트
     name.addEventListener("change", e => {
         const input = e.target.value;
         const errPattern = document.getElementById("error-msg-name-pattern");
@@ -100,6 +94,7 @@ window.onload = () => {
 
         if (input === "") {
             updateErrorElementStyle(errEmpty, true);
+            isValidName = false; 
             return;
         } else {
             updateErrorElementStyle(errEmpty, false);
@@ -114,18 +109,19 @@ window.onload = () => {
         }
     });
 
-    // 폼 제출 전 최종 검증
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        if (!isValidCode && code.value === "") {
-            const error = document.getElementById("error-msg-code-empty");
-            updateErrorElementStyle(error, true);
+        if (code.value.trim() === "") {
+            const errorEmpty = document.getElementById("error-msg-code-empty");
+            updateErrorElementStyle(errorEmpty, true);
+            isValidCode = false;
         }
 
-        if (!isValidPassword && password.value === "") {
-            const error = document.getElementById("error-msg-password-empty");
-            updateErrorElementStyle(error, true);
+        if (password.value.trim() === "") {
+            const errorEmpty = document.getElementById("error-msg-password-empty");
+            updateErrorElementStyle(errorEmpty, true);
+            isValidPassword = false;
         }
 
         if (!isPasswordMatched) {
@@ -133,14 +129,19 @@ window.onload = () => {
             updateErrorElementStyle(error, true);
         }
 
-        if (!isValidName && name.value === "") {
+        if (name.value.trim() === "") {
             const error = document.getElementById("error-msg-name-empty");
             updateErrorElementStyle(error, true);
+            isValidName = false;
         }
 
-        isValidCode = await checkDuplCode(code.value);
+        const isValidId = await checkDuplCode(code.value);
+        const errDupl = document.getElementById("error-msg-code");
+        updateErrorElementStyle(errDupl, !isValidId);
 
-        if (isValidCode && isValidPassword && isPasswordMatched && isValidName) {
+        isValidCode = validateCode(code.value);
+
+        if (isValidCode && isValidPassword && isPasswordMatched && isValidName && isValidId) {
             form.submit();
         }
     });

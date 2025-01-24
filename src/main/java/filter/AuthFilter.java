@@ -75,40 +75,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 			}
 		}
 
-		if (uri.equals("/mypage")) {
-			if (session.getAttribute("log") == null) {
-				res.sendRedirect("/login");
-				return;
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		}
-
-		if (uri.equals("/notice")) {
-			if (session.getAttribute("log") != null || session.getAttribute("admin") != null) {
-				chain.doFilter(request, response);
-				return;
-			} else {
-				res.sendRedirect("/");
-				return;
-			}
-		}
-
-		if (uri.equals("/manager")) {
-			if (session.getAttribute("log") != null) {
-				res.sendRedirect("/");
-				return;
-			} else if (session.getAttribute("admin") == null) {
-				res.sendRedirect("/loginAdmin");
-				return;
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		}
-
-		if (uri.equals("/QuizListAction")) {
+		if (uri.equals("/manager") || uri.equals("/QuizListAction")) {
 			if (session.getAttribute("log") != null) {
 				res.sendRedirect("/");
 				return;
@@ -131,7 +98,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 			}
 		}
 
-		if (uri.equals("/game")) {
+		if (uri.equals("/game") || uri.equals("/mypage") || uri.equals("/total") || uri.equals("/result")) {
 			if (session.getAttribute("log") == null) {
 				res.sendRedirect("/login");
 				return;

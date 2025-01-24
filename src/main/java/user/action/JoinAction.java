@@ -41,7 +41,6 @@ public class JoinAction implements Action {
 		HttpSession session = request.getSession();
 
 		if (!isValid) {
-			session.setAttribute("userData", userDto);
 			response.sendRedirect("/join");
 		} else {
 			session.removeAttribute("userData");

@@ -1,16 +1,23 @@
 @charset "UTF-8";
 
-.flexible-text{
+.flexible-tiitle{
 	font-size: calc((2vw + 2vh) / 2);
+}
+.flexible-text{
+	font-size: calc((1vw + 1vh) / 2);
 }
 .text-center{
 	text-align: center;
 }
 
+#loading{
+	margin:calc((4vw + 4vh) / 2) 0;
+	width:100%;
+	font-size: calc((4vw + 4vh) / 2);
+	text-align: center;
+}
+
 #quiz-num{
-	position : relative;
-	top : 20px;
-	left : 20px;
 	font-weight: bold;
 	text-shadow:
       1px 1px 1px white,
@@ -60,6 +67,11 @@
     object-fit: cover;
 }
 
+.answer-image:disabled {
+     opacity: 0.5;
+     cursor: not-allowed;
+}
+
 #quiz-result_title{
 	font-size: calc((4vw + 4vh) / 2);
 	padding: calc((1vw + 1vh) / 2);
@@ -87,4 +99,6 @@
 	font-size: calc((1.54vw + 1.5vh) / 2);
 	text-align: center;
 }
-
+#result-block{
+	display: block;
+}

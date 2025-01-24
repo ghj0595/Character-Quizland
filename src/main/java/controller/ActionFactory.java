@@ -19,10 +19,7 @@ public class ActionFactory {
 	
 	public Action getAction(String path, String command, HttpMethod method) {
 		Action action = null;
-		System.out.println("ActionFactory");
-		System.out.println(path);
-		System.out.println(command);
-		System.out.println(method);
+
 		if(path == null || command == null)
 			return action;
 
@@ -59,9 +56,12 @@ public class ActionFactory {
 	private Action getQuizAction(String command, HttpMethod method) {
 		Action action = null;
 		
-		if(method == HttpMethod.POST) {
-			System.out.println("CreateQuizAction");
+		if(command.equals("create") && method == HttpMethod.POST) {
 			return new CreateQuizAction();
+		}else if(command.equals("result") && method == HttpMethod.POST) {
+			return new QuizResultAction();
+		}else if(command.equals("total") && method == HttpMethod.GET) {
+			return new TotalResultAction();
 		}
 		
 		return action;

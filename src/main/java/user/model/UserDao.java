@@ -96,8 +96,7 @@ public class UserDao {
 	    conn = DBManager.getConnection();
 
 	    if (conn != null) {
-	        String sql = "SELECT * FROM users ORDER BY best_score DESC LIMIT 10";
-
+	        String sql = "SELECT * FROM users ORDER BY best_score DESC, reg_date ASC LIMIT 10";
 	        try {
 	            pstmt = conn.prepareStatement(sql);
 	            rs = pstmt.executeQuery();
@@ -309,17 +308,16 @@ public class UserDao {
 			DBManager.close(conn, pstmt);
 		}
 	}
-
-	public void updateUserCloseDate(String userCode, Timestamp closeDate) {
+	
+	public void updateUserBestScore(String userCode, int bestScore) {
 		conn = DBManager.getConnection();
 
-		String sql = "UPDATE users SET status=?, close_date=? WHERE code=?";
+		String sql = "UPDATE users SET best_score=? WHERE code=?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, 2); 
-			pstmt.setTimestamp(2, closeDate);
-			pstmt.setString(3, userCode);
+			pstmt.setInt(1, bestScore); 
+			pstmt.setString(2, userCode);
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -329,4 +327,52 @@ public class UserDao {
 		}
 	}
 
+	public int getRankByScore(int Score) {
+		int rank = 9999;
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT COUNT(best_score) + 1 FROM users WHERE best_score > ?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Score); 
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				System.out.println("rank");
+				rank = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt);
+		}
+		
+		return rank;
+	}
+	
+	public double getPerByScore(int Score) {
+		double per = 100;
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT (COUNT(CASE WHEN best_score > ? THEN 0 END) + 1) * 100.0 / COUNT(*) AS per FROM users";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Score); 
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				per = rs.getDouble(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt);
+		}
+		
+		return per;
+	}
 }

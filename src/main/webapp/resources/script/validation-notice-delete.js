@@ -1,6 +1,7 @@
 window.onload = () => {
-
+	
 	const deleteButton = document.querySelector(".btn-notice-delete");
+	
 	if (deleteButton) {
 		deleteButton.onclick = function() {
 			const noticeCode = document.getElementById("notice-code").value;

@@ -37,4 +37,9 @@ public class QuizRequestDto {
 	public void setPeopleId(int peopleId) {
 		this.peopleId = peopleId;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("%s %d %d",this.type==0?"movie":"tv", this.contentId, this.peopleId);
+	}
 }

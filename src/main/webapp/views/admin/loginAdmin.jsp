@@ -14,6 +14,12 @@
 <c:import url="/header" />
 <body>
 
+<c:if test="${not empty loginError}">
+     <script>
+         alert("${loginError}");
+     </script>
+</c:if>
+
 	<main class="main-container">
 		<c:import url="/rank" />
 		<section id="content">
