@@ -19,6 +19,7 @@ import solve.model.SolveDao;
 import solve.model.SolveRequestDto;
 import solve.model.SolveResponseDto;
 import user.model.User;
+import user.model.UserDao;
 
 public class QuizResultAction implements Action{
 
@@ -101,6 +102,11 @@ public class QuizResultAction implements Action{
 			if(curSolve!=null)
 				totalScore +=curSolve.getScore();
 		}
+
+		UserDao userDao = UserDao.getInstance();
+	    if(userDao.getUserBestScore(user.getUserCode())<totalScore)
+	    	userDao.updateUserBestScore(user.getUserCode(),totalScore);
+		
 		score.put("total_score", totalScore);
 
 		resData.put("status", HttpServletResponse.SC_OK);

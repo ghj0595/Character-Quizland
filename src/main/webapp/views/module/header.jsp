@@ -5,7 +5,6 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- Favicon과 meta 태그 추가 -->
     <link rel="shortcut icon" href="https://w7.pngwing.com/pngs/79/989/png-transparent-logo-vimeo-computer-icons-social-media-social-media-text-photography-orange-thumbnail.png">
     <meta property="og:title" content="quizland">
     <meta property="og:description" content="퀴즈랜드에서 퀴즈를 풀어요">

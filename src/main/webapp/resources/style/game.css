@@ -1,20 +1,47 @@
 @charset "UTF-8";
 
-.flexible-tiitle{
-	font-size: calc((2vw + 2vh) / 2);
+
+.flexible-title {
+    font-size : calc(1.5*(1vw + 0.3em));
 }
+
 .flexible-text{
-	font-size: calc((1vw + 1vh) / 2);
+	font-size : calc(0.9*(1vw + 0.3em));
 }
+
+.flexible-score{
+	font-size : calc(1.2*(1vw + 0.3em)); 
+}
+
+@media (min-aspect-ratio: 1.5) {
+	#quiz-num{
+	    color:red; 
+	}
+}
+
+@media (max-aspect-ratio: 1.5) {
+	#quiz-num{
+	    color:blue; 
+	}
+}
+
 .text-center{
 	text-align: center;
 }
 
 #loading{
-	margin:calc((4vw + 4vh) / 2) 0;
+	margin:calc(2 * (1vw + 1em)) 0;
 	width:100%;
-	font-size: calc((4vw + 4vh) / 2);
+	font-size: calc(2 * (1vw + 1em));
 	text-align: center;
+}
+
+#content{
+    display: block;
+}
+
+form{
+	margin: 0;
 }
 
 #quiz-num{
@@ -30,23 +57,28 @@
       0px -1px 1px white;
 }
 
-#quiz-poster{
-	display: block;
+#quiz-poster-div{
 	margin: 0 auto;	
-	max-height: 40vh;
-	max-width: 100%;
+	max-width: 290px;
 	border-radius:20px;
-	object-fit: cover;
-	aspect-ratio: 2 / 3;
+	overflow: hidden;
+    aspect-ratio: 2 / 3;
+	
+}
+
+#quiz-poster{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 #quiz-question{
-	padding: 0.5em;
+	padding: calc(0.2*(1vw + 0.3em));
 	font-weight: bold;
 }
 
 #quiz-timer{
-	padding: 1em;
+	padding: calc(0.5*(1vw + 0.3em));
 }
 
 #quiz-answers{
@@ -55,7 +87,7 @@
 }
 
 .answer{
-	max-height: 20vh;
+	max-width: 120px;
 	border-radius:20px;
 	overflow: hidden;
     aspect-ratio: 2 / 3;
@@ -72,9 +104,10 @@
      cursor: not-allowed;
 }
 
-#quiz-result_title{
-	font-size: calc((4vw + 4vh) / 2);
-	padding: calc((1vw + 1vh) / 2);
+#quiz-result_title {
+    font-size: calc(1.6*(1vw + 0.3em));
+    padding: calc(0.2*(1vw + 0.3em));
+    font-weight: bold;
 }
 
 
@@ -83,22 +116,33 @@
 	display: flex;
 	align-items: center;
 	text-align: center;
-	
+	max-height: 300px
+}
+
+.result-image-div{
+	max-width:300px;
+	border-radius:20px;
+	overflow: hidden;
+    aspect-ratio: 2 / 3;
+    flex:1;
 }
 
 .result-image{
-	display: block;
-	border-radius:20px;
-	width: 20vw;
-	max-width:300px;
-	object-fit: cover;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.content-info{
+	flex:3.19;
 }
 
 .content-text{
 	width:100%;
-	font-size: calc((1.54vw + 1.5vh) / 2);
+	font-size: calc(1.1*(1vw + 0.3em));
 	text-align: center;
 }
-#result-block{
-	display: block;
+
+#next{
+	width:60%;
 }
