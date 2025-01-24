@@ -1,0 +1,116 @@
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(to bottom, #ffefd5, #ffe4b5); 
+    color: #4a4a4a;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #ffab40; 
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-bottom: 4px solid #ff7043;
+}
+
+header .logo {
+    position: absolute; 
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+header .logo h1 {
+    font-size: 1.8rem;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    margin: 0;
+}
+
+header .logo a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+header .logo a:hover {
+    color: #ffe082;
+}
+
+header .btn {
+	margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+header .btn input[type="button"] {
+    background: linear-gradient(to right, #ff6f61, #ff8a65); 
+    color: white;
+    border: none;
+    border-radius: 25px; 
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header .btn input[type="button"]:hover {
+    background-color: #ff7043; 
+    transform: scale(1.05);
+}
+
+header .btn input[type="button"]:active {
+    background-color: #d84315;
+    transform: scale(0.95);
+}
+
+footer {
+    background-color: #ffab40; 
+    text-align: center;
+    padding: 15px 0;
+    font-size: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    height: 80vh; 
+    justify-content: center;
+    gap: 50px;
+    margin: 0;
+}
+
+.button {
+    background: linear-gradient(to right, #ff6f61, #ff8a65); 
+    color: white;
+    border: none;
+    border-radius: 25px; 
+    padding: 20px 40px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 250px; 
+}
+
+.button:hover {
+    background-color: #ff7043; 
+    transform: scale(1.05);
+}
+
+.button:active {
+    transform: scale(0.95);
+    background: #d84315; 
+}
+

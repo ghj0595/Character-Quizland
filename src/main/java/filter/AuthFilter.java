@@ -54,7 +54,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 				res.sendRedirect("/");
 				return;
 			} else if (session.getAttribute("admin") != null) {
-				res.sendRedirect("/manager");
+				res.sendRedirect("/management");
 				return;
 			} else {
 				chain.doFilter(request, response);
@@ -67,7 +67,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 				res.sendRedirect("/service/users?command=view");
 				return;
 			} else if (session.getAttribute("admin") != null) {
-				res.sendRedirect("/manager");
+				res.sendRedirect("/management");
 				return;
 			} else {
 				chain.doFilter(request, response);
@@ -75,7 +75,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 			}
 		}
 
-		if (uri.equals("/manager") || uri.equals("/QuizListAction")) {
+		if (uri.equals("/management") || uri.equals("/QuizListAction")) {
 			if (session.getAttribute("log") != null) {
 				res.sendRedirect("/");
 				return;
@@ -110,7 +110,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 
 		if (uri.equals("/")) {
 			if (session.getAttribute("admin") != null) {
-				res.sendRedirect("/manager");
+				res.sendRedirect("/management");
 				return;
 			} else {
 				chain.doFilter(request, response);
