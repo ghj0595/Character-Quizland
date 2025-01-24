@@ -44,7 +44,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 		session.setAttribute("noticeList", noticeList);
 
 		if (uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".png") || uri.endsWith(".jpg")
-				|| uri.endsWith(".jpeg") || uri.endsWith(".gif") || uri.startsWith("/service")) {
+				|| uri.endsWith(".jpeg") || uri.endsWith(".gif") || uri.startsWith("/service") || uri.endsWith(".svg")) {
 			chain.doFilter(request, response);
 			return;
 		}
@@ -54,7 +54,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 				res.sendRedirect("/");
 				return;
 			} else if (session.getAttribute("admin") != null) {
-				res.sendRedirect("/manager");
+				res.sendRedirect("/management");
 				return;
 			} else {
 				chain.doFilter(request, response);
@@ -72,7 +72,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 			}
 		}
 
-		if (uri.equals("/list") || uri.equals("/user") || uri.equals("/manager") || uri.equals("/QuizListAction")) {
+		if (uri.equals("/list") || uri.equals("/user") || uri.equals("/management") || uri.equals("/QuizListAction")) {
 			if (session.getAttribute("admin") == null) {
 				res.sendRedirect("/loginAdmin");
 				return;
@@ -99,7 +99,7 @@ public class AuthFilter extends HttpFilter implements Filter {
 
 		if (uri.equals("/")) {
 			if (session.getAttribute("admin") != null) {
-				res.sendRedirect("/manager");
+				res.sendRedirect("/management");
 				return;
 			} else {
 				chain.doFilter(request, response);

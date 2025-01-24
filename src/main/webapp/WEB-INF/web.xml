@@ -147,7 +147,7 @@
   
   <servlet-mapping>
   	<servlet-name>managementForm</servlet-name>
-	<url-pattern>/manager</url-pattern>  
+	<url-pattern>/management</url-pattern>  
   </servlet-mapping>
   
   <servlet>
