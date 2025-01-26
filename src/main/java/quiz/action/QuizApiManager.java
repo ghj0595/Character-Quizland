@@ -184,14 +184,21 @@ public class QuizApiManager {
 			conn.setRequestProperty("Authorization", "Bearer " + apiKey);
 			conn.setDoOutput(true);
 			
+	        String prompt = String.format(
+	                "아래는 작품의 줄거리와 이름입니다. 해당 이름을 한국어로 번역해주세요.\n\n" +
+	                "줄거리 : %s\n" +
+	                "이름 : %s",
+	                overview, name
+	            );
+			
             JSONObject message = new JSONObject();
             message.put("role", "user");
-            message.put("content", "줄거리가 " + overview  +" 인 캐릭터의 이름을 한국어로 번역해줘 그 이름은 : " + name);
+            message.put("content", prompt );
 
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("model", "gpt-3.5-turbo");
             jsonBody.put("messages", new JSONArray().put(message));
-            jsonBody.put("temperature", 0.7);
+            jsonBody.put("temperature", 0);//창의성 완전 배제
 			
             try (OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonBody.toString().getBytes("utf-8");
@@ -211,6 +218,9 @@ public class QuizApiManager {
 				reader.close();
 				conn.disconnect();
 				JSONObject result = new JSONObject(builder.toString());
+	            System.out.println("프롬프트 줄거리: " + overview);
+	            System.out.println("프롬프트 이름: " + name);
+	            System.out.println("API 응답: " + result);
 				
 				return result.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content");
 			}else {
