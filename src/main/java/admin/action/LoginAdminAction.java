@@ -22,7 +22,7 @@ public class LoginAdminAction implements Action {
         if (admin != null && admin.checkPassword(password)) {
             HttpSession session = request.getSession();
             session.setAttribute("admin", admin);
-            response.sendRedirect("/manager");
+            response.sendRedirect("/management");
         } else {
             request.setAttribute("loginError", "아이디 또는 비밀번호가 틀렸습니다.");
             request.getRequestDispatcher("/loginAdmin").forward(request, response);

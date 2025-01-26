@@ -15,6 +15,7 @@ public class User {
 	private String managerCode;
 	private Timestamp regDate;
 	private Timestamp modDate;
+	private int rank;
 
 	public User(String userCode, String password, String name, int bestScore, int status, Timestamp closeDate,
 			String managerCode, Timestamp regDate, Timestamp modDate) {
@@ -33,6 +34,16 @@ public class User {
 		this.userCode = userCode;
 		this.password = password;
 		this.name = name;
+	}
+	
+	public User(String name, int bestScore, int rank) {
+		this.name = name;
+		this.bestScore = bestScore;
+		this.rank = rank;
+	}
+
+	public int getRank() {
+		return rank;
 	}
 
 	public String getUserCode() {
