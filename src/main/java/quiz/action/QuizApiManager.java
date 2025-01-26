@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
@@ -15,7 +16,7 @@ import javax.naming.NamingException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class TMDBApiManager {
+public class QuizApiManager {
 	private static JSONObject getApiData(String uri) throws IOException {
 		String restApiKey = "";
 		try {
@@ -161,5 +162,64 @@ public class TMDBApiManager {
 		uri += "?language=ko";
 
 		return getApiData(uri);
+	}
+	
+	public static String getTranslateName(String name, String overview) throws IOException{
+        String apiKey = "";
+		try {
+			Context init = new InitialContext();
+			Context ctx = (Context) init.lookup("java:comp/env");
+			apiKey = (String) ctx.lookup("apiKey/OPENAIApiKey");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+        
+        String uri = "https://api.openai.com/v1/chat/completions";
+
+		try {
+			URL url = new URL(uri);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+			conn.setRequestProperty("Authorization", "Bearer " + apiKey);
+			conn.setDoOutput(true);
+			
+            JSONObject message = new JSONObject();
+            message.put("role", "user");
+            message.put("content", "줄거리가 " + overview  +" 인 캐릭터의 이름을 한국어로 번역해줘 그 이름은 : " + name);
+
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("model", "gpt-3.5-turbo");
+            jsonBody.put("messages", new JSONArray().put(message));
+            jsonBody.put("temperature", 0.7);
+			
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonBody.toString().getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+			
+			int resCode = conn.getResponseCode();
+			if(resCode == HttpURLConnection.HTTP_OK) {
+				InputStream in = conn.getInputStream();
+				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+				StringBuilder builder = new StringBuilder();
+
+			    String line;
+			    while ((line = reader.readLine()) != null) {
+			        builder.append(line);
+			    }
+				reader.close();
+				conn.disconnect();
+				JSONObject result = new JSONObject(builder.toString());
+				
+				return result.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content");
+			}else {
+				System.out.println("번역 요청 실패: " + resCode);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return name+" - 번역실패";
 	}
 }
