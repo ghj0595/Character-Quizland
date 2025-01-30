@@ -17,17 +17,34 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class QuizApiManager {
-	private static JSONObject getApiData(String uri) throws IOException {
-		String restApiKey = "";
-		try {
-			Context init = new InitialContext();
-			Context ctx = (Context) init.lookup("java:comp/env");
-			restApiKey = (String) ctx.lookup("apiKey/TmdbApiKey");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+	private final static String TMDB_API_KEY = initTMDBApiKey();
+	private final static String OPENAI_API_KEY = initOpenAiApiKey();
 
-		String authorization = String.format("Bearer %s", restApiKey);
+	private static String initTMDBApiKey() {
+	    try {
+	        Context init = new InitialContext();
+	        Context ctx = (Context) init.lookup("java:comp/env");
+	        return (String) ctx.lookup("apiKey/TmdbApiKey");
+	    } catch (NamingException e) {
+	        e.printStackTrace();
+	        return "";
+	    }
+	}
+	
+	private static String initOpenAiApiKey() {
+	    try {
+	        Context init = new InitialContext();
+	        Context ctx = (Context) init.lookup("java:comp/env");
+	        return (String) ctx.lookup("apiKey/OPENAIApiKey");
+	    } catch (NamingException e) {
+	        e.printStackTrace();
+	        return "";
+	    }
+	}
+	
+	
+	private static JSONObject getApiData(String uri) throws IOException {
+		String authorization = String.format("Bearer %s", TMDB_API_KEY);
 
 		int maxRetries = 5;
 		int retryCount = 0;
@@ -88,7 +105,10 @@ public class QuizApiManager {
 		uri += typeStr;
 		uri += "?language=ko";
 		if (type == 0)
-			uri += "&certification.lte=19&certification_country=KR";// 등급은 영화만 적용됌
+			uri += "&certification.lte=19&certification_country=KR&release_date.gte=";// 등급은 영화만 적용됌
+		else
+			uri += "&include_null_first_air_dates=false&first_air_date.gte=";
+		uri += "1990-01-01";//날짜 제한 추가
 		uri += "&sort_by=popularity.desc&with_origin_country=KR&without_genres=16%2C99%2C10763%2C10764%2C10767&page=";
 		// 한국작품중에 한국 등급 19세 이하 애니메이션(16),다큐멘터리(99),뉴스(10763),리얼리티(10764),토크(10767)를 뺀 작품
 		String uriPageChk = uri + "1";
@@ -146,6 +166,21 @@ public class QuizApiManager {
 		return data.getJSONArray("cast");
 	}
 
+	//최적화 콘텐츠 캐스트 한꺼번에
+	public static JSONObject getContentAndCast(int type, int code) throws IOException {
+		String typeStr = "movie";
+		if (type == 1)
+			typeStr = "tv";
+
+		String uri = "https://api.themoviedb.org/3/";
+		uri += typeStr;
+		uri += "/";
+		uri += code;
+		uri += "?language=ko&append_to_response=credits";
+
+		return getApiData(uri);
+	}
+	
 	public static int getPeopleID(int type, int code) throws IOException {
 		JSONArray cast = getCast(type, code);
 		if (cast.isEmpty())
@@ -165,15 +200,6 @@ public class QuizApiManager {
 	}
 	
 	public static String getTranslateName(String name, String overview) throws IOException{
-        String apiKey = "";
-		try {
-			Context init = new InitialContext();
-			Context ctx = (Context) init.lookup("java:comp/env");
-			apiKey = (String) ctx.lookup("apiKey/OPENAIApiKey");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-        
         String uri = "https://api.openai.com/v1/chat/completions";
 
 		try {
@@ -181,15 +207,21 @@ public class QuizApiManager {
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-			conn.setRequestProperty("Authorization", "Bearer " + apiKey);
+			conn.setRequestProperty("Authorization", "Bearer " + OPENAI_API_KEY);
 			conn.setDoOutput(true);
 			
 	        String prompt = String.format(
-	                "아래는 작품의 줄거리와 이름입니다. 해당 이름을 한국어로 번역해주세요.\n\n" +
-	                "줄거리 : %s\n" +
-	                "이름 : %s",
-	                overview, name
-	            );
+	        	"You are a professional translator."
+	        	+"Translate the given English name into a natural Korean name."
+	        	+" Use the plot as a reference, but do **not** include the plot in the response."
+	        	+" The result must be an exact translation of the name without any explanations, symbols, or any extra words.\n\n"
+	        	+"⚠ **Rules for translation:**\n"
+	        	+"1. The response must contain **only** the translated Korean name.\n"
+	        	+"2. **Do not add any additional characters, titles, or symbols.**\n"
+	        	+"3. **If the name consists of only one syllable, keep it as a single syllable without modifications.**\n"
+	        	+"4. **If the name consists of two syllables, keep it as exactly two syllables without modifications.**\n\n"
+	        	+ "Plot: %s\n"
+	        	+ "Name: %s", overview, name);
 			
             JSONObject message = new JSONObject();
             message.put("role", "user");
@@ -198,7 +230,7 @@ public class QuizApiManager {
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("model", "gpt-3.5-turbo");
             jsonBody.put("messages", new JSONArray().put(message));
-            jsonBody.put("temperature", 0);//창의성 완전 배제
+            jsonBody.put("temperature", 0.1);
 			
             try (OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonBody.toString().getBytes("utf-8");
@@ -218,11 +250,11 @@ public class QuizApiManager {
 				reader.close();
 				conn.disconnect();
 				JSONObject result = new JSONObject(builder.toString());
-	            System.out.println("프롬프트 줄거리: " + overview);
-	            System.out.println("프롬프트 이름: " + name);
-	            System.out.println("API 응답: " + result);
+				String chName=result.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content");
+	            System.out.println("캐릭터 이름: " + name);
+	            System.out.println("AI 번역: " + chName);
 				
-				return result.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content");
+				return chName;
 			}else {
 				System.out.println("번역 요청 실패: " + resCode);
 			}

@@ -34,8 +34,8 @@ window.onload = () => {
 	
 	if (resultData.content.overview && resultData.content.overview.trim() !== "") {
 		let overviewData=resultData.content.overview;
-		if(overviewData.length>150)
-			overviewData=overviewData.slice(0, 150) + ".....";
+		if(overviewData.length>400)
+			overviewData=overviewData.slice(0, 400) + ".....";
 
 		const overviewText = document.createTextNode(overviewData);
 	    overview.appendChild(overviewText);

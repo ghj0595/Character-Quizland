@@ -143,6 +143,11 @@ form{
 	text-align: center;
 }
 
+#content-overview{
+	font-size : calc(0.8*(1vw + 0.3em));
+}
+
+
 #next{
 	width:60%;
 }

@@ -3,10 +3,13 @@ package quiz.action;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -56,13 +59,9 @@ public class CreateQuizAction implements Action{
 		
 		JSONArray solveCodes = session.getAttribute("solveCodes") != null ? new JSONArray(session.getAttribute("solveCodes").toString()) : new JSONArray();
 		
-		StringBuilder builder = new StringBuilder(); 
-		BufferedReader reader =  request.getReader();
-		while(reader.ready()) {
-			builder.append(reader.readLine());
-		}
+		String requestBody = request.getReader().lines().collect(Collectors.joining());
+		JSONObject reqData = new JSONObject(requestBody);
 		
-		JSONObject reqData = new JSONObject(builder.toString());
 		if(!reqData.has("quiz_size") || !reqData.has("solve_codes") || !reqData.has("timer") ) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			resData.put("status", HttpServletResponse.SC_BAD_REQUEST);
@@ -80,8 +79,7 @@ public class CreateQuizAction implements Action{
 
 		SolveDao solveDao = SolveDao.getInstance();
 		List<Object> solves=solveCodes.toList();
-		ArrayList<Integer> quizCodes= new ArrayList<>();
-		
+		HashSet<Integer> quizCodes = new HashSet<>();
 		for (Object i : solves) {
 			SolveResponseDto solve = solveDao.findSolveByCode((int) i);
 			if(solve!=null)
@@ -90,6 +88,13 @@ public class CreateQuizAction implements Action{
 
 		int code=0;
 		QuizResponseDto resQuiz=null;
+		JSONObject content = null;
+		JSONArray cast = null;
+		JSONObject firstCast = null;
+		//release_date
+		//last_air_date
+		LocalDate baseDate = LocalDate.of(1990, 1, 1);//1990.1.1기준
+		LocalDate date = null;
 		while(true) {
 			if(quizSize >= 10) {
 				int reusePer = Math.min(quizSize, 1000);
@@ -99,38 +104,60 @@ public class CreateQuizAction implements Action{
 					rNum=ran.nextInt(quizSize);
 					code=quizDao.findQuizcodeByIndex(rNum);
 					resQuiz=quizDao.findQuizByCode(code);
-					JSONArray castChk = QuizApiManager.getCast(resQuiz.getType(), resQuiz.getContentId());
-					if(castChk.isEmpty() || castChk.getJSONObject(0).get("character")==""
-							|| castChk.getJSONObject(0).isNull("character")
-							|| castChk.getJSONObject(0).get("character").toString().toLowerCase().contains("self")
-							|| castChk.getJSONObject(0).isNull("profile_path")) {
+					content = QuizApiManager.getContentAndCast(resQuiz.getType(), resQuiz.getContentId());
+					cast = content.getJSONObject("credits").getJSONArray("cast");
+					try {// DB 퀴즈에 이미 있는 보유중인 기준날짜 이전 작품 찾기
+						if(resQuiz.getType()==0)
+							date = LocalDate.parse(content.get("release_date").toString());
+						else
+							date = LocalDate.parse(content.get("last_air_date").toString());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					System.out.println("기존퀴즈");
+					if(!cast.isEmpty())
+						firstCast=cast.getJSONObject(0);
+					if(date.isBefore(baseDate) || content.isNull("overview") || content.get("overview")==""
+							|| cast.isEmpty() || firstCast.isNull("character")
+							|| firstCast.get("character")==""
+							|| firstCast.get("character").toString().toLowerCase().contains("self")
+							|| firstCast.get("character").toString().toLowerCase().contains("host")
+							|| firstCast.get("character").toString().toLowerCase().contains("guest")
+							|| firstCast.isNull("profile_path")) {
 						quizDao.deleteQuizByCode(resQuiz.getCode());
 						resQuiz=null;
+						code=0;
+						System.out.println("조건이 부합되지 않아 삭제조치");
 					}
+
 				}
 			}
 			if(resQuiz == null){
 				int type=ran.nextInt(2);
 				
-				JSONObject content = QuizApiManager.getRandomContent(type);
-				int contentId = content.getInt("id");
-				
-				JSONArray castChk = QuizApiManager.getCast(type, contentId);
+				int contentId = QuizApiManager.getRandomContentID(type);
+				content = QuizApiManager.getContentAndCast(type, contentId);
+				cast = content.getJSONObject("credits").getJSONArray("cast");
 				int profileNum = 0;
-				if(!castChk.isEmpty() && !castChk.getJSONObject(0).isNull("character") && castChk.getJSONObject(0).get("character")!=""
-						&& !castChk.getJSONObject(0).get("character").toString().toLowerCase().contains("self")
-						&& !castChk.getJSONObject(0).isNull("profile_path")) {
-					for(int i=0;i<castChk.length();i++) {
-						if(!castChk.getJSONObject(i).isNull("profile_path"))
+				if(!cast.isEmpty()) 
+					firstCast = cast.getJSONObject(0);
+				if(!cast.isEmpty() && !firstCast.isNull("character")
+						&& firstCast.get("character")!=""
+						&& !firstCast.get("character").toString().toLowerCase().contains("self")
+						&& !firstCast.get("character").toString().toLowerCase().contains("host")
+						&& !firstCast.get("character").toString().toLowerCase().contains("guest")
+						&& !firstCast.isNull("profile_path")) {
+					for(int i=1;i<cast.length();i++) {
+						if(!cast.getJSONObject(i).isNull("profile_path"))
 							profileNum++;
 					}
 				}
-
 				resQuiz = quizDao.findQuizByTypeContent(type, contentId);
-				if(!content.isNull("overview") && content.get("overview")!="" &&!content.isNull("poster_path") && profileNum>=4 && resQuiz == null) {
-					int peopleId= castChk.getJSONObject(0).getInt("id");
+				if(resQuiz == null && !content.isNull("overview") && content.get("overview")!="" &&!content.isNull("poster_path") && profileNum>=3) {
+					int peopleId= firstCast.getInt("id");
 					QuizRequestDto reqQuiz= new QuizRequestDto(type,contentId,peopleId);
 					resQuiz = quizDao.createQuiz(reqQuiz);
+					System.out.println("신규퀴즈생성");
 				}
 				if(resQuiz !=null)
 					code=resQuiz.getCode();
@@ -146,7 +173,6 @@ public class CreateQuizAction implements Action{
 		solves.add(resSolve.getCode());
 		session.setAttribute("solveCodes", solves);
 
-		JSONArray cast = QuizApiManager.getCast(resQuiz.getType(), resQuiz.getContentId());
 		int castSize= cast.length();
 		
 		HashMap<Integer,String> castPath= new HashMap<>();
@@ -182,14 +208,12 @@ public class CreateQuizAction implements Action{
 			optPath.add(path);
 		}
 
-		JSONObject content = QuizApiManager.getContent(resQuiz.getType(), resQuiz.getContentId());
 		String posterPath = "https://image.tmdb.org/t/p/w342"+content.get("poster_path");
 		String characterName = (String) cast.getJSONObject(0).get("character");
 		String overview = (String) content.get("overview");
 		
-		if(characterName.matches("^[a-zA-z -]+$")) {
-			characterName = QuizApiManager.getTranslateName(characterName, overview);
-		}
+		//캐릭터명이 영어밖에 없어서 무조건 번역 
+		characterName = QuizApiManager.getTranslateName(characterName, overview);
 
 		resData.put("status", HttpServletResponse.SC_CREATED);
 		resData.put("message","퀴즈 생성이 완료되었습니다.");
