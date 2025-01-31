@@ -6,10 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/resources/style/globals.css">
-<title>index page</title>
+<title>메인화면</title>
 </head>
-<body>
 	<c:import url="/header" />
+<body>
 	<main class="main-container">
 		<c:import url="/rank" />
 		<section id="content">

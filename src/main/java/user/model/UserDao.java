@@ -70,12 +70,11 @@ public class UserDao {
 					String name = rs.getString(3);
 					int bestScore = rs.getInt(4);
 					int status = rs.getInt(5);
-					Timestamp closeDate = rs.getTimestamp(6);
-					String managerCode = rs.getString(7);
-					Timestamp regDate = rs.getTimestamp(8);
-					Timestamp modDate = rs.getTimestamp(9);
+					String managerCode = rs.getString(6);
+					Timestamp regDate = rs.getTimestamp(7);
+					Timestamp modDate = rs.getTimestamp(8);
 
-					User user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate,
+					User user = new User(userCode, password, name, bestScore, status, managerCode, regDate,
 							modDate);
 
 					list.add(user);
@@ -96,23 +95,18 @@ public class UserDao {
 	    conn = DBManager.getConnection();
 
 	    if (conn != null) {
-	        String sql = "SELECT * FROM users ORDER BY best_score DESC, reg_date ASC LIMIT 10";
+	    	String sql = "SELECT name, best_score, RANK() OVER (ORDER BY best_score DESC) AS `rank` FROM users WHERE best_score > 0 ORDER BY `rank` ASC LIMIT 10";
+	        
 	        try {
 	            pstmt = conn.prepareStatement(sql);
 	            rs = pstmt.executeQuery();
 
 	            while (rs.next()) {
-	                String userCode = rs.getString(1);
-	                String password = rs.getString(2);
-	                String name = rs.getString(3);
-	                int bestScore = rs.getInt(4);
-	                int status = rs.getInt(5);
-	                Timestamp closeDate = rs.getTimestamp(6);
-	                String managerCode = rs.getString(7);
-	                Timestamp regDate = rs.getTimestamp(8);
-	                Timestamp modDate = rs.getTimestamp(9);
+	                String name = rs.getString("name");
+	                int bestScore = rs.getInt("best_score");
+	                int rank = rs.getInt("rank");
 
-	                User user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate, modDate);
+	                User user = new User(name, bestScore, rank);
 	                list.add(user);
 	            }
 
@@ -124,7 +118,6 @@ public class UserDao {
 	    }
 	    return list;
 	}
-
 
 	public User findUserByCode(String userCode) {
 		User user = null;
@@ -144,12 +137,11 @@ public class UserDao {
 				String name = rs.getString(3);
 				int bestScore = rs.getInt(4);
 				int status = rs.getInt(5);
-				Timestamp closeDate = rs.getTimestamp(6);
-				String managerCode = rs.getString(7);
-				Timestamp regDate = rs.getTimestamp(8);
-				Timestamp modDate = rs.getTimestamp(9);
+				String managerCode = rs.getString(6);
+				Timestamp regDate = rs.getTimestamp(7);
+				Timestamp modDate = rs.getTimestamp(8);
 
-				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate, modDate);
+				user = new User(userCode, password, name, bestScore, status, managerCode, regDate, modDate);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -177,12 +169,11 @@ public class UserDao {
 				String password = rs.getString(2);
 				int bestScore = rs.getInt(4);
 				int status = rs.getInt(5);
-				Timestamp closeDate = rs.getTimestamp(6);
-				String managerCode = rs.getString(7);
-				Timestamp regDate = rs.getTimestamp(8);
-				Timestamp modDate = rs.getTimestamp(9);
+				String managerCode = rs.getString(6);
+				Timestamp regDate = rs.getTimestamp(7);
+				Timestamp modDate = rs.getTimestamp(8);
 
-				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate, modDate);
+				user = new User(userCode, password, name, bestScore, status, managerCode, regDate, modDate);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -291,15 +282,16 @@ public class UserDao {
 		return gameCount;
 	}
 
-	public void updateUserStatus(String userCode, int status) {
+	public void updateUserStatus(String userCode, int status, String adminCode) {
 		conn = DBManager.getConnection();
 
-		String sql = "UPDATE users SET status=? WHERE code=?";
+		String sql = "UPDATE users SET status=?, manager_code=? WHERE code=?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, status);
-			pstmt.setString(2, userCode);
+			pstmt.setString(2, adminCode);
+			pstmt.setString(3, userCode);
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -307,6 +299,30 @@ public class UserDao {
 		} finally {
 			DBManager.close(conn, pstmt);
 		}
+	}
+	
+	public int getUserBestScore(String userCode) {
+		int bestScore = 0;
+
+		conn = DBManager.getConnection();
+
+		String sql = "SELECT best_score FROM users WHERE code=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userCode);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				bestScore = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+		}
+		return bestScore;
 	}
 	
 	public void updateUserBestScore(String userCode, int bestScore) {
@@ -340,7 +356,6 @@ public class UserDao {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				System.out.println("rank");
 				rank = rs.getInt(1);
 			}
 		} catch (SQLException e) {

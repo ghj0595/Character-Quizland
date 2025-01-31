@@ -5,34 +5,43 @@ import java.sql.Timestamp;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class User {
-	
+
 	private String userCode;
 	private String password;
 	private String name;
 	private int bestScore;
 	private int status;
-	private Timestamp closeDate;
 	private String managerCode;
 	private Timestamp regDate;
 	private Timestamp modDate;
+	private int rank;
 
-	public User(String userCode, String password, String name, int bestScore, int status, Timestamp closeDate,
+	public User(String userCode, String password, String name, int bestScore, int status,
 			String managerCode, Timestamp regDate, Timestamp modDate) {
 		this.userCode = userCode;
 		this.password = password;
 		this.name = name;
 		this.bestScore = bestScore;
 		this.status = status;
-		this.closeDate = closeDate;
 		this.managerCode = managerCode;
 		this.regDate = regDate;
 		this.modDate = modDate;
 	}
-	
+
 	public User(String userCode, String password, String name) {
 		this.userCode = userCode;
 		this.password = password;
 		this.name = name;
+	}
+
+	public User(String name, int bestScore, int rank) {
+		this.name = name;
+		this.bestScore = bestScore;
+		this.rank = rank;
+	}
+
+	public int getRank() {
+		return rank;
 	}
 
 	public String getUserCode() {
@@ -61,10 +70,6 @@ public class User {
 		return status;
 	}
 
-	public Timestamp getCloseDate() {
-		return closeDate;
-	}
-
 	public String getManagerCode() {
 		return managerCode;
 	}
@@ -78,7 +83,7 @@ public class User {
 	}
 
 	public String toString() {
-		return String.format("%s \n%s \n%d \n%d \n%s \n%s \n%s \n%s", userCode, name, bestScore, status, closeDate,
-				managerCode, regDate, modDate);
+		return String.format("%s \n%s \n%d \n%d \n%s \n%s \n%s \n%s", userCode, name, bestScore, status, managerCode,
+				regDate, modDate);
 	}
 }
