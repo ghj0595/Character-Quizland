@@ -70,12 +70,11 @@ public class UserDao {
 					String name = rs.getString(3);
 					int bestScore = rs.getInt(4);
 					int status = rs.getInt(5);
-					Timestamp closeDate = rs.getTimestamp(6);
-					String managerCode = rs.getString(7);
-					Timestamp regDate = rs.getTimestamp(8);
-					Timestamp modDate = rs.getTimestamp(9);
+					String managerCode = rs.getString(6);
+					Timestamp regDate = rs.getTimestamp(7);
+					Timestamp modDate = rs.getTimestamp(8);
 
-					User user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate,
+					User user = new User(userCode, password, name, bestScore, status, managerCode, regDate,
 							modDate);
 
 					list.add(user);
@@ -138,12 +137,11 @@ public class UserDao {
 				String name = rs.getString(3);
 				int bestScore = rs.getInt(4);
 				int status = rs.getInt(5);
-				Timestamp closeDate = rs.getTimestamp(6);
-				String managerCode = rs.getString(7);
-				Timestamp regDate = rs.getTimestamp(8);
-				Timestamp modDate = rs.getTimestamp(9);
+				String managerCode = rs.getString(6);
+				Timestamp regDate = rs.getTimestamp(7);
+				Timestamp modDate = rs.getTimestamp(8);
 
-				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate, modDate);
+				user = new User(userCode, password, name, bestScore, status, managerCode, regDate, modDate);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -171,12 +169,11 @@ public class UserDao {
 				String password = rs.getString(2);
 				int bestScore = rs.getInt(4);
 				int status = rs.getInt(5);
-				Timestamp closeDate = rs.getTimestamp(6);
-				String managerCode = rs.getString(7);
-				Timestamp regDate = rs.getTimestamp(8);
-				Timestamp modDate = rs.getTimestamp(9);
+				String managerCode = rs.getString(6);
+				Timestamp regDate = rs.getTimestamp(7);
+				Timestamp modDate = rs.getTimestamp(8);
 
-				user = new User(userCode, password, name, bestScore, status, closeDate, managerCode, regDate, modDate);
+				user = new User(userCode, password, name, bestScore, status, managerCode, regDate, modDate);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -285,15 +282,16 @@ public class UserDao {
 		return gameCount;
 	}
 
-	public void updateUserStatus(String userCode, int status) {
+	public void updateUserStatus(String userCode, int status, String adminCode) {
 		conn = DBManager.getConnection();
 
-		String sql = "UPDATE users SET status=? WHERE code=?";
+		String sql = "UPDATE users SET status=?, manager_code=? WHERE code=?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, status);
-			pstmt.setString(2, userCode);
+			pstmt.setString(2, adminCode);
+			pstmt.setString(3, userCode);
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
