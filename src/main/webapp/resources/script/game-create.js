@@ -138,7 +138,7 @@ window.onload = async () => {
 	        viewTimer.innerText = remainingTime.toFixed(2);
 	    } else {
 	        clearInterval(countdown);
-//	        await fetchCall();
+	        await fetchCall();
 	    }
 	}, 10);
 	countdown;
