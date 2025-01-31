@@ -18,6 +18,24 @@
 				<a href="/">Character Quizland</a>
 			</h1>
 		</div>
+		<div id="users-count"></div>
+		    <script>
+		    const fetchUsersCount = async() => {
+		    	const response = await fetch(`/service/api?command=users-count`);
+		    	const users = await response.json();
+
+		    	const usersCount = document.getElementById('users-count');
+				let countMsg="오늘 방문자 수 : ";
+				if(users.dailyUsers===0)
+					countMsg+="0명";
+				else
+					countMsg+=users.dailyUsers+"명";
+				usersCount.innerText=countMsg;
+		    	
+		    }
+			fetchUsersCount();
+		    </script>
+		
 		<c:if test="${empty admin && empty log }">
 			<div class="btn">
 				<input type="button" value="로그인" onclick="location.href='/login'">
