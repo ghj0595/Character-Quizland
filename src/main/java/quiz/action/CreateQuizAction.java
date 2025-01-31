@@ -34,7 +34,7 @@ public class CreateQuizAction implements Action{
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("log");
-		
+		System.out.println("진입");
 		JSONObject resData = new JSONObject();
 		if(user == null || user.getUserCode().isEmpty()) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

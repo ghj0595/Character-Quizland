@@ -61,7 +61,7 @@ public class QuizResultAction implements Action{
 		int code = reqData.getInt("quiz_code");
 		int curScore = reqData.getInt("score");
 		double sec = reqData.getDouble("timer");
-		int timer=(int) (sec * 1000);
+		int timer = 20000 - (int)(sec * 1000);
 
 		if (solveCodes.length() == 0) {
 		    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
