@@ -91,10 +91,6 @@ public class CreateQuizAction implements Action{
 		JSONObject content = null;
 		JSONArray cast = null;
 		JSONObject firstCast = null;
-		//release_date
-		//last_air_date
-		LocalDate baseDate = LocalDate.of(1990, 1, 1);//1990.1.1기준
-		LocalDate date = null;
 		while(true) {
 			if(quizSize >= 10) {
 				int reusePer = Math.min(quizSize, 1000);
@@ -106,30 +102,10 @@ public class CreateQuizAction implements Action{
 					resQuiz=quizDao.findQuizByCode(code);
 					content = QuizApiManager.getContentAndCast(resQuiz.getType(), resQuiz.getContentId());
 					cast = content.getJSONObject("credits").getJSONArray("cast");
-					try {// DB 퀴즈에 이미 있는 보유중인 기준날짜 이전 작품 찾기
-						if(resQuiz.getType()==0)
-							date = LocalDate.parse(content.get("release_date").toString());
-						else
-							date = LocalDate.parse(content.get("last_air_date").toString());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					System.out.println("기존퀴즈");
-					if(!cast.isEmpty())
-						firstCast=cast.getJSONObject(0);
-					if(date.isBefore(baseDate) || content.isNull("overview") || content.get("overview")==""
-							|| cast.isEmpty() || firstCast.isNull("character")
-							|| firstCast.get("character")==""
-							|| firstCast.get("character").toString().toLowerCase().contains("self")
-							|| firstCast.get("character").toString().toLowerCase().contains("host")
-							|| firstCast.get("character").toString().toLowerCase().contains("guest")
-							|| firstCast.isNull("profile_path")) {
-						quizDao.deleteQuizByCode(resQuiz.getCode());
-						resQuiz=null;
-						code=0;
-						System.out.println("조건이 부합되지 않아 삭제조치");
-					}
-
+					firstCast=cast.getJSONObject(0);
+				}else {
+					code=0;
+					resQuiz=null;
 				}
 			}
 			if(resQuiz == null){
@@ -157,7 +133,6 @@ public class CreateQuizAction implements Action{
 					int peopleId= firstCast.getInt("id");
 					QuizRequestDto reqQuiz= new QuizRequestDto(type,contentId,peopleId);
 					resQuiz = quizDao.createQuiz(reqQuiz);
-					System.out.println("신규퀴즈생성");
 				}
 				if(resQuiz !=null)
 					code=resQuiz.getCode();
