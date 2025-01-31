@@ -95,7 +95,7 @@ public class UserDao {
 	    conn = DBManager.getConnection();
 
 	    if (conn != null) {
-	    	String sql = "SELECT name, best_score, RANK() OVER (ORDER BY best_score DESC) AS `rank` FROM users WHERE best_score > 0 ORDER BY `rank` ASC LIMIT 10";
+	    	String sql = "SELECT name, best_score, DENSE_RANK() OVER (ORDER BY best_score DESC, mod_date DESC) AS `rank` FROM users WHERE best_score > 0 AND status = 0 ORDER BY `rank` ASC LIMIT 10;";
 	        
 	        try {
 	            pstmt = conn.prepareStatement(sql);
