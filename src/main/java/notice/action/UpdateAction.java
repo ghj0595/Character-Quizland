@@ -32,10 +32,14 @@ public class UpdateAction extends HttpServlet {
 
 		        if (resDateParam != null && !resDateParam.isEmpty()) {
 		            resDate = Timestamp.valueOf(resDateParam + " 00:00:00");
+		        } else {
+		        	resDate = new Timestamp(System.currentTimeMillis());
 		        }
 		        if (closeDateParam != null && !closeDateParam.isEmpty()) {
 		            closeDate = Timestamp.valueOf(closeDateParam + " 23:59:59");
 		        }
+		        
+		        System.out.println(resDate);
 		        
 		        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		        if (resDate != null && resDate.before(currentDate)) {
