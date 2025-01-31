@@ -22,7 +22,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/resources/style/admin.css">
+<link rel="stylesheet" href="/resources/style/test.css">
 <script type="module" src="/resources/script/validation-notice-delete.js"></script>
 <title>공지사항 작성 화면</title>
     <link rel="shortcut icon" href="https://w7.pngwing.com/pngs/79/989/png-transparent-logo-vimeo-computer-icons-social-media-social-media-text-photography-orange-thumbnail.png">
@@ -31,10 +31,6 @@
     <meta property="og:image" content="https://cdn-icons-png.freepik.com/256/3407/3407038.png?semt=ais_hybrid">
 </head>
 <body>
-    <div class="current-users">
-        현재 접속자 수:<span id="current-users">0</span>명
-    </div>
-    
 <c:if test="${not empty errorMessage}">
      <script>
          alert("${errorMessage}");
@@ -49,14 +45,22 @@
                 <input type="hidden" name="regDate" value="${notice.regDate}" />
             </c:if>
             <input type="hidden" name="adminCode" value="${sessionScope.admin.code}" />
+
             <label for="title">제목</label> 
-            <input type="text" id="title" name="title" value="${notice.title}" required><br> 
+            <input type="text" id="title" name="title" value="${notice.title}" required 
+                <c:if test="${empty sessionScope.admin}">readonly</c:if>><br> 
+
             <label for="content">내용</label>
-            <textarea id="content" name="content" required>${notice.content}</textarea><br> 
+            <textarea id="content" name="content" required 
+                <c:if test="${empty sessionScope.admin}">readonly</c:if>>${notice.content}</textarea><br> 
+
             <label for="start-date">게시일</label> 
-            <input type="date" id="start-date" name="startDate" value="${notice.formattedResDate}"><br>
+            <input type="date" id="start-date" name="startDate" value="${notice.formattedResDate}" 
+                <c:if test="${empty sessionScope.admin}">disabled</c:if>><br>
+
             <label for="end-date">만료일</label> 
-            <input type="date" id="end-date" name="endDate" value="${notice.formattedCloseDate}"><br>
+            <input type="date" id="end-date" name="endDate" value="${notice.formattedCloseDate}" 
+                <c:if test="${empty sessionScope.admin}">disabled</c:if>><br>
 
             <div class="btn-container">
                 <c:if test="${not empty sessionScope.admin}">
