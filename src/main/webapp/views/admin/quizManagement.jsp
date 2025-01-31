@@ -11,17 +11,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/resources/style/admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/resources/style/test.css">
 <script type="module" src="/resources/script/validation-quiz-delete.js"></script>
 <title>퀴즈 관리 화면</title>
 </head>
 <c:import url="/header" />
 <body>
-	<div class="current-users">
-		현재 접속자 수:<span id="current-users">0</span>명
-	</div>
 	<main class="main-content">
-		<c:import url="/rank" />
+		<div class="side-content" id="rank-container">
+			<c:import url="/rank" />
+		</div>
+		<div class="center-content">
 		<div id="quiz-management">
 			<h2>퀴즈 관리</h2>
 			<div class="table-content">
@@ -56,7 +57,10 @@
 				</table>
 			</div>
 		</div>
-		<c:import url="/noticelist" />
+		</div>
+		<div class="side-content" id="notice-container">
+			<c:import url="/noticelist" />
+		</div>
 	</main>
 	<c:import url="/footer" />
 </body>
