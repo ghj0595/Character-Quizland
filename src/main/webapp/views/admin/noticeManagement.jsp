@@ -9,7 +9,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Poppins:wght@400;600&display=swap"
+	rel="stylesheet">
 <link rel="stylesheet" href="/resources/style/test.css">
 <script type="module" src="/resources/script/validation-notice.js"></script>
 <title>공지사항 관리 화면</title>
@@ -25,7 +27,9 @@
 			<div id="table-content">
 				<h2>공지사항 관리</h2>
 				<div class="table-container">
-					<button class="btn-write" id="btn-write">공지사항 작성</button>
+					<div class="btn-container">
+						<button class="btn-write" id="btn-write">공지사항 작성</button>
+					</div>
 					<table class="notice-table">
 						<thead>
 							<tr>

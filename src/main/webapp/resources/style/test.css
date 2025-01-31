@@ -259,8 +259,15 @@ th.status {
     background: #ffe0b2;
 }
 
+.btn-container {
+    display: flex;
+    justify-content: flex-end; 
+    margin-bottom: 10px; 
+}
+
 .btn-write {
-    background: linear-gradient(to right, #42a5f5, #64b5f6);
+	justify-content: space-between;
+    background: linear-gradient(to right, #ff6f61, #ff8a65);
     color: white;
     border: none;
     border-radius: 25px;
