@@ -26,12 +26,11 @@ public class ViewAction implements Action {
 
         SolveDao solveDao = SolveDao.getInstance();
 
-        
         int listCount = solveDao.getSizeByUser(user.getUserCode());
 
         int totalScore = solveDao.getTotalScoreByUser(user.getUserCode());
 
-        double avgScore = (listCount > 0) ? (double) totalScore / listCount : 0;
+        double avgScore = Math.round((listCount > 0 ? (double) totalScore / listCount : 0) * 100.0) / 100.0;
         
         session.setAttribute("totalGame", listCount);
         session.setAttribute("totalScore", totalScore);
