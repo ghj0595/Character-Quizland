@@ -45,9 +45,16 @@
 								<td>${user.bestScore}</td>
 								<td>${averageScore}</td>
 								<td>${gameCount}</td>
+								<c:if test="${user.status eq 0 }">
 								<td>
 									<button class="btn-ban" data-user-code="${user.userCode}">정지</button>
 								</td>
+								</c:if>
+								<c:if test="${user.status eq 1 }">
+								<td>
+									<button class="btn-unban" data-user-code="${user.userCode}">해제</button>
+								</td>
+								</c:if>
 								<td>
 									<button class="btn-delete" data-user-code="${user.userCode}">삭제</button>
 								</td>
