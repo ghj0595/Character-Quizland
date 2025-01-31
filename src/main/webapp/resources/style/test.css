@@ -70,7 +70,78 @@ header .btn input[type="button"]:active {
     transform: scale(0.95);
 }
 
+.side-content {
+    width: 20%;
+    min-width: 200px;
+}
+
+.center-content {
+    flex: 1;  
+    padding: 0 20px;
+}
+
+ul {
+	padding: 10px;
+}
+
+#rank { 
+    background: #ffe0b2; 
+    flex: 1; 
+    padding: 20px; 
+    border-right: 2px solid #ffcc80; 
+    overflow: auto; 
+}
+
+.rank-title { 
+    color: #343a40; 
+    font-size: 20px; 
+    margin-bottom: 10px; 
+    text-align: center; 
+}
+
+.rank-list { 
+    list-style-type: none; 
+}
+
+.rank-list li { 
+    background-color: #ffffff; 
+    margin-bottom: 5px; 
+    padding: 10px; 
+    border-radius: 5px; 
+    border: 1px solid #dddddd; 
+}
+
+#notice { 
+    background: #fff3e0;
+    flex: 1; 
+    padding: 20px; 
+    border-left: 2px solid #ffcc80;
+    overflow: auto; 
+}
+
+.notice-title { 
+    color: #343a40; 
+    font-size: 20px; 
+    margin-bottom: 10px; 
+    text-align: center; 
+}
+
+.notice-list { 
+    list-style-type: none; 
+}
+
+.notice-list li { 
+    background-color: #ffffff; 
+    margin-bottom: 5px; 
+    padding: 10px; 
+    border-radius: 5px; 
+    border: 1px solid #dddddd; 
+}
+
 .main-content {
+	display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     padding: 20px;
     margin: 20px auto;
     max-width: 1200px;
@@ -79,7 +150,7 @@ header .btn input[type="button"]:active {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#user-content h2 {
+h2 {
     text-align: center;
     color: #ff7043;
     font-size: 2rem;
@@ -120,7 +191,98 @@ header .btn input[type="button"]:active {
     background: #ffe0b2; 
 }
 
-.btn-ban, .btn-delete {
+.quiz-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.quiz-table th {
+    background: #ffab40;
+    color: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.quiz-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.quiz-table tr:nth-child(even) {
+    background: #fff8e1;
+}
+
+.quiz-table tr:hover {
+    background: #ffe0b2;
+}
+
+.table-container {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.notice-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.notice-table th {
+    background: #ffab40;
+    color: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.notice-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+th.status {
+	width: 45px;
+}
+
+.notice-table tr:nth-child(even) {
+    background: #fff8e1;
+}
+
+.notice-table tr:hover {
+    background: #ffe0b2;
+}
+
+.btn-write {
+    background: linear-gradient(to right, #42a5f5, #64b5f6);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.btn-write:hover {
+    background: #1e88e5;
+    transform: scale(1.1);
+}
+
+.btn-write:active {
+    background: #1565c0;
+    transform: scale(0.95);
+}
+
+.btn-ban, .btn-delete, .btn-unban {
     background: linear-gradient(to right, #ff6f61, #ff8a65); 
     color: white;
     border: none;
@@ -132,12 +294,12 @@ header .btn input[type="button"]:active {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
-.btn-ban:hover, .btn-delete:hover {
+.btn-ban:hover, .btn-delete:hover, .btn-unban:hover {
     background: #ff7043; 
     transform: scale(1.1);
 }
 
-.btn-ban:active, .btn-delete:active {
+.btn-ban:active, .btn-delete:active, .btn-unban:active {
     background: #d84315; 
     transform: scale(0.95);
 }
@@ -188,10 +350,16 @@ footer {
 
 @media (max-width: 768px) {
     .main-content {
+     	flex-direction: column;
         padding: 10px;
     }
+    
+    .side-content {
+        width: 100%;
+        text-align: center;
+    }
 
-    .user-table th, .user-table td {
+    .user-table th, .user-table td, .quiz-table th, .quiz-table td, .notice-table th, .notice-table td {
         font-size: 0.85rem;
         padding: 8px;
     }
@@ -199,5 +367,10 @@ footer {
     .btn-ban, .btn-delete {
         font-size: 0.8rem;
         padding: 6px 12px;
+    }
+    
+    .btn-write {
+        font-size: 0.9rem;
+        padding: 8px 16px;
     }
 }
