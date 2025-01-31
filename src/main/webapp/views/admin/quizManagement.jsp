@@ -56,6 +56,14 @@
 					</tbody>
 				</table>
 			</div>
+			 <div class="pagination">
+          <c:if test="${currentPage > 1}">
+            <a href="/QuizListAction?page=${currentPage - 1}" class="btn-prev">이전</a>
+          </c:if>
+          <c:if test="${currentPage < totalPages}">
+            <a href="/QuizListAction?page=${currentPage + 1}" class="btn-next">다음</a>
+          </c:if>
+        </div>
 		</div>
 		</div>
 		<div class="side-content" id="notice-container">
