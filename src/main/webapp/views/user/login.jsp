@@ -34,7 +34,7 @@
 					<ul class="error-msg-group">
 						<li id="error-msg-code-empty" class="error-msg">아이디: 필수정보입니다.</li>
 						<li id="error-msg-password-empty" class="error-msg">비밀번호: 필수정보입니다.</li>
-						<li id="error-msg-password-pattern" class="error-msg">비밀번호: 유효하지 않은 값입니다.</li>
+						<li id="error-msg-password-pattern" class="error-msg">비밀번호: 5자 이상 입력해주세요.</li>
 					</ul>
 
 					<input type="submit" value="로그인">

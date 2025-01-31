@@ -35,7 +35,7 @@
 						<li id="error-msg-code-pattern" class="error-msg">아이디: 2~20자 숫자, 영문 대/소문자를 사용해주세요. (특수기호, 공백 사용 불가)</li>
 						<li id="error-msg-password-empty" class="error-msg">비밀번호: 필수 정보입니다.</li>
 						<li id="error-msg-password-pattern" class="error-msg">비밀번호: 5자 이상 입력해주세요.</li>
-						<li id="error-msg-password-chk" class="error-msg">비밀번호: 일치하지않습니다.</li>
+						<li id="error-msg-password-chk" class="error-msg">비밀번호 확인: 일치하지않습니다.</li>
 						<li id="error-msg-name-empty" class="error-msg">닉네임: 필수 정보입니다.</li>
 						<li id="error-msg-name-pattern" class="error-msg">닉네임: 2~20자 숫자, 한글, 영문 대/소문자를사용해 주세요. (특수기호, 공백 사용 불가)</li>
 					</ul>
