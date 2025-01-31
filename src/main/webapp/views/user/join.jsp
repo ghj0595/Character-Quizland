@@ -30,14 +30,14 @@
 						<input type="text" id="name" name="name" placeholder="닉네임"">
 					</div>
 					<ul class="error-msg-group">
-						<li id="error-msg-code">아이디: 사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.</li>
-						<li id="error-msg-code-empty">아이디: 필수 정보입니다.</li>
-						<li id="error-msg-code-pattern">아이디: 2~20자 숫자, 영문 대/소문자를 사용해주세요. (특수기호, 공백 사용 불가)</li>
-						<li id="error-msg-password-empty">비밀번호: 필수 정보입니다.</li>
-						<li id="error-msg-password-pattern">비밀번호: 5자 이상 입력해주세요.</li>
-						<li id="error-msg-password-chk">비밀번호: 일치하지않습니다.</li>
-						<li id="error-msg-name-empty">닉네임: 필수 정보입니다.</li>
-						<li id="error-msg-name-pattern">닉네임: 2~20자 숫자, 한글, 영문 대/소문자를사용해 주세요. (특수기호, 공백 사용 불가)</li>
+						<li id="error-msg-code" class="error-msg">아이디: 사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.</li>
+						<li id="error-msg-code-empty" class="error-msg">아이디: 필수 정보입니다.</li>
+						<li id="error-msg-code-pattern" class="error-msg">아이디: 2~20자 숫자, 영문 대/소문자를 사용해주세요. (특수기호, 공백 사용 불가)</li>
+						<li id="error-msg-password-empty" class="error-msg">비밀번호: 필수 정보입니다.</li>
+						<li id="error-msg-password-pattern" class="error-msg">비밀번호: 5자 이상 입력해주세요.</li>
+						<li id="error-msg-password-chk" class="error-msg">비밀번호: 일치하지않습니다.</li>
+						<li id="error-msg-name-empty" class="error-msg">닉네임: 필수 정보입니다.</li>
+						<li id="error-msg-name-pattern" class="error-msg">닉네임: 2~20자 숫자, 한글, 영문 대/소문자를사용해 주세요. (특수기호, 공백 사용 불가)</li>
 					</ul>
 					<input type="submit" value="회원가입">
 				</form>
