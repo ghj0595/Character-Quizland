@@ -42,7 +42,7 @@ header .logo a:hover {
 }
 
 header .btn {
-	margin-left: auto;
+    margin-left: auto;
     display: flex;
     gap: 10px;
 }
@@ -69,6 +69,115 @@ header .btn input[type="button"]:active {
     background-color: #d84315;
     transform: scale(0.95);
 }
+
+main {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #ff7043;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form input[type="text"],
+form textarea,
+form input[type="date"] {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fff9f0;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form textarea:focus,
+form input[type="date"]:focus {
+    border-color: #ff7043;
+    outline: none;
+    background-color: #fff3e0;
+}
+
+form textarea {
+    resize: none;
+    min-height: 150px;
+}
+
+form label {
+    font-size: 1.1rem;
+    color: #343a40;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.btn-submit,
+.btn-cancel {
+    background: linear-gradient(to right, #ff6f61, #ff8a65);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.btn-submit:hover,
+.btn-cancel:hover {
+    background: #ff7043;
+    transform: scale(1.05);
+}
+
+.btn-submit:active,
+.btn-cancel:active {
+    background: #d84315;
+    transform: scale(0.95);
+}
+
+.btn-notice-delete {
+    background: #d84315;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-notice-delete:hover {
+    background: #b33c00;
+    transform: scale(1.1);
+}
+
+.btn-notice-delete:active {
+    background: #9e2e00;
+    transform: scale(0.95);
+}
+
 
 .side-content {
     width: 20%;
