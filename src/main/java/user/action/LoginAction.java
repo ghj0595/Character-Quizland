@@ -2,6 +2,7 @@ package user.action;
 
 import java.io.IOException;
 
+import admin.action.DailySessionTrackingListener;
 import controller.Action;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ public class LoginAction implements Action {
         	if(user.getStatus()==0) {
         		HttpSession session = request.getSession();
                 session.setAttribute("log", user);
+                DailySessionTrackingListener.getDailyUsers().add(user.getUserCode());
                 response.sendRedirect("/");
         	} else {
         		request.setAttribute("loginError", "정지된 아이디입니다.");

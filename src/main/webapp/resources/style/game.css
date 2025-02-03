@@ -134,7 +134,7 @@ form{
 }
 
 .content-info{
-	flex:3.19;
+	flex:6;
 }
 
 .content-text{
@@ -142,6 +142,11 @@ form{
 	font-size: calc(1.1*(1vw + 0.3em));
 	text-align: center;
 }
+
+#content-overview{
+	font-size : calc(0.8*(1vw + 0.3em));
+}
+
 
 #next{
 	width:60%;

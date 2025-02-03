@@ -61,7 +61,7 @@ public class QuizResultAction implements Action{
 		int code = reqData.getInt("quiz_code");
 		int curScore = reqData.getInt("score");
 		double sec = reqData.getDouble("timer");
-		int timer=(int) (sec * 1000);
+		int timer = 20000 - (int)(sec * 1000);
 
 		if (solveCodes.length() == 0) {
 		    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -84,12 +84,12 @@ public class QuizResultAction implements Action{
 		QuizDao quizDao = QuizDao.getInstance();
 		QuizResponseDto quiz=quizDao.findQuizByCode(code);
 
-		JSONObject content= TMDBApiManager.getContent(quiz.getType(), quiz.getContentId());
+		JSONObject content= QuizApiManager.getContent(quiz.getType(), quiz.getContentId());
 		content.put("type", quiz.getType());
 		content.put("poster_path", "https://image.tmdb.org/t/p/w342"+content.get("poster_path"));
 		content.put("content_path", "https://www.themoviedb.org/"+(quiz.getType()==0?"movie":"tv")+"/"+content.get("id"));
 
-		JSONObject people= TMDBApiManager.getPeople(quiz.getPeopleId());
+		JSONObject people= QuizApiManager.getPeople(quiz.getPeopleId());
 		people.put("profile_path", "https://image.tmdb.org/t/p/w185"+people.get("profile_path"));
 		people.put("people_path", "https://www.themoviedb.org/person/"+people.get("id"));
 

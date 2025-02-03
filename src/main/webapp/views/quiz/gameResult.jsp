@@ -21,7 +21,7 @@
 				<div class="result-image-div"><img class="result-image" id="content-poster"></div>
 				<div class="content-info">
 					<div class="content-text" id="content-title"></div>
-					<div class="flexible-text" id="content-overview"></div>
+					<div id="content-overview"></div>
 				</div> 
 			</div>
 			<div class="result" id="quiz-person">

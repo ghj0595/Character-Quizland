@@ -1,7 +1,6 @@
 package controller;
 
-import admin.action.LoginAdminAction;
-import admin.action.LogoutAdminAction;
+import admin.action.*;
 import quiz.action.*;
 import user.action.*;
 import util.HttpMethod;
@@ -72,6 +71,8 @@ public class ActionFactory {
 		
 		if(command.equals("search-code") && method == HttpMethod.POST)
 			return new SearchCodeAction();
+		else if(command.equals("users-count") && method == HttpMethod.GET)
+			return new GetDailyUsers();
 		
 		return action;
 	}

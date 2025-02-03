@@ -32,10 +32,11 @@ window.onload = () => {
 	
 	title.appendChild(createLinkElement(resultData.content.content_path, contentTitle , "제목 없음"));
 	
+	const overviewSize=350;
 	if (resultData.content.overview && resultData.content.overview.trim() !== "") {
 		let overviewData=resultData.content.overview;
-		if(overviewData.length>150)
-			overviewData=overviewData.slice(0, 150) + ".....";
+		if(overviewData.length>overviewSize)
+			overviewData=overviewData.slice(0, overviewSize) + ".....";
 
 		const overviewText = document.createTextNode(overviewData);
 	    overview.appendChild(overviewText);

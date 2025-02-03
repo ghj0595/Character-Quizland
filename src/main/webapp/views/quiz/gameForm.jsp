@@ -22,6 +22,7 @@
 				<input id="quiz_code" type="hidden" name="quiz_code">
 				<input id="score" type="hidden" name="score" value="10">
 				<input id="timer" type="hidden" name="timer" value="20">
+				
 				<div class="flexible-title  text-center" id="quiz-num"></div>
 				<div id="quiz-poster-div"><img id="quiz-poster"></div>
 				<div class="flexible-text text-center" id="quiz-question"></div>
@@ -32,6 +33,7 @@
 					<div class="answer"><input type="image" class="answer-image" value="3"></div>
 					<div class="answer"><input type="image" class="answer-image" value="4"></div>
 				</div>			
+				<div id="user-num"></div>
 			</form>	
 		</section>
 		<c:import url="/noticelist" />
