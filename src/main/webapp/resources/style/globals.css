@@ -1,0 +1,266 @@
+@charset "UTF-8"; 
+
+* { 
+    padding: 0; 
+    margin: 0; 
+    box-sizing: border-box; 
+} 
+
+body { 
+    font-family: 'Gowun Dodum', 'Poppins', sans-serif; 
+    background: linear-gradient(to bottom, #ffefd5, #ffe4b5); 
+    color: #4a4a4a; 
+    margin: 0; 
+    padding: 0; 
+}
+
+header { 
+    background-color: #ffab40; 
+    color: white; 
+    padding: 15px 20px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    position: relative; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    border-bottom: 4px solid #ff7043; 
+}
+
+header .logo { 
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    text-align: center; 
+}
+
+header .logo h1 { 
+    font-size: 1.8rem; 
+    font-family: 'Comic Sans MS', cursive, sans-serif; 
+    margin: 0; 
+}
+
+header .logo a { 
+    color: white; 
+    text-decoration: none; 
+    transition: color 0.3s; 
+}
+
+header .logo a:hover { 
+    color: #ffe082; 
+}
+
+header .btn { 
+    margin-left: auto; 
+    display: flex; 
+    gap: 10px; 
+}
+
+header .btn input[type="button"] { 
+    background: linear-gradient(to right, #ff6f61, #ff8a65); 
+    color: white; 
+    border: none; 
+    border-radius: 25px; 
+    padding: 10px 20px; 
+    font-size: 0.9rem; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: transform 0.3s ease, background-color 0.3s ease; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+header .btn input[type="button"]:hover { 
+    background-color: #ff7043; 
+    transform: scale(1.05); 
+}
+
+header .btn input[type="button"]:active { 
+    background-color: #d84315; 
+    transform: scale(0.95); 
+}
+
+.main-container { 
+    display: flex; 
+    min-height: 75vh; 
+    margin-top: 20px; 
+    justify-content: space-between; 
+}
+
+h2 {
+    color: #ff7043; 
+    font-size: 2rem; 
+    font-weight: bold; 
+    text-align: center; 
+    margin-bottom: 20px; 
+    margin-top: 20px;
+    font-family: 'Poppins', sans-serif; 
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+h4 {
+    color: #ff7043;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+
+#rank { 
+    background: #ffe0b2; 
+    flex: 1; 
+    padding: 20px; 
+    border-right: 2px solid #ffcc80; 
+    overflow: auto; 
+}
+
+.rank-title { 
+    color: #343a40; 
+    font-size: 20px; 
+    margin-bottom: 10px; 
+    text-align: center; 
+}
+
+.rank-list { 
+    list-style-type: none; 
+}
+
+.rank-list li { 
+    background-color: #ffffff; 
+    margin-bottom: 5px; 
+    padding: 10px; 
+    border-radius: 5px; 
+    border: 1px solid #dddddd; 
+}
+
+#notice { 
+    background: #fff3e0;
+    flex: 1; 
+    padding: 20px; 
+    border-left: 2px solid #ffcc80;
+    overflow: auto; 
+}
+
+.notice-title { 
+    color: #343a40; 
+    font-size: 20px; 
+    margin-bottom: 10px; 
+    text-align: center; 
+}
+
+.notice-list { 
+    list-style-type: none; 
+}
+
+.notice-list li { 
+    background-color: #ffffff; 
+    margin-bottom: 5px; 
+    padding: 10px; 
+    border-radius: 5px; 
+    border: 1px solid #dddddd; 
+}
+
+#content { 
+    display: flex; 
+    min-height: 75vh; 
+    margin-top: 20px; 
+    justify-content: center; 
+    align-items: center; 
+    flex: 4;
+}
+
+.content-container { 
+    background-color: #ffffff; 
+    padding: 40px; 
+    border-radius: 5px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    text-align: center; 
+    margin-bottom: 30px;
+}
+
+#btn-start { 
+    background-color: #ff7043; 
+    color: white; 
+    border: none; 
+    padding: 20px 40px; 
+    font-size: 24px; 
+    border-radius: 10px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+#btn-start:hover { 
+    background-color: #ff5722; 
+}
+
+form { 
+    margin-top: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+}
+
+input[type="text"], input[type="password"], input[type="submit"],#btn-delete { 
+    display: block; 
+    width: 100%; 
+    padding: 10px 15px; 
+    margin-top: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+}
+
+#btn-logout, #btn-delete, input[type="submit"] { 
+    background-color: #ff7043; 
+    color: white; 
+    border: none; 
+    cursor: pointer;  
+    margin: 5px;
+}
+
+input[type="submit"]:hover, #btn-logout:hover, #btn-delete:hover { 
+    background-color: #ff5722; 
+}
+
+footer { 
+    background-color: #ffab40; 
+    text-align: center; 
+    padding: 15px 0; 
+    font-size: 1.5rem; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+#btn-group { 
+    display: flex; 
+    padding: 10px; 
+}
+
+.error-msg-group > li::before {
+    content:none;
+}
+
+.error-msg-group > li, .error-msg {
+    font-size: 1em;
+    display: none;
+    color: #d32f2f;
+    margin-bottom: 5px;
+}
+
+.error-msg-group {
+    list-style: none;
+    margin: 10px 0;
+    color: #d32f2f;
+    font-size: 14px;
+}
+
+.error-msg {
+    display: none;
+}
+
+.error-msg {
+    background-color: #ffccbc; 
+    padding: 10px;
+    border-radius: 5px;
+    color: #d32f2f;
+    border: 1px solid #ff7043;
+}

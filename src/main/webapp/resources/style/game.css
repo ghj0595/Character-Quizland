@@ -1,0 +1,153 @@
+@charset "UTF-8";
+
+
+.flexible-title {
+    font-size : calc(1.5*(1vw + 0.3em));
+}
+
+.flexible-text{
+	font-size : calc(0.9*(1vw + 0.3em));
+}
+
+.flexible-score{
+	font-size : calc(1.2*(1vw + 0.3em)); 
+}
+
+@media (min-aspect-ratio: 1.5) {
+	#quiz-num{
+	    color:red; 
+	}
+}
+
+@media (max-aspect-ratio: 1.5) {
+	#quiz-num{
+	    color:blue; 
+	}
+}
+
+.text-center{
+	text-align: center;
+}
+
+#loading{
+	margin:calc(2 * (1vw + 1em)) 0;
+	width:100%;
+	font-size: calc(2 * (1vw + 1em));
+	text-align: center;
+}
+
+#content{
+    display: block;
+}
+
+form{
+	margin: 0;
+}
+
+#quiz-num{
+	font-weight: bold;
+	text-shadow:
+      1px 1px 1px white,
+      -1px 1px 1px white,
+      1px -1px 1px white,
+      -1px -1px 1px white,
+      1px 0px 1px white,
+      -1px 0px 1px white,
+      0px 1px 1px white,
+      0px -1px 1px white;
+}
+
+#quiz-poster-div{
+	margin: 0 auto;	
+	max-width: 290px;
+	border-radius:20px;
+	overflow: hidden;
+    aspect-ratio: 2 / 3;
+	
+}
+
+#quiz-poster{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+#quiz-question{
+	padding: calc(0.2*(1vw + 0.3em));
+	font-weight: bold;
+}
+
+#quiz-timer{
+	padding: calc(0.5*(1vw + 0.3em));
+}
+
+#quiz-answers{
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.answer{
+	max-width: 120px;
+	border-radius:20px;
+	overflow: hidden;
+    aspect-ratio: 2 / 3;
+}
+
+.answer-image{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.answer-image:disabled {
+     opacity: 0.5;
+     cursor: not-allowed;
+}
+
+#quiz-result_title {
+    font-size: calc(1.6*(1vw + 0.3em));
+    padding: calc(0.2*(1vw + 0.3em));
+    font-weight: bold;
+}
+
+
+.result{
+	margin :10px;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	max-height: 300px
+}
+
+.result-image-div{
+	max-width:300px;
+	border-radius:20px;
+	overflow: hidden;
+    aspect-ratio: 2 / 3;
+    flex:1;
+}
+
+.result-image{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.content-info{
+	flex:6;
+}
+
+.content-text{
+	width:100%;
+	font-size: calc(1.1*(1vw + 0.3em));
+	text-align: center;
+}
+
+#content-overview{
+	font-size : calc(0.8*(1vw + 0.3em));
+}
+
+
+#next{
+	width:60%;
+}
