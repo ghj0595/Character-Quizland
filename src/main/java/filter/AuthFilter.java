@@ -34,6 +34,11 @@ public class AuthFilter extends HttpFilter implements Filter {
 		}
 
 		System.out.println("Requested URI: " + uri);
+		
+		if (uri.startsWith("/resources") || uri.startsWith("/service")) {
+			chain.doFilter(request, response);
+			return;
+		}
 
 		UserDao userdao = UserDao.getInstance();
 		ArrayList<User> rankList = userdao.findUserRank();
@@ -42,12 +47,6 @@ public class AuthFilter extends HttpFilter implements Filter {
 		NoticeDao noticeDao = NoticeDao.getInstance();
 		ArrayList<Notice> noticeList = noticeDao.findActiveNotices();
 		session.setAttribute("noticeList", noticeList);
-
-		if (uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".png") || uri.endsWith(".jpg")
-				|| uri.endsWith(".jpeg") || uri.endsWith(".gif") || uri.startsWith("/service") || uri.endsWith(".svg")) {
-			chain.doFilter(request, response);
-			return;
-		}
 
 		if (uri.equals("/login") || uri.equals("/loginAdmin")) {
 			if (session.getAttribute("log") != null) {
