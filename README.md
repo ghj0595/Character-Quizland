@@ -24,4 +24,5 @@ Character Quizland는 영화, 드라마, 애니메이션 캐릭터 퀴즈를 통
 4. [테이블 정의서]()
 5. [인터페이스 정의서]()
 6. [발표 영상]()
-7. [Demo]()
+7. Demo
+<img src="https://github.com/ghj0595/Character-Quizland/blob/main/src/main/webapp/resources/doc/demo.gif">
